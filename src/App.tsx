@@ -34,7 +34,7 @@ import { MarketProductsPage } from './pages/Marketing/Products/Products'
 import { MarketOrdersPage } from './pages/Marketing/MarketOrders/MarketOrders'
 import { EquipmentLayout } from "./pages/Resources/Equipment/EquipemntLayout"
 import { WarehouseManagement } from "./pages/Resources/Warehouse/Warehouse"
-import { ResourcesInventory } from "./pages/Resources/Inventory/Inventory"
+// import { ResourcesInventory } from "./pages/Resources/Inventory/Inventory"
 import { StandardReports } from './pages/Reports/Reports';
 import { FarmMap } from './pages/FarmMap/Map';
 import { BalanceSheet } from './pages/Accounting/BalanceSheet/BalanceSheet';
@@ -62,6 +62,7 @@ import { GrazingPage } from './pages/Crops/GrowLocations/GrowLocations/Grazing/G
 import { PlantingHistory } from './pages/Crops/GrowLocations/GrowLocationPlantingHistory/GrowLocationPlantingHistory';
 import { ResourcesEquipmentPage } from './pages/Resources/Equipment/Equipment';
 import { ForgotPassword } from './authentication/ForgotPassword';
+import { ResourcesInventory } from './pages/Resources/Inventory/ResourcesInventory';
 
 // Crops Secondary Sidebar Component
 const CropsSecondarySidebar: React.FC<{
@@ -359,7 +360,7 @@ const ProtectedLayout: React.FC = () => {
             if (showCropsSubmenu) setIsCropsSubmenuOpen(true);
             if (showGrowLocationsSubmenu) setIsGrowLocationsSubmenuOpen(true);
           }}
-          className="md:hidden fixed top-20 left-4 z-30 text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors duration-200"
+          className="md:hidden fixed top-20 left-4 z-30 text-gray-700 p-2 rounded-md bg-gray-100 hover:bg-gray-500 transition-colors duration-200"
         >
           <i className="fas fa-bars text-base"></i>
         </button>
@@ -392,7 +393,7 @@ const ProtectedLayout: React.FC = () => {
         )}
 
         {/* Content area with responsive padding */}
-        <main className="pt-20 p-4 md:pt-0 md:p-6 bg-gray-50 min-h-screen flex-1 w-full">
+        <main className="pt-20 p-4 md:pt-20 md:p-6 bg-gray-50 min-h-screen flex-1 w-full">
           <Routes>
             <Route path="/livestock" element={
               <div className="bg-white rounded-lg shadow-sm p-6">
@@ -449,7 +450,7 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/market/dashboard" element={<MarketDashboardPage />} />
             <Route path="/market/products" element={<MarketProductsPage />} />
             <Route path="/market/orders" element={<MarketOrdersPage />} />
-            <Route path="/resources/equipment" element={<EquipmentLayout />} />
+            {/* <Route path="/resources/equipment" element={<EquipmentLayout />} /> */}
             <Route path="/resources/warehouse" element={<WarehouseManagement />} />
             <Route path="/resources/inventory" element={<ResourcesInventory />} />
             <Route path="/reports" element={<StandardReports />} />
@@ -480,6 +481,7 @@ const ProtectedLayout: React.FC = () => {
             <Route path="crops/grow-locations/grazing" element={<GrazingPage />} />
             <Route path="/crops/grow-locations/planting-history" element={<PlantingHistory />} />
             <Route path="/resources/equipment" element={<ResourcesEquipmentPage />} />
+            <Route path="/resources/equipment/:tab" element={<EquipmentLayout />} />
           </Routes>
         </main>
       </div>

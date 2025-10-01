@@ -138,7 +138,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200"
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
           >
             <i className="fas fa-bars text-lg"></i>
           </button>

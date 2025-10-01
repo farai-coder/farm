@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Trash2, Edit, Package, AlertTriangle, X, Bold, Italic, Underline, List, AlignLeft, Link, MapPin, Paperclip, ArrowLeft } from 'lucide-react';
-
+import { Plus, Search, Trash2, Edit, Package, AlertTriangle, X, Bold, Italic, Underline, List, AlignLeft, Link, MapPin, Paperclip, ArrowLeft, Menu } from 'lucide-react';
 
 export const ResourcesInventory = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -10,6 +9,7 @@ export const ResourcesInventory = () => {
     const [currentUrl, setCurrentUrl] = useState('');
     const [modalType, setModalType] = useState(''); // 'add', 'warehouse', 'remove', 'adjust'
     const [showNewNoteModal, setShowNewNoteModal] = useState(false);
+    const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
     const [photos, setPhotos] = useState([
         {
@@ -87,6 +87,7 @@ export const ResourcesInventory = () => {
         console.log('Row clicked:', item.name);
         setSelectedItem(item);
         setActiveTab('details');
+        setShowMobileSidebar(false);
         // Simulate URL update
         setCurrentUrl(`/resources/inventory/${item.id}/details`);
     };
@@ -95,6 +96,7 @@ export const ResourcesInventory = () => {
     const handleBackClick = () => {
         console.log('Back clicked');
         setSelectedItem(null);
+        setShowMobileSidebar(false);
         setCurrentUrl('/resources/inventory');
     };
 
@@ -102,6 +104,7 @@ export const ResourcesInventory = () => {
     const handleTabClick = (tabId) => {
         console.log('Tab clicked:', tabId);
         setActiveTab(tabId);
+        setShowMobileSidebar(false);
         if (selectedItem) {
             const newUrl = `/resources/inventory/${selectedItem.id}/${tabId}`;
             setCurrentUrl(newUrl);
@@ -196,9 +199,9 @@ export const ResourcesInventory = () => {
             case 'add':
                 return (
                     <>
-                        <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold text-gray-800">Add Inventory</h2>
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Add Inventory</h2>
                                 <button
                                     onClick={closeModal}
                                     className="text-gray-400 hover:text-gray-600 text-xl"
@@ -207,28 +210,28 @@ export const ResourcesInventory = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="px-6 py-4 space-y-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Inventory</label>
-                                <div className="col-span-2">
+                        <div className="px-4 sm:px-6 py-4 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Inventory</label>
+                                <div className="sm:col-span-2">
                                     <span className="text-sm text-gray-900">Seed (Rye) - 0.00 Available</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Add</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Add</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <input
                                         type="number"
                                         step="0.01"
                                         defaultValue="0.00"
                                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
-                                    <span className="text-gray-500">quantity</span>
+                                    <span className="text-gray-500 text-sm">quantity</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Date</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Date</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="date"
                                         defaultValue="2025-09-28"
@@ -236,9 +239,9 @@ export const ResourcesInventory = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Warehouse</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Warehouse</label>
+                                <div className="sm:col-span-2">
                                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                                         <option>Select warehouse</option>
                                     </select>
@@ -250,18 +253,18 @@ export const ResourcesInventory = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Source</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Source</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-start gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700 pt-2">Reason</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                                <label className="text-sm font-medium text-gray-700 pt-2 sm:text-right">Reason</label>
+                                <div className="sm:col-span-2">
                                     <textarea
                                         rows={3}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -269,7 +272,7 @@ export const ResourcesInventory = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
+                        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
                             <button
                                 onClick={closeModal}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
@@ -286,9 +289,9 @@ export const ResourcesInventory = () => {
             case 'warehouse':
                 return (
                     <>
-                        <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold text-gray-800">New Warehouse</h2>
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Warehouse</h2>
                                 <button
                                     onClick={closeModal}
                                     className="text-gray-400 hover:text-gray-600 text-xl"
@@ -297,28 +300,28 @@ export const ResourcesInventory = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="px-6 py-4 space-y-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Name</label>
-                                <div className="col-span-2">
+                        <div className="px-4 sm:px-6 py-4 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Name</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Internal ID</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Internal ID</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Track Capacity</label>
-                                <div className="col-span-2 space-y-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Track Capacity</label>
+                                <div className="sm:col-span-2 space-y-2">
                                     <label className="flex items-center space-x-2">
                                         <input type="radio" name="trackCapacity" defaultChecked className="text-blue-600" />
                                         <span className="text-sm text-gray-700">In separate bins</span>
@@ -329,9 +332,9 @@ export const ResourcesInventory = () => {
                                     </label>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-start gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700 pt-2">Description</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                                <label className="text-sm font-medium text-gray-700 pt-2 sm:text-right">Description</label>
+                                <div className="sm:col-span-2">
                                     <textarea
                                         rows={3}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -339,7 +342,7 @@ export const ResourcesInventory = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
+                        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
                             <button
                                 onClick={closeModal}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
@@ -356,9 +359,9 @@ export const ResourcesInventory = () => {
             case 'remove':
                 return (
                     <>
-                        <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold text-gray-800">Use Inventory</h2>
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Use Inventory</h2>
                                 <button
                                     onClick={closeModal}
                                     className="text-gray-400 hover:text-gray-600 text-xl"
@@ -367,28 +370,28 @@ export const ResourcesInventory = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="px-6 py-4 space-y-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Inventory</label>
-                                <div className="col-span-2">
+                        <div className="px-4 sm:px-6 py-4 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Inventory</label>
+                                <div className="sm:col-span-2">
                                     <span className="text-sm text-gray-900">Seed (Rye) - 0.00 Available</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Remove</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Remove</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <input
                                         type="number"
                                         step="0.01"
                                         defaultValue="0.00"
                                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
-                                    <span className="text-gray-500">quantity</span>
+                                    <span className="text-gray-500 text-sm">quantity</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Date</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Date</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="date"
                                         defaultValue="2025-09-28"
@@ -396,26 +399,26 @@ export const ResourcesInventory = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Warehouse</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Warehouse</label>
+                                <div className="sm:col-span-2">
                                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                                         <option>Select warehouse</option>
                                     </select>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
                                 <div></div>
-                                <div className="col-span-2">
+                                <div className="sm:col-span-2">
                                     <label className="flex items-center space-x-2">
                                         <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                         <span className="text-sm text-gray-700">Exclude from usage calculations</span>
                                     </label>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-start gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700 pt-2">Reason</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                                <label className="text-sm font-medium text-gray-700 pt-2 sm:text-right">Reason</label>
+                                <div className="sm:col-span-2">
                                     <textarea
                                         rows={3}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -423,7 +426,7 @@ export const ResourcesInventory = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
+                        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
                             <button
                                 onClick={closeModal}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
@@ -440,9 +443,9 @@ export const ResourcesInventory = () => {
             case 'adjust':
                 return (
                     <>
-                        <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold text-gray-800">Manually Adjust Inventory Amount</h2>
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Manually Adjust Inventory Amount</h2>
                                 <button
                                     onClick={closeModal}
                                     className="text-gray-400 hover:text-gray-600 text-xl"
@@ -451,28 +454,28 @@ export const ResourcesInventory = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="px-6 py-4 space-y-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Inventory</label>
-                                <div className="col-span-2">
+                        <div className="px-4 sm:px-6 py-4 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Inventory</label>
+                                <div className="sm:col-span-2">
                                     <span className="text-sm text-gray-900">Seed (Rye) - 0.00 Available</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Available Inventory</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Available Inventory</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <input
                                         type="number"
                                         step="0.01"
                                         defaultValue="0.00"
                                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
-                                    <span className="text-gray-500">quantity</span>
+                                    <span className="text-gray-500 text-sm">quantity</span>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Date</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Date</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="date"
                                         defaultValue="2025-09-28"
@@ -480,9 +483,9 @@ export const ResourcesInventory = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Warehouse</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Warehouse</label>
+                                <div className="sm:col-span-2">
                                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                                         <option>Select warehouse</option>
                                     </select>
@@ -494,18 +497,18 @@ export const ResourcesInventory = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Source</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Source</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 items-start gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700 pt-2">Reason</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                                <label className="text-sm font-medium text-gray-700 pt-2 sm:text-right">Reason</label>
+                                <div className="sm:col-span-2">
                                     <textarea
                                         rows={3}
                                         defaultValue="Manual Adjustment"
@@ -514,7 +517,7 @@ export const ResourcesInventory = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
+                        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
                             <button
                                 onClick={closeModal}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
@@ -531,20 +534,20 @@ export const ResourcesInventory = () => {
             case 'newType':
                 return (
                     <>
-                        <div className="px-6 py-4 border-b border-gray-200">
+                        <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-xl font-semibold text-gray-800">New Inventory Type</h2>
-                                    <div className="flex items-center mt-2 space-x-4">
-                                        <div className="flex items-center space-x-2">
+                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Inventory Type</h2>
+                                    <div className="flex items-center mt-2 space-x-2 sm:space-x-4 overflow-x-auto">
+                                        <div className="flex items-center space-x-2 flex-shrink-0">
                                             <div className="w-6 h-6 bg-gray-800 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
                                             <span className="text-sm font-medium text-gray-800">Define Inventory Type</span>
                                         </div>
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 flex-shrink-0">
                                             <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm">2</div>
                                             <span className="text-sm text-gray-500">Add Inventory to Warehouses</span>
                                         </div>
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 flex-shrink-0">
                                             <div className="w-6 h-6 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm">✓</div>
                                             <span className="text-sm text-gray-500">Complete</span>
                                         </div>
@@ -560,11 +563,11 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {/* Modal Body */}
-                        <div className="px-6 py-4 space-y-4">
+                        <div className="px-4 sm:px-6 py-4 space-y-4">
                             {/* Type Name */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Type Name</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Type Name</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         placeholder="Seed, vaccine, grain, etc"
@@ -574,9 +577,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Variety */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Variety</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Variety</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -585,9 +588,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Internal ID / SKU */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Internal ID / SKU</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Internal ID / SKU</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -596,9 +599,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Electronic Id */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Electronic Id</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Electronic Id</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="text"
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -607,9 +610,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Inventory Unit */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Inventory Unit</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Inventory Unit</label>
+                                <div className="sm:col-span-2">
                                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
                                         <option>quantity</option>
                                         <option>pounds</option>
@@ -622,9 +625,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Estimated Value Per Unit */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Estimated Value Per Unit</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Estimated Value Per Unit</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <span className="text-gray-500">$</span>
                                     <input
                                         type="number"
@@ -635,9 +638,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Estimated Kg Per Unit */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Estimated Kg Per Unit</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Estimated Kg Per Unit</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <input
                                         type="number"
                                         step="0.01"
@@ -648,9 +651,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Track Lots */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Track Lots</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Track Lots</label>
+                                <div className="sm:col-span-2">
                                     <label className="flex items-center space-x-2">
                                         <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
                                         <span className="text-sm text-gray-700">Track individual inventory lots</span>
@@ -659,9 +662,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Alert When Less Than */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Alert When Less Than</label>
-                                <div className="col-span-2 flex items-center space-x-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Alert When Less Than</label>
+                                <div className="sm:col-span-2 flex items-center space-x-2">
                                     <input
                                         type="number"
                                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -671,9 +674,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Email Inventory Alerts To */}
-                            <div className="grid grid-cols-3 items-center gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700">Email Inventory Alerts To</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
+                                <label className="text-sm font-medium text-gray-700 sm:text-right">Email Inventory Alerts To</label>
+                                <div className="sm:col-span-2">
                                     <input
                                         type="email"
                                         placeholder="farai.rato@students.uz.ac.zw"
@@ -683,9 +686,9 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Description */}
-                            <div className="grid grid-cols-3 items-start gap-4">
-                                <label className="text-right text-sm font-medium text-gray-700 pt-2">Description</label>
-                                <div className="col-span-2">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-4">
+                                <label className="text-sm font-medium text-gray-700 pt-2 sm:text-right">Description</label>
+                                <div className="sm:col-span-2">
                                     <textarea
                                         rows={3}
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -695,7 +698,7 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
+                        <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3">
                             <button
                                 onClick={closeModal}
                                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -727,8 +730,8 @@ export const ResourcesInventory = () => {
                         {/* Item Header */}
                         <div className="flex items-center justify-between">
                             <div>
-                                <h2 className="text-2xl font-medium text-gray-800 mb-1">{selectedItem.name}</h2>
-                                <div className="flex items-center space-x-4 text-sm text-gray-600">
+                                <h2 className="text-xl sm:text-2xl font-medium text-gray-800 mb-1">{selectedItem.name}</h2>
+                                <div className="flex items-center space-x-2 sm:space-x-4 text-sm text-gray-600 flex-wrap">
                                     <span>{selectedItem.avgDailyUsage || '0.00'} Avg Daily Usage</span>
                                     <button className="text-blue-600 hover:text-blue-800">Edit</button>
                                     <button className="text-gray-400">📊</button>
@@ -745,23 +748,23 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex items-center space-x-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                             <button
                                 onClick={openAddInventoryModal}
-                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 flex items-center space-x-2"
+                                className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 flex items-center space-x-2"
                             >
                                 <Plus size={16} />
                                 <span>Add</span>
                             </button>
                             <button
                                 onClick={openRemoveModal}
-                                className="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700"
+                                className="bg-red-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700"
                             >
                                 Remove
                             </button>
                             <button
                                 onClick={openAdjustModal}
-                                className="text-blue-600 hover:text-blue-800 px-4 py-2 border border-blue-300 rounded-md text-sm flex items-center space-x-2"
+                                className="text-blue-600 hover:text-blue-800 px-3 sm:px-4 py-2 border border-blue-300 rounded-md text-sm flex items-center space-x-2"
                             >
                                 <span>📝</span>
                                 <span>Manually Adjust</span>
@@ -769,7 +772,7 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {/* No Inventory Message */}
-                        <div className="bg-gray-50 rounded-lg p-8 text-center">
+                        <div className="bg-gray-50 rounded-lg p-6 sm:p-8 text-center">
                             <div className="text-gray-500 mb-2">No inventory available</div>
                             <div className="text-gray-400 text-sm">You don't have any warehouses with inventory.</div>
                         </div>
@@ -780,19 +783,19 @@ export const ResourcesInventory = () => {
                                 <table className="min-w-full">
                                     <thead className="bg-gray-50 border-b border-gray-200">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Warehouse
                                             </th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Bin
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Current
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Available
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Est. Value
                                             </th>
                                         </tr>
@@ -800,25 +803,25 @@ export const ResourcesInventory = () => {
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {/* Sample inventory data - you can replace this with dynamic data */}
                                         <tr>
-                                            <td className="px-6 py-4 text-sm text-gray-900">Main Storage</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">All counters</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">9.00</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">9.00</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">$36.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Main Storage</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">All counters</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">9.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">9.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">$36.00</td>
                                         </tr>
                                         <tr>
-                                            <td className="px-6 py-4 text-sm text-gray-900">Cold Storage</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">Bin A-1</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">5.00</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">5.00</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">$20.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Cold Storage</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Bin A-1</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">5.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">5.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">$20.00</td>
                                         </tr>
                                         <tr>
-                                            <td className="px-6 py-4 text-sm text-gray-900">Dry Storage</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900">Bin B-2</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">3.50</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">3.50</td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 text-right">$14.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Dry Storage</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Bin B-2</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">3.50</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">3.50</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 text-right">$14.00</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -843,42 +846,44 @@ export const ResourcesInventory = () => {
                 return (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-xl font-medium text-gray-800">Recipes</h3>
+                            <h3 className="text-lg sm:text-xl font-medium text-gray-800">Recipes</h3>
                             <button
-                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                                className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
                                 onClick={() => setShowRecipeModal(true)}
                             >
                                 Add Recipe
                             </button>
                         </div>
                         {recipes.length === 0 ? (
-                            <div className="bg-gray-50 rounded-lg p-8 text-center">
+                            <div className="bg-gray-50 rounded-lg p-6 sm:p-8 text-center">
                                 <div className="text-gray-500 mb-2">No recipes available</div>
                                 <div className="text-gray-400 text-sm">Add recipes that use this inventory item.</div>
                             </div>
                         ) : (
                             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                                <table className="min-w-full">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Recipe Name</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Makes</th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-200">
-                                        {recipes.map((recipe) => (
-                                            <tr key={recipe.id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 text-sm font-medium text-blue-600">{recipe.name}</td>
-                                                <td className="px-6 py-4 text-sm text-gray-900">{recipe.makes} {recipe.unit}</td>
-                                                <td className="px-6 py-4 text-center">
-                                                    <button className="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
-                                                    <button className="text-red-600 hover:text-red-800">Delete</button>
-                                                </td>
+                                <div className="overflow-x-auto">
+                                    <table className="min-w-full">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Recipe Name</th>
+                                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Makes</th>
+                                                <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Actions</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200">
+                                            {recipes.map((recipe) => (
+                                                <tr key={recipe.id} className="hover:bg-gray-50">
+                                                    <td className="px-4 sm:px-6 py-4 text-sm font-medium text-blue-600">{recipe.name}</td>
+                                                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">{recipe.makes} {recipe.unit}</td>
+                                                    <td className="px-4 sm:px-6 py-4 text-center">
+                                                        <button className="text-blue-600 hover:text-blue-800 mr-2">Edit</button>
+                                                        <button className="text-red-600 hover:text-red-800">Delete</button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         )}
                     </div>
@@ -888,9 +893,9 @@ export const ResourcesInventory = () => {
                 return (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-xl font-medium text-gray-800">Notes</h3>
+                            <h3 className="text-lg sm:text-xl font-medium text-gray-800">Notes</h3>
                             <button
-                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                                className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
                                 onClick={handleNewNote}
                             >
                                 Add Note
@@ -918,43 +923,45 @@ export const ResourcesInventory = () => {
             case 'history':
                 return (
                     <div className="space-y-6">
-                        <h3 className="text-xl font-medium text-gray-800">Inventory History</h3>
+                        <h3 className="text-lg sm:text-xl font-medium text-gray-800">Inventory History</h3>
                         <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                            <table className="min-w-full">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Balance</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    <tr>
-                                        <td className="px-6 py-4 text-sm text-gray-900">Mar 15, 2024</td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                                Added
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">+15.00</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">{selectedItem.quantity}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">New shipment received</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-6 py-4 text-sm text-gray-900">Mar 12, 2024</td>
-                                        <td className="px-6 py-4">
-                                            <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
-                                                Used
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">-3.00</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900">12.00</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500">Daily feeding</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Balance</th>
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200">
+                                        <tr>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Mar 15, 2024</td>
+                                            <td className="px-4 sm:px-6 py-4">
+                                                <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Added
+                                                </span>
+                                            </td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">+15.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">{selectedItem.quantity}</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-500">New shipment received</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">Mar 12, 2024</td>
+                                            <td className="px-4 sm:px-6 py-4">
+                                                <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                                                    Used
+                                                </span>
+                                            </td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">-3.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-900">12.00</td>
+                                            <td className="px-4 sm:px-6 py-4 text-sm text-gray-500">Daily feeding</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 );
@@ -963,9 +970,9 @@ export const ResourcesInventory = () => {
                 return (
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-xl font-medium text-gray-800">Photos</h3>
+                            <h3 className="text-lg sm:text-xl font-medium text-gray-800">Photos</h3>
                             <button
-                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                                className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
                                 onClick={handleUploadPhoto}
                             >
                                 Add Attachment
@@ -976,7 +983,7 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {photos.length > 0 ? (
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                                 {photos.map((photo) => (
                                     <div key={photo.id} className="relative group">
                                         <div className="border border-gray-200 rounded-lg p-2 bg-white">
@@ -984,7 +991,7 @@ export const ResourcesInventory = () => {
                                                 <img
                                                     src={photo.url}
                                                     alt={photo.name}
-                                                    className="w-full h-24 object-cover rounded"
+                                                    className="w-full h-20 sm:h-24 object-cover rounded"
                                                 />
                                                 <button
                                                     onClick={() => handleDeletePhoto(photo.id)}
@@ -1002,7 +1009,7 @@ export const ResourcesInventory = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="bg-gray-50 rounded-lg p-8 text-center">
+                            <div className="bg-gray-50 rounded-lg p-6 sm:p-8 text-center">
                                 <div className="text-gray-500 mb-2">No photos uploaded</div>
                                 <div className="text-gray-400 text-sm">Add photos of this inventory item for reference.</div>
                             </div>
@@ -1019,8 +1026,23 @@ export const ResourcesInventory = () => {
     if (selectedItem) {
         return (
             <div className="min-h-screen bg-white flex">
+                {/* Mobile Sidebar Toggle */}
+                <div className="lg:hidden fixed top-4 left-4 z-40">
+                    <button
+                        onClick={() => setShowMobileSidebar(!showMobileSidebar)}
+                        className="md:hidden fixed top-20 left-4 z-30 text-gray-700 p-2 rounded-md bg-gray-100 hover:bg-gray-500 transition-colors duration-200"
+                    >
+                        <Menu size={20} />
+                    </button>
+                </div>
+
                 {/* Left Sidebar */}
-                <div className="w-48 bg-gray-50 border-r border-gray-200 flex-shrink-0">
+                <div className={`
+                    fixed lg:static inset-y-0 left-0 z-30
+                    w-48 bg-gray-50 border-r border-gray-200 flex-shrink-0
+                    transform transition-transform duration-300 ease-in-out
+                    ${showMobileSidebar ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+                `}>
                     {/* Item Name Header */}
                     <div className="px-4 py-4 border-b border-gray-200">
                         <button
@@ -1050,15 +1072,23 @@ export const ResourcesInventory = () => {
                     </div>
                 </div>
 
+                {/* Overlay for mobile sidebar */}
+                {showMobileSidebar && (
+                    <div 
+                        className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20"
+                        onClick={() => setShowMobileSidebar(false)}
+                    ></div>
+                )}
+
                 {/* Main Content Area */}
-                <div className="flex-1 p-6">
+                <div className="flex-1 p-4 sm:p-6 lg:p-6 mt-14 lg:mt-0">
                     {renderTabContent()}
                 </div>
 
                 {/* Upload Photo Modal */}
                 {showUploadModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md mx-4">
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-lg font-semibold text-gray-800">Upload Photo</h2>
                                 <button
@@ -1070,7 +1100,7 @@ export const ResourcesInventory = () => {
                             </div>
 
                             <div className="space-y-4">
-                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center">
                                     <input
                                         type="file"
                                         multiple
@@ -1094,8 +1124,8 @@ export const ResourcesInventory = () => {
                 )}
                 {/* New Note Modal */}
                 {showNewNoteModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 w-full max-w-2xl mx-4">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
                             <div className="flex items-center justify-between mb-4">
                                 <h2 className="text-lg font-semibold text-gray-800">New Note for Seed (Rre)</h2>
                                 <button
@@ -1109,7 +1139,7 @@ export const ResourcesInventory = () => {
                             <div className="space-y-4">
                                 {/* Text Editor Toolbar */}
                                 <div className="border border-gray-300 rounded-t-md">
-                                    <div className="flex items-center space-x-1 p-2 border-b border-gray-200 bg-gray-50">
+                                    <div className="flex items-center space-x-1 p-2 border-b border-gray-200 bg-gray-50 overflow-x-auto">
                                         <select className="text-sm border-none bg-transparent">
                                             <option>Normal</option>
                                         </select>
@@ -1152,7 +1182,7 @@ export const ResourcesInventory = () => {
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <input
                                             type="date"
@@ -1200,7 +1230,7 @@ export const ResourcesInventory = () => {
                                     </label>
                                 </div>
 
-                                <div className="flex items-center space-x-4 text-sm text-gray-600">
+                                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                                     <button className="flex items-center space-x-1 hover:text-gray-800">
                                         <MapPin size={16} />
                                         <span>Add Map Location</span>
@@ -1232,9 +1262,9 @@ export const ResourcesInventory = () => {
                 {showRecipeModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                         <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="px-6 py-4 border-b border-gray-200">
+                            <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                                 <div className="flex items-center justify-between">
-                                    <h2 className="text-xl font-semibold text-gray-800">Add New Recipe</h2>
+                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Add New Recipe</h2>
                                     <button
                                         onClick={() => setShowRecipeModal(false)}
                                         className="text-gray-400 hover:text-gray-600 text-xl"
@@ -1243,7 +1273,7 @@ export const ResourcesInventory = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div className="px-6 py-4 space-y-6">
+                            <div className="px-4 sm:px-6 py-4 space-y-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Recipe Name</label>
                                     <input
@@ -1252,7 +1282,7 @@ export const ResourcesInventory = () => {
                                         placeholder="Enter recipe name"
                                     />
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Recipe Makes</label>
                                         <input
@@ -1294,7 +1324,7 @@ export const ResourcesInventory = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
+                            <div className="px-4 sm:px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
                                 <button
                                     onClick={() => setShowRecipeModal(false)}
                                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -1329,14 +1359,14 @@ export const ResourcesInventory = () => {
 
     // Main inventory list view (keeping your exact original structure)
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800">Inventory</h1>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Inventory</h1>
                     <button
                         onClick={openNewInventoryTypeModal}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center space-x-2"
+                        className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center space-x-2 w-fit"
                     >
                         <Plus size={16} />
                         <span>{inventoryItems.length === 0 ? 'New Inventory Type' : 'Add Item'}</span>
@@ -1361,7 +1391,7 @@ export const ResourcesInventory = () => {
 
                 {/* Empty State or Content */}
                 {inventoryItems.length === 0 ? (
-                    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 sm:p-12 text-center">
                         <div className="flex justify-center mb-6">
                             {/* Warehouse/Storage Icon */}
                             <div className="relative">
@@ -1370,7 +1400,7 @@ export const ResourcesInventory = () => {
                                 <div className="absolute -top-4 left-4 w-8 h-6 bg-gray-500 rounded-sm"></div>
                             </div>
                         </div>
-                        <h2 className="text-xl font-medium text-gray-800 mb-2">Nothing yet?</h2>
+                        <h2 className="text-lg sm:text-xl font-medium text-gray-800 mb-2">Nothing yet?</h2>
                         <p className="text-gray-600 mb-1">Add an inventory type and they'll show up here</p>
                         <p className="text-gray-500 text-sm">
                             Need help? Check out this{' '}
@@ -1378,11 +1408,11 @@ export const ResourcesInventory = () => {
                         </p>
                     </div>
                 ) : filteredItems.length === 0 ? (
-                    <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
+                    <div className="bg-white rounded-lg border border-gray-200 p-6 sm:p-12 text-center">
                         <div className="flex justify-center mb-4">
-                            <Search size={48} className="text-gray-300" />
+                            <Search size={40} sm:size={48} className="text-gray-300" />
                         </div>
-                        <h2 className="text-xl font-medium text-gray-800 mb-2">No results found</h2>
+                        <h2 className="text-lg sm:text-xl font-medium text-gray-800 mb-2">No results found</h2>
                         <p className="text-gray-600">Try adjusting your search terms</p>
                     </div>
                 ) : (
@@ -1393,16 +1423,16 @@ export const ResourcesInventory = () => {
                                 <table className="min-w-full">
                                     <thead className="bg-gray-50 border-b border-gray-200">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Item Name
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Quantity
                                             </th>
-                                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Value
                                             </th>
-                                            <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
+                                            <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-20">
                                                 Actions
                                             </th>
                                         </tr>
@@ -1414,7 +1444,7 @@ export const ResourcesInventory = () => {
                                                 className="hover:bg-gray-50 cursor-pointer"
                                                 onClick={() => handleRowClick(item)}
                                             >
-                                                <td className="px-6 py-4">
+                                                <td className="px-4 sm:px-6 py-4">
                                                     <div className="flex flex-col">
                                                         <span className="text-sm font-medium text-blue-600 hover:text-blue-800">
                                                             {item.name}
@@ -1424,13 +1454,13 @@ export const ResourcesInventory = () => {
                                                         )}
                                                     </div>
                                                 </td>
-                                                <td className="px-6 py-4 text-right text-sm text-gray-900">
+                                                <td className="px-4 sm:px-6 py-4 text-right text-sm text-gray-900">
                                                     {item.quantity || '-'}
                                                 </td>
-                                                <td className="px-6 py-4 text-right text-sm text-gray-900">
+                                                <td className="px-4 sm:px-6 py-4 text-right text-sm text-gray-900">
                                                     {item.value || '-'}
                                                 </td>
-                                                <td className="px-6 py-4 text-center" onClick={(e) => e.stopPropagation()}>
+                                                <td className="px-4 sm:px-6 py-4 text-center" onClick={(e) => e.stopPropagation()}>
                                                     <div className="flex items-center justify-center space-x-2">
                                                         <button className="text-blue-600 hover:text-blue-800 p-1">
                                                             <Edit size={14} />
@@ -1447,7 +1477,7 @@ export const ResourcesInventory = () => {
                             </div>
 
                             {/* Footer */}
-                            <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                            <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
                                 <p className="text-sm text-gray-700">
                                     Displaying all {filteredItems.length} records
                                 </p>
@@ -1455,20 +1485,20 @@ export const ResourcesInventory = () => {
                         </div>
 
                         {/* Summary Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
                                 <div className="text-sm font-medium text-gray-600 mb-2">Total Items</div>
-                                <div className="text-2xl font-bold text-gray-800">{inventoryItems.length}</div>
+                                <div className="text-xl sm:text-2xl font-bold text-gray-800">{inventoryItems.length}</div>
                             </div>
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
                                 <div className="text-sm font-medium text-gray-600 mb-2">Items with Quantities</div>
-                                <div className="text-2xl font-bold text-green-600">
+                                <div className="text-xl sm:text-2xl font-bold text-green-600">
                                     {inventoryItems.filter(item => item.quantity).length}
                                 </div>
                             </div>
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
                                 <div className="text-sm font-medium text-gray-600 mb-2">Items with Values</div>
-                                <div className="text-2xl font-bold text-blue-600">
+                                <div className="text-xl sm:text-2xl font-bold text-blue-600">
                                     {inventoryItems.filter(item => item.value).length}
                                 </div>
                             </div>

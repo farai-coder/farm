@@ -1,364 +1,184 @@
-import React, { useState } from 'react';
-import { CustomFields } from "../CustomFields/CustomFields";
-import { EquipmentFiles } from "../Files/Files";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { EquipmentDetails } from './EquipmentDetails';
+import { EquipmentSchedule } from './EquipmentSchedule';
+import { EquipmentTasks } from './EquipmentTasks';
+import { EquipmentNotes } from './EquipmentNotes';
+import { EquipmentMaintenance } from './EquipmentMaintenance';
+import { EquipmentAccounting } from './EquipmentAccounting';
 import { Photos } from "../Photos/Photos";
+import { EquipmentFiles } from "../Files/Files";
+import { CustomFields } from "../CustomFields/CustomFields";
 
 // Equipment Secondary Sidebar Component
-const EquipmentSecondarySidebar = ({ activeSubmenu, setActiveSubmenu }) => {
-    const equipmentMenuItems = [
-        { id: 'details', label: 'Details', icon: 'fa-info-circle' },
-        { id: 'schedule', label: 'Schedule', icon: 'fa-calendar-alt' },
-        { id: 'tasks', label: 'Tasks', icon: 'fa-tasks' },
-        { id: 'notes', label: 'Notes', icon: 'fa-sticky-note' },
-        { id: 'maintenance', label: 'Maintenance', icon: 'fa-wrench' },
-        { id: 'accounting', label: 'Accounting', icon: 'fa-calculator' },
-        { id: 'photos', label: 'Photos', icon: 'fa-camera' },
-        { id: 'files', label: 'Files', icon: 'fa-file-alt' },
-        { id: 'custom-fields', label: 'Custom Fields', icon: 'fa-list' },
-    ];
+const EquipmentSecondarySidebar: React.FC<{
+    activeSubmenu: string;
+    setActiveSubmenu: (submenu: string) => void;
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
+}> = ({
+    activeSubmenu,
+    setActiveSubmenu,
+    isOpen,
+    setIsOpen
+}) => {
+        const navigate = useNavigate();
+        const location = useLocation();
 
-    return (
-        <div className="bg-gray-50 w-48 flex-shrink-0 relative h-full border-r border-gray-200">
-            <div className="py-4">
-                {equipmentMenuItems.map((item) => (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveSubmenu(item.id)}
-                        className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative flex items-center ${activeSubmenu === item.id
-                                ? 'bg-white text-green-700 font-medium border-r-2 border-green-600'
-                                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                            }`}
-                    >
-                        {/* <i className={`fas ${item.icon} mr-3 w-4 text-xs`}></i> */}
-                        {item.label}
-                    </button>
-                ))}
-            </div>
-        </div>
-    );
-};
+        const equipmentMenuItems = [
+            { id: 'details', label: 'Details', path: '/resources/equipment/details' },
+            { id: 'schedule', label: 'Schedule', path: '/resources/equipment/schedule' },
+            { id: 'tasks', label: 'Tasks', path: '/resources/equipment/tasks' },
+            { id: 'notes', label: 'Notes', path: '/resources/equipment/notes' },
+            { id: 'maintenance', label: 'Maintenance', path: '/resources/equipment/maintenance' },
+            { id: 'accounting', label: 'Accounting', path: '/resources/equipment/accounting' },
+            { id: 'photos', label: 'Photos', path: '/resources/equipment/photos' },
+            { id: 'files', label: 'Files', path: '/resources/equipment/files' },
+            { id: 'custom-fields', label: 'Custom Fields', path: '/resources/equipment/custom-fields' },
+        ];
 
-// Equipment Details Component
-const EquipmentDetails = () => {
-    const [equipmentData, setEquipmentData] = useState({
-        name: 'John Deere 5070E',
-        type: 'Tractor',
-        status: 'In Use',
-        brandModel: 'John Deere',
-        modelNumber: '5070E',
-        modelYear: '2015',
-        ownerNumber: 'JD1234',
-        serialNumber: '64231187Crog873',
-        engineTransmission: 'Engine Hp: 2.9L 4 cyl Diesel(I)',
-        transmissionLog: 'Transmission Log: Collar shift (8+8)',
-        trackUsage: 'Hourly',
-        linkToServiceManual: 'http:///',
-        leasedOrPurchased: 'Purchased',
-        dateAcquired: '02/22/2023',
-        purchasePrice: '27500',
-        equipmentInsured: true
-    });
+        React.useEffect(() => {
+            const currentPath = location.pathname;
+            const activeItem = equipmentMenuItems.find(item => currentPath.includes(item.id));
+            if (activeItem) {
+                setActiveSubmenu(activeItem.id);
+            }
+        }, [location.pathname, setActiveSubmenu]);
 
-    return (
-        <div className="flex-1 p-6 bg-white">
-            {/* Breadcrumb */}
-            <div className="mb-4">
-                <nav className="flex text-sm text-gray-500">
-                    <span>Equipment</span>
-                    <i className="fas fa-chevron-right mx-2 text-xs"></i>
-                    <span>John Deere 5070E & John Deere Tractor</span>
-                </nav>
-            </div>
+        const handleMenuClick = (item: typeof equipmentMenuItems[0]) => {
+            navigate(item.path);
+            setActiveSubmenu(item.id);
+            setIsOpen(false);
+        };
 
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <i className="fas fa-tractor text-gray-600 text-xl"></i>
-                    </div>
-                    <h1 className="text-2xl font-semibold text-gray-800">{equipmentData.name}</h1>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
-                        <i className="fas fa-th"></i>
-                    </button>
-                </div>
-            </div>
-
-            {/* Equipment Details Form */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                        <input
-                            type="text"
-                            value={equipmentData.name}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, name: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-                        <input
-                            type="text"
-                            value={equipmentData.type}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, type: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select
-                            value={equipmentData.status}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, status: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        >
-                            <option value="In Use">In Use</option>
-                            <option value="Maintenance">Maintenance</option>
-                            <option value="Out of Service">Out of Service</option>
-                            <option value="Sold">Sold</option>
-                            <option value="Loaned Out">Loaned Out</option>
-                        </select>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Brand/Model</label>
-                            <input
-                                type="text"
-                                value={equipmentData.brandModel}
-                                onChange={(e) => setEquipmentData({ ...equipmentData, brandModel: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Model</label>
-                            <input
-                                type="text"
-                                value={equipmentData.modelNumber}
-                                onChange={(e) => setEquipmentData({ ...equipmentData, modelNumber: e.target.value })}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Model Year</label>
-                        <input
-                            type="text"
-                            value={equipmentData.modelYear}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, modelYear: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Owner Number</label>
-                        <input
-                            type="text"
-                            value={equipmentData.ownerNumber}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, ownerNumber: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Serial Number</label>
-                        <input
-                            type="text"
-                            value={equipmentData.serialNumber}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, serialNumber: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
+        return (
+            <>
+                {/* Desktop Sidebar */}
+                <div className="hidden md:block bg-gray-50 w-48 flex-shrink-0 relative h-full">
+                    <div className="absolute right-0 top-0 h-screen w-px bg-gray-200"></div>
+                    <div className="py-4">
+                        {equipmentMenuItems.map((item) => (
+                            <button
+                                key={item.id}
+                                onClick={() => handleMenuClick(item)}
+                                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
+                                    ? 'bg-white text-green-700 font-medium'
+                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                    }`}
+                            >
+                                {item.label}
+                                {activeSubmenu === item.id && (
+                                    <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green-600"></div>
+                                )}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Engine/Transmission</label>
-                        <input
-                            type="text"
-                            value={equipmentData.engineTransmission}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, engineTransmission: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Transmission Log</label>
-                        <input
-                            type="text"
-                            value={equipmentData.transmissionLog}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, transmissionLog: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Track Usage (Miles/Hours)</label>
-                        <input
-                            type="text"
-                            value={equipmentData.trackUsage}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, trackUsage: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Link To Service Manual</label>
-                        <div className="flex">
-                            <input
-                                type="text"
-                                value={equipmentData.linkToServiceManual}
-                                onChange={(e) => setEquipmentData({ ...equipmentData, linkToServiceManual: e.target.value })}
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                            <button className="px-3 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 hover:bg-gray-100">
-                                <i className="fas fa-search text-gray-500"></i>
+                {/* Mobile Drawer */}
+                <div
+                    className={`md:hidden fixed inset-0 z-40 bg-white transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-16' : '-translate-y-full'
+                        }`}
+                >
+                    <div className="h-full w-full flex flex-col">
+                        {/* Mobile Drawer Header */}
+                        <div className="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 flex-shrink-0">
+                            <span className="text-lg font-semibold text-gray-800">Equipment Menu</span>
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                            >
+                                <i className="fas fa-times text-lg"></i>
                             </button>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">Paste link to manual here</p>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-3">Leased Or Purchased</label>
-                        <div className="flex space-x-4">
-                            <label className="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="leasedOrPurchased"
-                                    value="Leased"
-                                    checked={equipmentData.leasedOrPurchased === 'Leased'}
-                                    onChange={(e) => setEquipmentData({ ...equipmentData, leasedOrPurchased: e.target.value })}
-                                    className="mr-2 text-green-600 focus:ring-green-500"
-                                />
-                                Leased
-                            </label>
-                            <label className="flex items-center">
-                                <input
-                                    type="radio"
-                                    name="leasedOrPurchased"
-                                    value="Purchased"
-                                    checked={equipmentData.leasedOrPurchased === 'Purchased'}
-                                    onChange={(e) => setEquipmentData({ ...equipmentData, leasedOrPurchased: e.target.value })}
-                                    className="mr-2 text-green-600 focus:ring-green-500"
-                                />
-                                <span className="text-blue-600">● Purchased</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Date Acquired</label>
-                        <input
-                            type="date"
-                            value={equipmentData.dateAcquired}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, dateAcquired: e.target.value })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Price</label>
-                        <div className="flex">
-                            <span className="px-3 py-2 border border-r-0 border-gray-300 rounded-l-md bg-gray-50">$</span>
-                            <input
-                                type="number"
-                                value={equipmentData.purchasePrice}
-                                onChange={(e) => setEquipmentData({ ...equipmentData, purchasePrice: e.target.value })}
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            checked={equipmentData.equipmentInsured}
-                            onChange={(e) => setEquipmentData({ ...equipmentData, equipmentInsured: e.target.checked })}
-                            className="mr-3 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                        />
-                        <label className="text-sm text-gray-700">Equipment is Insured</label>
+                        {/* Mobile Navigation */}
+                        <nav className="flex-1 overflow-y-auto overflow-x-hidden">
+                            {equipmentMenuItems.map((item) => (
+                                <div
+                                    key={item.id}
+                                    onClick={() => handleMenuClick(item)}
+                                    className={`flex items-center justify-between px-4 py-3 border-b border-gray-100 ${activeSubmenu === item.id
+                                        ? 'bg-green-50 text-green-700'
+                                        : 'text-gray-700 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    <span className="text-sm font-medium truncate">{item.label}</span>
+                                    {activeSubmenu === item.id && (
+                                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                                    )}
+                                </div>
+                            ))}
+                        </nav>
                     </div>
                 </div>
-            </div>
-
-            {/* Save Button */}
-            <div className="mt-8">
-                <button className="bg-green-600 text-white px-6 py-2 rounded-md font-medium hover:bg-green-700 transition-colors">
-                    Save Equipment Details
-                </button>
-            </div>
-        </div>
-    );
-};
+            </>
+        );
+    };
 
 // Main Equipment Layout Component
-export const EquipmentLayout = () => {
-    const [activeSubmenu, setActiveSubmenu] = useState('details');
+export const EquipmentLayout: React.FC = () => {
+    const { tab } = useParams<{ tab: string }>();
+    const navigate = useNavigate();
+    const [activeSubmenu, setActiveSubmenu] = useState<string>('details');
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+    useEffect(() => {
+        if (!tab) {
+            navigate('/resources/equipment', { replace: true });
+            return;
+        }
+        setActiveSubmenu(tab);
+    }, [tab, navigate]);
+
+    if (!tab) {
+        return <div>Loading...</div>;
+    }
 
     const renderContent = () => {
         switch (activeSubmenu) {
             case 'details':
                 return <EquipmentDetails />;
             case 'schedule':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Schedule</h2>
-                        <p className="text-gray-600">Schedule maintenance and usage for this equipment.</p>
-                    </div>
-                );
+                return <EquipmentSchedule />;
             case 'tasks':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Tasks</h2>
-                        <p className="text-gray-600">Manage tasks related to this equipment.</p>
-                    </div>
-                );
+                return <EquipmentTasks />;
             case 'notes':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Notes</h2>
-                        <p className="text-gray-600">Add notes and observations about this equipment.</p>
-                    </div>
-                );
+                return <EquipmentNotes />;
             case 'maintenance':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Maintenance Records</h2>
-                        <p className="text-gray-600">Track maintenance history and schedule future maintenance.</p>
-                    </div>
-                );
+                return <EquipmentMaintenance />;
             case 'accounting':
-                return (
-                    <div className="flex-1 p-6 bg-white">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Equipment Accounting</h2>
-                        <p className="text-gray-600">Track costs, depreciation, and financial details.</p>
-                    </div>
-                );
+                return <EquipmentAccounting />;
             case 'photos':
                 return <Photos />;
-
             case 'files':
                 return <EquipmentFiles />;
-                
             case 'custom-fields':
-                return  <CustomFields />;
+                return <CustomFields />;
             default:
                 return <EquipmentDetails />;
         }
     };
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
-            <EquipmentSecondarySidebar
-                activeSubmenu={activeSubmenu}
-                setActiveSubmenu={setActiveSubmenu}
-            />
-            {renderContent()}
-        </div>
+        <>
+            {/* Mobile Menu Toggle Button */}
+            <button
+                onClick={() => setIsDrawerOpen(true)}
+                className="md:hidden fixed top-20 left-4 z-30 text-gray-700 p-2 rounded-md bg-gray-100 hover:bg-gray-500 transition-colors duration-200"
+            >
+                <i className="fas fa-bars text-base"></i>
+            </button>
+
+            <div className="flex min-h-screen bg-gray-50">
+                <EquipmentSecondarySidebar
+                    activeSubmenu={activeSubmenu}
+                    setActiveSubmenu={setActiveSubmenu}
+                    isOpen={isDrawerOpen}
+                    setIsOpen={setIsDrawerOpen}
+                />
+                {renderContent()}
+            </div>
+        </>
     );
 };
-

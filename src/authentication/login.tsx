@@ -59,7 +59,7 @@ export const Login: React.FC = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
           <div className="space-y-6">
             <div className="text-center">
-              <h1 className="text-2xl font-semibold text-gray-800 mb-2">Welcome Back! Sign in.</h1>
+              <h1 className="text-2xl font-semibold text-gray-800 mb-2">Sign in</h1>
             </div>
 
             {error && (
