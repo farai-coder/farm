@@ -44,7 +44,6 @@ export const GrowLocationPlantings = () => {
         expectedYieldPerHectare: ''
     });
 
-
     // Sample crop types for drag and drop
     const cropTypes = [
         { id: '767767', name: '767, 767' },
@@ -235,12 +234,12 @@ export const GrowLocationPlantings = () => {
     };
 
     return (
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
                 <div>
-                    <h1 className="text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                    <p className="text-sm text-gray-600">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
+                    <p className="text-sm text-gray-600 mt-1">
                         2.5 Acre
                         <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
                             Active
@@ -250,32 +249,32 @@ export const GrowLocationPlantings = () => {
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={handleNewPlanting}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+                        className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex-1 sm:flex-none"
                     >
                         New Planting
                     </button>
                     <button
                         onClick={handleAddBeds}
-                        className="border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
+                        className="border border-gray-300 text-gray-700 px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex-1 sm:flex-none"
                     >
                         Add Beds
                     </button>
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
+                    <button className="text-gray-500 hover:text-gray-700 p-2 hidden sm:block">
                         <i className="fas fa-th"></i>
                     </button>
                 </div>
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200 mb-6">
-                <nav className="flex space-x-8">
+            <div className="border-b border-gray-200 mb-6 overflow-x-auto">
+                <nav className="flex space-x-4 sm:space-x-8 min-w-max">
                     {['2022 Planting Year', 'Future Plantings', 'Currently Planted', 'Harvested'].map((tab) => (
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`py-2 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${activeTab === tab
-                                    ? 'border-green-500 text-green-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                ? 'border-green-500 text-green-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                                 }`}
                         >
                             {tab}
@@ -291,22 +290,22 @@ export const GrowLocationPlantings = () => {
                         {/* Bed Header */}
                         <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
                             onClick={() => toggleBedExpansion(bedKey)}>
-                            <div className="flex items-center space-x-4">
+                            <div className="flex items-center space-x-3 sm:space-x-4">
                                 <button className="text-gray-400">
                                     <i className={`fas ${expandedBeds.has(bedKey) ? 'fa-chevron-down' : 'fa-chevron-right'}`}></i>
                                 </button>
-                                <div>
-                                    <h3 className="font-medium text-gray-900">{bedKey}</h3>
-                                    <p className="text-sm text-gray-500">{bedData.bedNumber}</p>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="font-medium text-gray-900 truncate">{bedKey}</h3>
+                                    <p className="text-sm text-gray-500 truncate">{bedData.bedNumber}</p>
                                 </div>
-                                <div className="flex items-center space-x-1">
+                                <div className="flex items-center space-x-1 flex-shrink-0">
                                     {renderBedIcons(bedKey as 'Bed: 01' | 'Bed: 02' | 'Bed: 03' | 'Bed: 04' | 'Bed: 05').map((icon, index) => (
                                         <span key={index} className="text-sm">{icon}</span>
                                     ))}
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-4">
-                                <span className={`text-sm ${bedData.statusColor}`}>
+                            <div className="flex items-center space-x-2 sm:space-x-4 ml-2">
+                                <span className={`text-xs sm:text-sm ${bedData.statusColor} hidden xs:inline`}>
                                     <i className="fas fa-exclamation-triangle mr-1"></i>
                                     {bedData.status}
                                 </span>
@@ -316,140 +315,150 @@ export const GrowLocationPlantings = () => {
                             </div>
                         </div>
 
+                        {/* Mobile Status */}
+                        <div className="px-4 pb-2 xs:hidden">
+                            <span className={`text-xs ${bedData.statusColor}`}>
+                                <i className="fas fa-exclamation-triangle mr-1"></i>
+                                {bedData.status}
+                            </span>
+                        </div>
+
                         {/* Expanded Bed Content */}
                         {expandedBeds.has(bedKey) && bedData.plantings.length > 0 && (
                             <div className="border-t border-gray-200">
                                 <div className="p-4">
-                                    <table className="w-full">
-                                        <thead>
-                                            <tr className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                <th className="pb-3">Type</th>
-                                                <th className="pb-3">Amount</th>
-                                                <th className="pb-3">Start</th>
-                                                <th className="pb-3">Harvest</th>
-                                                <th className="pb-3"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="space-y-4">
-                                            {bedData.plantings.map((planting) => (
-                                                <React.Fragment key={planting.id}>
-                                                    <tr className="border-t border-gray-100 hover:bg-gray-50">
-                                                        <td className="py-3">
-                                                            <div className="flex items-center">
-                                                                <button
-                                                                    onClick={() => togglePlantingExpansion(String(planting.id))}
-                                                                    className="mr-2 text-gray-400 hover:text-gray-600"
-                                                                >
-                                                                    <i className={`fas ${expandedPlantings.has(planting.id) ? 'fa-chevron-down' : 'fa-chevron-right'} text-xs`}></i>
-                                                                </button>
-                                                                <div className="w-6 h-6 bg-green-500 rounded-full mr-3 flex items-center justify-center">
-                                                                    <span className="text-white text-xs">🌿</span>
-                                                                </div>
-                                                                <div>
-                                                                    <p className="font-medium text-gray-900">{planting.crop}</p>
-                                                                    <p className="text-sm text-gray-500">{planting.variety}</p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="py-3">
-                                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${planting.amountColor}`}>
-                                                                {planting.amount}
-                                                            </span>
-                                                        </td>
-                                                        <td className="py-3">
-                                                            <div>
-                                                                <p className="text-sm text-gray-900">{planting.start}</p>
-                                                                <p className="text-xs text-gray-500">{planting.startDetails}</p>
-                                                            </div>
-                                                        </td>
-                                                        <td className="py-3">
-                                                            <div className="space-y-1">
-                                                                {planting.harvest && (
-                                                                    <div>
-                                                                        <p className="text-sm text-gray-900">{planting.harvest}</p>
-                                                                        <p className="text-xs text-gray-500">{planting.harvestDetails}</p>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full min-w-[600px]">
+                                            <thead>
+                                                <tr className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    <th className="pb-3">Type</th>
+                                                    <th className="pb-3">Amount</th>
+                                                    <th className="pb-3">Start</th>
+                                                    <th className="pb-3">Harvest</th>
+                                                    <th className="pb-3"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {bedData.plantings.map((planting) => (
+                                                    <React.Fragment key={planting.id}>
+                                                        <tr className="border-t border-gray-100 hover:bg-gray-50">
+                                                            <td className="py-3">
+                                                                <div className="flex items-center min-w-0">
+                                                                    <button
+                                                                        onClick={() => togglePlantingExpansion(String(planting.id))}
+                                                                        className="mr-2 text-gray-400 hover:text-gray-600 flex-shrink-0"
+                                                                    >
+                                                                        <i className={`fas ${expandedPlantings.has(planting.id) ? 'fa-chevron-down' : 'fa-chevron-right'} text-xs`}></i>
+                                                                    </button>
+                                                                    <div className="w-6 h-6 bg-green-500 rounded-full mr-3 flex items-center justify-center flex-shrink-0">
+                                                                        <span className="text-white text-xs">🌿</span>
                                                                     </div>
-                                                                )}
-                                                                {planting.harvestExpected && (
-                                                                    <div>
-                                                                        <p className="text-sm text-gray-900">{planting.harvestExpected}</p>
-                                                                        <p className="text-xs text-gray-500">{planting.harvestExpectedDetails}</p>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        </td>
-                                                        <td className="py-3">
-                                                            <button className="text-gray-400 hover:text-gray-600">
-                                                                <i className="fas fa-ellipsis-v"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-
-                                                    {/* Expanded Planting Details */}
-                                                    {expandedPlantings.has(planting.id) && (
-                                                        <tr className="bg-gray-50">
-                                                            <td colSpan={5} className="px-6 py-4">
-                                                                <div className="bg-white rounded-lg p-4 border border-gray-200">
-                                                                    <div className="flex items-center mb-4">
-                                                                        <div className="w-8 h-8 bg-green-500 rounded-full mr-3 flex items-center justify-center">
-                                                                            <span className="text-white text-sm">🌿</span>
-                                                                        </div>
-                                                                        <div>
-                                                                            <h4 className="font-medium text-gray-900">{planting.crop}</h4>
-                                                                            <p className="text-sm text-gray-500">{planting.detailedInfo.variety} | {planting.detailedInfo.bedLocation}</p>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div className="grid grid-cols-4 gap-6">
-                                                                        <div>
-                                                                            <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Type</h5>
-                                                                            <p className="text-sm text-gray-900">{planting.detailedInfo.variety}</p>
-                                                                            <p className="text-xs text-gray-500">{planting.detailedInfo.bedLocation}</p>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Amount</h5>
-                                                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${planting.amountColor}`}>
-                                                                                {planting.amount}
-                                                                            </span>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Start</h5>
-                                                                            <p className="text-sm text-gray-900">{planting.detailedInfo.plantingDate}</p>
-                                                                            <p className="text-xs text-gray-500">{planting.detailedInfo.plantingMethod} | {planting.detailedInfo.seedType}</p>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Harvest</h5>
-                                                                            {planting.detailedInfo.expectedHarvestDate && (
-                                                                                <div className="mb-2">
-                                                                                    <p className="text-sm text-gray-900">Expected {planting.detailedInfo.expectedHarvestDate}</p>
-                                                                                    <p className="text-xs text-gray-500">{planting.detailedInfo.harvested} of {planting.detailedInfo.totalPlanted} harvested</p>
-                                                                                </div>
-                                                                            )}
-                                                                            {planting.detailedInfo.actualHarvestDate && (
-                                                                                <div>
-                                                                                    <p className="text-sm text-gray-900">Expected {planting.detailedInfo.actualHarvestDate}</p>
-                                                                                    <p className="text-xs text-gray-500">{planting.detailedInfo.harvestedSecond} of {planting.detailedInfo.totalPlanted} harvested</p>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end">
-                                                                        <button className="text-gray-400 hover:text-gray-600">
-                                                                            <i className="fas fa-ellipsis-h"></i>
-                                                                        </button>
+                                                                    <div className="min-w-0 flex-1">
+                                                                        <p className="font-medium text-gray-900 truncate">{planting.crop}</p>
+                                                                        <p className="text-sm text-gray-500 truncate">{planting.variety}</p>
                                                                     </div>
                                                                 </div>
                                                             </td>
+                                                            <td className="py-3">
+                                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${planting.amountColor}`}>
+                                                                    {planting.amount}
+                                                                </span>
+                                                            </td>
+                                                            <td className="py-3">
+                                                                <div className="min-w-0">
+                                                                    <p className="text-sm text-gray-900 truncate">{planting.start}</p>
+                                                                    <p className="text-xs text-gray-500 truncate">{planting.startDetails}</p>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-3">
+                                                                <div className="space-y-1 min-w-0">
+                                                                    {planting.harvest && (
+                                                                        <div>
+                                                                            <p className="text-sm text-gray-900 truncate">{planting.harvest}</p>
+                                                                            <p className="text-xs text-gray-500 truncate">{planting.harvestDetails}</p>
+                                                                        </div>
+                                                                    )}
+                                                                    {planting.harvestExpected && (
+                                                                        <div>
+                                                                            <p className="text-sm text-gray-900 truncate">{planting.harvestExpected}</p>
+                                                                            <p className="text-xs text-gray-500 truncate">{planting.harvestExpectedDetails}</p>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-3">
+                                                                <button className="text-gray-400 hover:text-gray-600">
+                                                                    <i className="fas fa-ellipsis-v"></i>
+                                                                </button>
+                                                            </td>
                                                         </tr>
-                                                    )}
-                                                </React.Fragment>
-                                            ))}
-                                        </tbody>
-                                    </table>
+
+                                                        {/* Expanded Planting Details */}
+                                                        {expandedPlantings.has(planting.id) && (
+                                                            <tr className="bg-gray-50">
+                                                                <td colSpan={5} className="px-4 sm:px-6 py-4">
+                                                                    <div className="bg-white rounded-lg p-4 border border-gray-200">
+                                                                        <div className="flex items-center mb-4">
+                                                                            <div className="w-8 h-8 bg-green-500 rounded-full mr-3 flex items-center justify-center flex-shrink-0">
+                                                                                <span className="text-white text-sm">🌿</span>
+                                                                            </div>
+                                                                            <div className="min-w-0 flex-1">
+                                                                                <h4 className="font-medium text-gray-900 truncate">{planting.crop}</h4>
+                                                                                <p className="text-sm text-gray-500 truncate">{planting.detailedInfo.variety} | {planting.detailedInfo.bedLocation}</p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                                                                            <div>
+                                                                                <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Type</h5>
+                                                                                <p className="text-sm text-gray-900 truncate">{planting.detailedInfo.variety}</p>
+                                                                                <p className="text-xs text-gray-500 truncate">{planting.detailedInfo.bedLocation}</p>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Amount</h5>
+                                                                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium text-white ${planting.amountColor}`}>
+                                                                                    {planting.amount}
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Start</h5>
+                                                                                <p className="text-sm text-gray-900 truncate">{planting.detailedInfo.plantingDate}</p>
+                                                                                <p className="text-xs text-gray-500 truncate">{planting.detailedInfo.plantingMethod} | {planting.detailedInfo.seedType}</p>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <h5 className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Harvest</h5>
+                                                                                {planting.detailedInfo.expectedHarvestDate && (
+                                                                                    <div className="mb-2">
+                                                                                        <p className="text-sm text-gray-900 truncate">Expected {planting.detailedInfo.expectedHarvestDate}</p>
+                                                                                        <p className="text-xs text-gray-500 truncate">{planting.detailedInfo.harvested} of {planting.detailedInfo.totalPlanted} harvested</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {planting.detailedInfo.actualHarvestDate && (
+                                                                                    <div>
+                                                                                        <p className="text-sm text-gray-900 truncate">Expected {planting.detailedInfo.actualHarvestDate}</p>
+                                                                                        <p className="text-xs text-gray-500 truncate">{planting.detailedInfo.harvestedSecond} of {planting.detailedInfo.totalPlanted} harvested</p>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end">
+                                                                            <button className="text-gray-400 hover:text-gray-600">
+                                                                                <i className="fas fa-ellipsis-h"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </React.Fragment>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
 
                                     {/* Add Planting Button */}
                                     <div className="mt-4 pt-4 border-t border-gray-100">
@@ -477,10 +486,11 @@ export const GrowLocationPlantings = () => {
                     </div>
                 ))}
             </div>
+
             {/* Add Beds Modal */}
             {showAddBedsModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-96">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-6 w-full max-w-sm sm:max-w-md">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-semibold">Add Beds</h2>
                             <button
@@ -502,7 +512,7 @@ export const GrowLocationPlantings = () => {
                                 />
                             </div>
 
-                            <div className="flex space-x-4">
+                            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                                 <div className="flex-1">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Planting Length</label>
                                     <div className="flex">
@@ -519,7 +529,7 @@ export const GrowLocationPlantings = () => {
                                 </div>
                             </div>
 
-                            <div className="flex space-x-4">
+                            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                                 <div className="flex-1">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Planting Width</label>
                                     <div className="flex">
@@ -537,16 +547,16 @@ export const GrowLocationPlantings = () => {
                             </div>
                         </div>
 
-                        <div className="flex justify-end space-x-3 mt-6">
+                        <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 space-x-0 sm:space-x-3 mt-6">
                             <button
                                 onClick={() => setShowAddBedsModal(false)}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800 order-2 sm:order-1"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAddBedsSubmit}
-                                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 order-1 sm:order-2"
                             >
                                 Add Beds
                             </button>
@@ -559,7 +569,7 @@ export const GrowLocationPlantings = () => {
             {showPlantingDrawer && (
                 <div className="fixed inset-0 z-50">
                     <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowPlantingDrawer(false)}></div>
-                    <div className="absolute left-0 top-0 h-full w-80 bg-white shadow-lg">
+                    <div className="absolute left-0 top-0 h-full w-full sm:w-80 bg-white shadow-lg">
                         <div className="p-4 border-b border-gray-200">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-lg font-semibold">Drag & Drop to Add Planting</h2>
@@ -606,10 +616,10 @@ export const GrowLocationPlantings = () => {
 
             {/* New Crop Type Modal */}
             {showNewCropModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg w-full max-w-2xl max-h-screen overflow-y-auto">
                         {/* Modal Header */}
-                        <div className="p-6 border-b border-gray-200">
+                        <div className="p-4 sm:p-6 border-b border-gray-200">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-xl font-semibold">
                                     {newCropStep === 1 ? 'New Crop Type' : newCropStep === 2 ? 'New Planting Details' : 'Crop Type Added'}
@@ -627,26 +637,26 @@ export const GrowLocationPlantings = () => {
                             </div>
 
                             {newCropStep < 3 && (
-                                <div className="flex items-center mt-4">
-                                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${newCropStep >= 1 ? 'bg-black text-white' : 'bg-gray-200'}`}>
+                                <div className="flex items-center mt-4 overflow-x-auto">
+                                    <div className={`flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 ${newCropStep >= 1 ? 'bg-black text-white' : 'bg-gray-200'}`}>
                                         1
                                     </div>
-                                    <span className="ml-2 text-sm font-medium text-gray-700">Plant Type & Variety</span>
+                                    <span className="ml-2 text-sm font-medium text-gray-700 whitespace-nowrap">Plant Type & Variety</span>
 
-                                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-8 ${newCropStep >= 2 ? 'bg-black text-white' : 'bg-gray-200'}`}>
+                                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ml-4 sm:ml-8 flex-shrink-0 ${newCropStep >= 2 ? 'bg-black text-white' : 'bg-gray-200'}`}>
                                         2
                                     </div>
-                                    <span className="ml-2 text-sm text-gray-500">Planting Details</span>
+                                    <span className="ml-2 text-sm text-gray-500 whitespace-nowrap">Planting Details</span>
 
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full ml-8 bg-gray-200">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full ml-4 sm:ml-8 bg-gray-200 flex-shrink-0">
                                         <i className="fas fa-check text-gray-500"></i>
                                     </div>
-                                    <span className="ml-2 text-sm text-gray-500">Complete</span>
+                                    <span className="ml-2 text-sm text-gray-500 whitespace-nowrap">Complete</span>
                                 </div>
                             )}
                         </div>
 
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             {newCropStep === 1 && (
                                 <div className="space-y-4">
                                     <div>
@@ -690,7 +700,7 @@ export const GrowLocationPlantings = () => {
                                 <div className="space-y-6">
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900 mb-4">Type & Variety</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">Crop Type</label>
                                                 <input
@@ -730,7 +740,7 @@ export const GrowLocationPlantings = () => {
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                                                 />
                                             </div>
-                                            <div className="col-span-2">
+                                            <div className="sm:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">Icon</label>
                                                 <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-white">
                                                     FD
@@ -741,7 +751,7 @@ export const GrowLocationPlantings = () => {
 
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900 mb-4">Planting Details</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">Start Before Last Frost</label>
                                                 <div className="flex">
@@ -839,7 +849,7 @@ export const GrowLocationPlantings = () => {
                                                     <option value="full-shade">Full Shade</option>
                                                 </select>
                                             </div>
-                                            <div className="col-span-2">
+                                            <div className="sm:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">Soil Conditions</label>
                                                 <select
                                                     value={newCropForm.soilConditions}
@@ -900,7 +910,7 @@ export const GrowLocationPlantings = () => {
 
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900 mb-4">Harvest Details</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">Days To Flower</label>
                                                 <div className="flex">
@@ -977,7 +987,8 @@ export const GrowLocationPlantings = () => {
                                                         onChange={(e) => setNewCropForm({ ...newCropForm, estimatedRevenue: parseFloat(e.target.value) })}
                                                         className="flex-1 px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
                                                     />
-                                                    <span className="px-3 py-2 bg-gray-50 border border-l-0 border-gray-300 rounded-r-md text-sm">per harvest unit</span>
+                                                    <span className="px-3 py-2 bg-gray-50 border border-l-0 border-gray-300 rounded-r-md text-sm hidden sm:inline">per harvest unit</span>
+                                                    <span className="px-3 py-2 bg-gray-50 border border-l-0 border-gray-300 rounded-r-md text-sm sm:hidden">per unit</span>
                                                 </div>
                                             </div>
                                             <div>
@@ -1021,7 +1032,7 @@ export const GrowLocationPlantings = () => {
                                     </h3>
                                     <p className="text-gray-600 mb-6">What would you like to do now?</p>
 
-                                    <div className="space-x-4">
+                                    <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
                                         <button
                                             onClick={() => {
                                                 setShowNewCropModal(false);
@@ -1061,28 +1072,28 @@ export const GrowLocationPlantings = () => {
 
                         {/* Modal Footer */}
                         {newCropStep < 3 && (
-                            <div className="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
+                            <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 space-x-0 sm:space-x-3">
                                 <button
                                     onClick={() => {
                                         setShowNewCropModal(false);
                                         setNewCropStep(1);
                                         resetNewCropForm();
                                     }}
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                                    className="px-4 py-2 text-gray-600 hover:text-gray-800 order-2 sm:order-1"
                                 >
                                     Cancel
                                 </button>
                                 {newCropStep === 1 ? (
                                     <button
                                         onClick={handleNewCropNext}
-                                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 order-1 sm:order-2"
                                     >
                                         Next, Planting Details
                                     </button>
                                 ) : (
                                     <button
                                         onClick={handleNewCropSave}
-                                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 order-1 sm:order-2"
                                     >
                                         Save
                                     </button>

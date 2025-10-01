@@ -229,33 +229,33 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
             <>
                 <div className="bg-gray-50 min-h-screen">
                     {/* Main Content */}
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                         <div className="bg-white rounded-lg shadow-sm">
                             {/* Page Header */}
-                            <div className="p-6 border-b border-gray-200">
-                                <div className="flex items-center justify-between mb-4">
-                                    <h1 className="text-2xl font-semibold text-gray-800">My Crops</h1>
-                                    <div className="flex items-center space-x-3">
+                            <div className="p-4 sm:p-6 border-b border-gray-200">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-3 sm:space-y-0">
+                                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">My Crops</h1>
+                                    <div className="flex items-center space-x-2 sm:space-x-3">
                                         <button
                                             onClick={handleNewCropType}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                                            className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none"
                                         >
                                             New Crop Type
                                         </button>
                                         <button
                                             onClick={() => setShowNewPlantingModal(true)}
-                                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none"
                                         >
                                             Add Planting
                                         </button>
-                                        <button className="text-gray-500 hover:text-gray-700">
+                                        <button className="text-gray-500 hover:text-gray-700 hidden sm:block">
                                             <MoreHorizontal className="w-5 h-5" />
                                         </button>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center justify-between">
-                                    <div className="relative flex-1 max-w-md">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                                    <div className="relative flex-1">
                                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                                         <input
                                             type="text"
@@ -263,7 +263,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                             className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                         />
                                     </div>
-                                    <button className="ml-4 flex items-center space-x-2 text-gray-600 hover:text-gray-800 px-3 py-2 border border-gray-300 rounded-md">
+                                    <button className="sm:ml-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-800 px-3 py-2 border border-gray-300 rounded-md w-full sm:w-auto">
                                         <Filter className="w-4 h-4" />
                                         <span className="text-sm">Filter</span>
                                     </button>
@@ -271,18 +271,18 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             </div>
 
                             {/* Empty State */}
-                            <div className="flex flex-col items-center justify-center py-16 px-6">
-                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-8xl">
-                                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
-                                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <div className="flex flex-col items-center justify-center py-8 sm:py-16 px-4 sm:px-6">
+                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-12 flex flex-col items-center w-full max-w-8xl">
+                                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-4 sm:mb-6">
+                                        <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                                             <line x1="16" y1="2" x2="16" y2="6" />
                                             <line x1="8" y1="2" x2="8" y2="6" />
                                             <line x1="3" y1="10" x2="21" y2="10" />
                                         </svg>
                                     </div>
-                                    <h3 className="text-xl font-medium text-gray-800 mb-2">No crops yet?</h3>
-                                    <p className="text-gray-600 mb-6 text-center max-w-md">
+                                    <h3 className="text-lg sm:text-xl font-medium text-gray-800 mb-2 text-center">No crops yet?</h3>
+                                    <p className="text-gray-600 mb-6 text-center max-w-md text-sm sm:text-base">
                                         Add a new crop type and it will show up here.
                                     </p>
                                 </div>
@@ -291,14 +291,14 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                     </div>
                 </div>
 
-                {/* New Crop Type Modal - MOVED OUTSIDE CONDITIONAL */}
+                {/* New Crop Type Modal */}
                 {showNewCropModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                        <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
                             {/* Modal Header */}
-                            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                                <div className="flex items-center space-x-4">
-                                    <h2 className="text-xl font-semibold text-gray-800">
+                            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                                <div className="flex items-center space-x-2 sm:space-x-4">
+                                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
                                         {modalStep === 1 ? 'New Crop Type' : 'New Planting Details'}
                                     </h2>
                                 </div>
@@ -306,37 +306,37 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     onClick={handleCancel}
                                     className="text-gray-400 hover:text-gray-600"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                                 </button>
                             </div>
 
                             {/* Step Indicator */}
-                            <div className="px-6 py-4 border-b border-gray-200">
-                                <div className="flex items-center space-x-8">
-                                    <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                            <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+                                <div className="flex items-center justify-between sm:justify-start sm:space-x-4 lg:space-x-8 overflow-x-auto">
+                                    <div className="flex items-center space-x-2 flex-shrink-0">
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                             }`}>
                                             1
                                         </div>
-                                        <span className={`text-sm ${modalStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${modalStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Plant Type & Variety
                                         </span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                                    <div className="flex items-center space-x-2 flex-shrink-0">
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                             }`}>
                                             2
                                         </div>
-                                        <span className={`text-sm ${modalStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${modalStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Planting Details
                                         </span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                                    <div className="flex items-center space-x-2 flex-shrink-0">
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                             }`}>
                                             ✓
                                         </div>
-                                        <span className={`text-sm ${modalStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${modalStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Complete
                                         </span>
                                     </div>
@@ -344,10 +344,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             </div>
 
                             {/* Modal Content */}
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 {modalStep === 1 && (
-                                    <div className="space-y-6">
-                                        <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-4 sm:space-y-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                                                 <div className="relative">
@@ -387,10 +387,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 )}
 
                                 {modalStep === 2 && (
-                                    <div className="space-y-6">
+                                    <div className="space-y-4 sm:space-y-6">
                                         <div>
-                                            <h3 className="text-lg font-medium text-gray-800 mb-4">Type & Variety</h3>
-                                            <div className="grid grid-cols-2 gap-4 mb-6">
+                                            <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Type & Variety</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Crop Type</label>
                                                     <input
@@ -419,7 +419,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                     />
                                                 </div>
-                                                <div className="flex items-end">
+                                                <div className="flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0">
                                                     <div className="flex-1">
                                                         <div className="flex items-center space-x-2 mb-1">
                                                             <label className="block text-sm font-medium text-gray-700">Internal ID</label>
@@ -432,7 +432,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                         />
                                                     </div>
-                                                    <div className="ml-4">
+                                                    <div className="sm:ml-4">
                                                         <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                                                         <div className="w-12 h-10 bg-gray-200 rounded-md flex items-center justify-center">
                                                             <span className="text-xs text-gray-500">FD</span>
@@ -443,20 +443,20 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                         </div>
 
                                         <div>
-                                            <h3 className="text-lg font-medium text-gray-800 mb-4">Planting Details</h3>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Planting Details</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Start Before Last Frost</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Start Before Last Frost</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.startBeforeLastFrost}
                                                         onChange={(e) => handleInputChange('startBeforeLastFrost', parseInt(e.target.value))}
                                                         className="w-16 px-2 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                     />
-                                                    <span className="text-sm text-gray-500">weeks</span>
+                                                    <span className="text-sm text-gray-500 whitespace-nowrap">weeks</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Days To Emerge</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Emerge</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.daysToEmerge}
@@ -466,7 +466,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <span className="text-sm text-gray-500">days</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Plant Spacing</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Plant Spacing</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.plantSpacing}
@@ -476,7 +476,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <span className="text-sm text-gray-500">cm</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Row Spacing</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Row Spacing</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.rowSpacing}
@@ -491,27 +491,27 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 )}
 
                                 {modalStep === 3 && (
-                                    <div className="space-y-6">
-                                        <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-4 sm:space-y-6">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Planting Depth</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Planting Depth</label>
                                                 <input
                                                     type="text"
                                                     value={cropData.plantingDepth}
                                                     onChange={(e) => handleInputChange('plantingDepth', e.target.value)}
                                                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
-                                                <span className="text-sm text-gray-500">cm</span>
+                                                <span className="text-sm text-gray-500 whitespace-nowrap">cm</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Average Height</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Average Height</label>
                                                 <input
                                                     type="text"
                                                     value={cropData.averageHeight}
                                                     onChange={(e) => handleInputChange('averageHeight', e.target.value)}
                                                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
-                                                <span className="text-sm text-gray-500">cm</span>
+                                                <span className="text-sm text-gray-500 whitespace-nowrap">cm</span>
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
@@ -538,7 +538,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <option value="full-shade">Full Shade</option>
                                                 </select>
                                             </div>
-                                            <div className="col-span-2">
+                                            <div className="sm:col-span-2">
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Soil Conditions</label>
                                                 <select
                                                     value={cropData.soilConditions}
@@ -597,10 +597,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                         </div>
 
                                         <div>
-                                            <h3 className="text-lg font-medium text-gray-800 mb-4">Harvest Details</h3>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Harvest Details</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Days To Flower</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Flower</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.daysToFlower}
@@ -610,7 +610,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <span className="text-sm text-gray-500">days</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Days To Maturity</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Maturity</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.daysToMaturity}
@@ -620,7 +620,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <span className="text-sm text-gray-500">Days</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Harvest Window</label>
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Harvest Window</label>
                                                     <input
                                                         type="number"
                                                         value={cropData.harvestWindow}
@@ -630,8 +630,8 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     <span className="text-sm text-gray-500">Days</span>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Estimated Loss Rate</label>
-                                                    <Info className="w-4 h-4 text-gray-400" />
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Estimated Loss Rate</label>
+                                                    <Info className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                                     <input
                                                         type="number"
                                                         step="0.1"
@@ -653,8 +653,8 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     </select>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Estimated Revenue</label>
-                                                    <Info className="w-4 h-4 text-gray-400" />
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Estimated Revenue</label>
+                                                    <Info className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                                     <span className="text-sm text-gray-500">$</span>
                                                     <input
                                                         type="number"
@@ -663,14 +663,14 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                         onChange={(e) => handleInputChange('estimatedRevenue', parseFloat(e.target.value))}
                                                         className="w-20 px-2 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                     />
-                                                    <span className="text-sm text-gray-500">per harvest unit</span>
+                                                    <span className="text-sm text-gray-500 whitespace-nowrap">per harvest unit</span>
                                                 </div>
                                             </div>
 
                                             <div className="mt-4 space-y-3">
-                                                <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Expected Yield Per 30.48m²</label>
-                                                    <Info className="w-4 h-4 text-gray-400" />
+                                                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Expected Yield Per 30.48m²</label>
+                                                    <Info className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" />
                                                     <input
                                                         type="text"
                                                         value={cropData.expectedYieldPer30}
@@ -678,9 +678,9 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                     />
                                                 </div>
-                                                <div className="flex items-center space-x-2">
-                                                    <label className="block text-sm font-medium text-gray-700">Expected Yield Per Hectare</label>
-                                                    <Info className="w-4 h-4 text-gray-400" />
+                                                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                                                    <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Expected Yield Per Hectare</label>
+                                                    <Info className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" />
                                                     <input
                                                         type="text"
                                                         value={cropData.expectedYieldPerHectare}
@@ -703,7 +703,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
 
 
                             {/* Modal Footer */}
-                            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                                 <div className="flex items-center space-x-3">
                                     {modalStep > 1 && (
                                         <button
@@ -715,22 +715,22 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     )}
                                 </div>
 
-                                <div className="flex items-center space-x-3">
+                                <div className="flex items-center space-x-2 sm:space-x-3">
                                     <button
                                         onClick={handleCancel}
-                                        className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm"
+                                        className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm flex-1 sm:flex-none text-center"
                                     >
                                         Cancel
                                     </button>
 
                                     {modalStep < 3 && (
                                         <>
-                                            <button className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm">
+                                            <button className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm flex-1 sm:flex-none text-center hidden sm:block">
                                                 Save & New
                                             </button>
                                             <button
                                                 onClick={handleNextStep}
-                                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                             >
                                                 {modalStep === 1 ? 'Next, Planting Details' : 'Next'}
                                             </button>
@@ -741,13 +741,13 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                         <>
                                             <button
                                                 onClick={handleSave}
-                                                className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm border border-gray-300 rounded-md"
+                                                className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-md flex-1 sm:flex-none text-center"
                                             >
                                                 Save & New
                                             </button>
                                             <button
                                                 onClick={handleSave}
-                                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                             >
                                                 Save
                                             </button>
@@ -765,43 +765,43 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
     // If crop types exist, show the crops list with proper layout
     return (
         <div className="bg-gray-50 min-h-screen">
-            <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800">My Crops</h1>
-                    <div className="flex items-center space-x-3">
+            <div className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-3 sm:space-y-0">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">My Crops</h1>
+                    <div className="flex items-center space-x-2 sm:space-x-3">
                         <button
                             onClick={handleNewCropType}
-                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                            className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none text-center"
                         >
                             New Crop Type
                         </button>
                         <button
                             onClick={() => setShowNewPlantingModal(true)}
-                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                            className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-colors flex-1 sm:flex-none text-center"
                         >
                             Add Planting
                         </button>
-                        <button className="text-gray-500 hover:text-gray-700">
+                        <button className="text-gray-500 hover:text-gray-700 hidden sm:block">
                             <MoreHorizontal className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-8">
-                        <button className="pb-2 text-sm font-medium text-green-600 border-b-2 border-green-600">All Types</button>
-                        <button className="pb-2 text-sm font-medium text-gray-500 hover:text-gray-700">Currently Planted</button>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-3 sm:space-y-0">
+                    <div className="flex items-center space-x-4 sm:space-x-8 overflow-x-auto pb-2">
+                        <button className="pb-2 text-sm font-medium text-green-600 border-b-2 border-green-600 whitespace-nowrap">All Types</button>
+                        <button className="pb-2 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap">Currently Planted</button>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
                         <div className="relative">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                             <input
                                 type="text"
                                 placeholder="Search Crops"
-                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 w-full"
                             />
                         </div>
-                        <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 px-3 py-2 border border-gray-300 rounded-md">
+                        <button className="flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-800 px-3 py-2 border border-gray-300 rounded-md w-full sm:w-auto">
                             <Filter className="w-4 h-4" />
                             <span className="text-sm">Filter</span>
                         </button>
@@ -810,109 +810,119 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
 
                 {/* Crops Table */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <table className="min-w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Crop Type</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Planted</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Expected</th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {cropTypes.map((crop) => (
-                                <tr
-                                    key={crop.id}
-                                    className="hover:bg-gray-50 cursor-pointer"
-                                    onClick={() => {
-                                        setSelectedCropId(crop.id);
-                                        navigate('/crops/my-crops/details');
-                                    }}
-                                >
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center space-x-3">
-                                            <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm font-medium">
-                                                {crop.type.substring(0, 2).toUpperCase()}
-                                            </div>
-                                            <div>
-                                                <div className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
-                                                    {crop.type}, {crop.variety}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full">
+                            <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Crop Type</th>
+                                    <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Planted</th>
+                                    <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Expected</th>
+                                    <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {cropTypes.map((crop) => (
+                                    <tr
+                                        key={crop.id}
+                                        className="hover:bg-gray-50 cursor-pointer"
+                                        onClick={() => {
+                                            setSelectedCropId(crop.id);
+                                            navigate('/crops/my-crops/details');
+                                        }}
+                                    >
+                                        <td className="px-4 sm:px-6 py-4">
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm font-medium">
+                                                    {crop.type.substring(0, 2).toUpperCase()}
                                                 </div>
-                                                <div className="text-xs text-gray-500">{crop.type}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <div className="text-sm text-gray-900">Sep. 23, 2025</div>
-                                        <div className="text-xs text-gray-500">Approx. 0.79 sqm</div>
-                                        <div className="text-xs text-gray-500">tyyt</div>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        <div className="flex items-center justify-center space-x-1">
-                                            <span className="text-red-500">⚠</span>
-                                            <span className="text-sm text-gray-900">0 of 7,874 Harvested</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-center relative">
-                                        <div className="dropdown-container">
-                                            <button
-                                                onClick={(e) => toggleDropdown(crop.id, e)}
-                                                className="text-gray-400 hover:text-gray-600 p-1"
-                                            >
-                                                <MoreHorizontal size={16} />
-                                            </button>
-                                            {activeDropdown === crop.id && (
-                                                <div className="absolute right-0 top-8 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50" onClick={handleDropdownClick}>
-                                                    <div className="py-1">
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
-                                                            <span>✏️</span>
-                                                            <span>Edit Crop Type</span>
-                                                        </button>
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
-                                                            <span>🌱</span>
-                                                            <span>Planting Details</span>
-                                                        </button>
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                setShowNewPlantingModal(true);
-                                                            }}
-                                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
-                                                        >
-                                                            <span>➕</span>
-                                                            <span>New Planting</span>
-                                                        </button>
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
-                                                            <span>📋</span>
-                                                            <span>Duplicate Crop Type</span>
-                                                        </button>
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2">
-                                                            <span>🗑️</span>
-                                                            <span>Delete</span>
-                                                        </button>
+                                                <div>
+                                                    <div className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
+                                                        {crop.type}, {crop.variety}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">{crop.type}</div>
+                                                    {/* Mobile-only additional info */}
+                                                    <div className="sm:hidden text-xs text-gray-500 mt-1">
+                                                        <div>Planted: Sep. 23, 2025</div>
+                                                        <div className="flex items-center space-x-1">
+                                                            <span className="text-red-500">⚠</span>
+                                                            <span>0 of 7,874 Harvested</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                                            </div>
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
+                                            <div className="text-sm text-gray-900">Sep. 23, 2025</div>
+                                            <div className="text-xs text-gray-500">Approx. 0.79 sqm</div>
+                                            <div className="text-xs text-gray-500">tyyt</div>
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
+                                            <div className="flex items-center justify-center space-x-1">
+                                                <span className="text-red-500">⚠</span>
+                                                <span className="text-sm text-gray-900">0 of 7,874 Harvested</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 text-center relative">
+                                            <div className="dropdown-container">
+                                                <button
+                                                    onClick={(e) => toggleDropdown(crop.id, e)}
+                                                    className="text-gray-400 hover:text-gray-600 p-1"
+                                                >
+                                                    <MoreHorizontal size={16} />
+                                                </button>
+                                                {activeDropdown === crop.id && (
+                                                    <div className="absolute right-0 top-8 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50" onClick={handleDropdownClick}>
+                                                        <div className="py-1">
+                                                            <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
+                                                                <span>✏️</span>
+                                                                <span>Edit Crop Type</span>
+                                                            </button>
+                                                            <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
+                                                                <span>🌱</span>
+                                                                <span>Planting Details</span>
+                                                            </button>
+                                                            <button
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    setShowNewPlantingModal(true);
+                                                                }}
+                                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                                                            >
+                                                                <span>➕</span>
+                                                                <span>New Planting</span>
+                                                            </button>
+                                                            <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
+                                                                <span>📋</span>
+                                                                <span>Duplicate Crop Type</span>
+                                                            </button>
+                                                            <button className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2">
+                                                                <span>🗑️</span>
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
                         <p className="text-sm text-gray-700">Displaying all {cropTypes.length} records</p>
                     </div>
                 </div>
             </div>
 
-            {/* New Crop Type Modal - MOVED TO BOTTOM SO IT'S ALWAYS AVAILABLE */}
+            {/* New Crop Type Modal */}
             {showNewCropModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
                         {/* Modal Header */}
-                        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                            <div className="flex items-center space-x-4">
-                                <h2 className="text-xl font-semibold text-gray-800">
+                        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                            <div className="flex items-center space-x-2 sm:space-x-4">
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
                                     {modalStep === 1 ? 'New Crop Type' : 'New Planting Details'}
                                 </h2>
                             </div>
@@ -920,37 +930,37 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 onClick={handleCancel}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
                         </div>
 
                         {/* Step Indicator */}
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <div className="flex items-center space-x-8">
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+                            <div className="flex items-center justify-between sm:justify-start sm:space-x-4 lg:space-x-8 overflow-x-auto">
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                         }`}>
                                         1
                                     </div>
-                                    <span className={`text-sm ${modalStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${modalStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Plant Type & Variety
                                     </span>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                         }`}>
                                         2
                                     </div>
-                                    <span className={`text-sm ${modalStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${modalStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Planting Details
                                     </span>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${modalStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${modalStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'
                                         }`}>
                                         ✓
                                     </div>
-                                    <span className={`text-sm ${modalStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${modalStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Complete
                                     </span>
                                 </div>
@@ -958,10 +968,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                         </div>
 
                         {/* Modal Content */}
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             {modalStep === 1 && (
-                                <div className="space-y-6">
-                                    <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4 sm:space-y-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                                             <div className="relative">
@@ -1001,10 +1011,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             )}
 
                             {modalStep === 2 && (
-                                <div className="space-y-6">
+                                <div className="space-y-4 sm:space-y-6">
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-800 mb-4">Type & Variety</h3>
-                                        <div className="grid grid-cols-2 gap-4 mb-6">
+                                        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Type & Variety</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Crop Type</label>
                                                 <input
@@ -1033,7 +1043,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
                                             </div>
-                                            <div className="flex items-end">
+                                            <div className="flex flex-col sm:flex-row sm:items-end space-y-4 sm:space-y-0">
                                                 <div className="flex-1">
                                                     <div className="flex items-center space-x-2 mb-1">
                                                         <label className="block text-sm font-medium text-gray-700">Internal ID</label>
@@ -1046,7 +1056,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                     />
                                                 </div>
-                                                <div className="ml-4">
+                                                <div className="sm:ml-4">
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Icon</label>
                                                     <div className="w-12 h-10 bg-gray-200 rounded-md flex items-center justify-center">
                                                         <span className="text-xs text-gray-500">FD</span>
@@ -1057,20 +1067,20 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-800 mb-4">Planting Details</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Planting Details</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Start Before Last Frost</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Start Before Last Frost</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.startBeforeLastFrost}
                                                     onChange={(e) => handleInputChange('startBeforeLastFrost', parseInt(e.target.value))}
                                                     className="w-16 px-2 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
-                                                <span className="text-sm text-gray-500">weeks</span>
+                                                <span className="text-sm text-gray-500 whitespace-nowrap">weeks</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Days To Emerge</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Emerge</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.daysToEmerge}
@@ -1080,7 +1090,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <span className="text-sm text-gray-500">days</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Plant Spacing</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Plant Spacing</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.plantSpacing}
@@ -1090,7 +1100,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <span className="text-sm text-gray-500">cm</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Row Spacing</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Row Spacing</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.rowSpacing}
@@ -1105,27 +1115,27 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             )}
 
                             {modalStep === 3 && (
-                                <div className="space-y-6">
-                                    <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4 sm:space-y-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="flex items-center space-x-2">
-                                            <label className="block text-sm font-medium text-gray-700">Planting Depth</label>
+                                            <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Planting Depth</label>
                                             <input
                                                 type="text"
                                                 value={cropData.plantingDepth}
                                                 onChange={(e) => handleInputChange('plantingDepth', e.target.value)}
                                                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                             />
-                                            <span className="text-sm text-gray-500">cm</span>
+                                            <span className="text-sm text-gray-500 whitespace-nowrap">cm</span>
                                         </div>
                                         <div className="flex items-center space-x-2">
-                                            <label className="block text-sm font-medium text-gray-700">Average Height</label>
+                                            <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Average Height</label>
                                             <input
                                                 type="text"
                                                 value={cropData.averageHeight}
                                                 onChange={(e) => handleInputChange('averageHeight', e.target.value)}
                                                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                             />
-                                            <span className="text-sm text-gray-500">cm</span>
+                                            <span className="text-sm text-gray-500 whitespace-nowrap">cm</span>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
@@ -1152,7 +1162,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <option value="full-shade">Full Shade</option>
                                             </select>
                                         </div>
-                                        <div className="col-span-2">
+                                        <div className="sm:col-span-2">
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Soil Conditions</label>
                                             <select
                                                 value={cropData.soilConditions}
@@ -1211,10 +1221,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-800 mb-4">Harvest Details</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Harvest Details</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Days To Flower</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Flower</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.daysToFlower}
@@ -1224,7 +1234,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <span className="text-sm text-gray-500">days</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Days To Maturity</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Days To Maturity</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.daysToMaturity}
@@ -1234,7 +1244,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <span className="text-sm text-gray-500">Days</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Harvest Window</label>
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Harvest Window</label>
                                                 <input
                                                     type="number"
                                                     value={cropData.harvestWindow}
@@ -1244,8 +1254,8 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 <span className="text-sm text-gray-500">Days</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Estimated Loss Rate</label>
-                                                <Info className="w-4 h-4 text-gray-400" />
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Estimated Loss Rate</label>
+                                                <Info className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                                 <input
                                                     type="number"
                                                     step="0.1"
@@ -1267,8 +1277,8 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                 </select>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Estimated Revenue</label>
-                                                <Info className="w-4 h-4 text-gray-400" />
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Estimated Revenue</label>
+                                                <Info className="w-4 h-4 text-gray-400 flex-shrink-0" />
                                                 <span className="text-sm text-gray-500">$</span>
                                                 <input
                                                     type="number"
@@ -1277,14 +1287,14 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     onChange={(e) => handleInputChange('estimatedRevenue', parseFloat(e.target.value))}
                                                     className="w-20 px-2 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
-                                                <span className="text-sm text-gray-500">per harvest unit</span>
+                                                <span className="text-sm text-gray-500 whitespace-nowrap">per harvest unit</span>
                                             </div>
                                         </div>
 
                                         <div className="mt-4 space-y-3">
-                                            <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Expected Yield Per 30.48m²</label>
-                                                <Info className="w-4 h-4 text-gray-400" />
+                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Expected Yield Per 30.48m²</label>
+                                                <Info className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" />
                                                 <input
                                                     type="text"
                                                     value={cropData.expectedYieldPer30}
@@ -1292,9 +1302,9 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                                     className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                                 />
                                             </div>
-                                            <div className="flex items-center space-x-2">
-                                                <label className="block text-sm font-medium text-gray-700">Expected Yield Per Hectare</label>
-                                                <Info className="w-4 h-4 text-gray-400" />
+                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                                                <label className="block text-sm font-medium text-gray-700 whitespace-nowrap">Expected Yield Per Hectare</label>
+                                                <Info className="w-4 h-4 text-gray-400 flex-shrink-0 hidden sm:block" />
                                                 <input
                                                     type="text"
                                                     value={cropData.expectedYieldPerHectare}
@@ -1317,7 +1327,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
 
 
                         {/* Modal Footer */}
-                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                             <div className="flex items-center space-x-3">
                                 {modalStep > 1 && (
                                     <button
@@ -1329,22 +1339,22 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 )}
                             </div>
 
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-2 sm:space-x-3">
                                 <button
                                     onClick={handleCancel}
-                                    className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm"
+                                    className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm flex-1 sm:flex-none text-center"
                                 >
                                     Cancel
                                 </button>
 
                                 {modalStep < 3 && (
                                     <>
-                                        <button className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm">
+                                        <button className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm flex-1 sm:flex-none text-center hidden sm:block">
                                             Save & New
                                         </button>
                                         <button
                                             onClick={handleNextStep}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                            className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                         >
                                             {modalStep === 1 ? 'Next, Planting Details' : 'Next'}
                                         </button>
@@ -1355,13 +1365,13 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     <>
                                         <button
                                             onClick={handleSave}
-                                            className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm border border-gray-300 rounded-md"
+                                            className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm border border-gray-300 rounded-md flex-1 sm:flex-none text-center"
                                         >
                                             Save & New
                                         </button>
                                         <button
                                             onClick={handleSave}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                            className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                         >
                                             Save
                                         </button>
@@ -1375,10 +1385,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
 
             {/* Other modals */}
             {showNewPlantingModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-semibold text-gray-800">New Planting</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
+                        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Planting</h2>
                             <button
                                 onClick={() => {
                                     setShowNewPlantingModal(false);
@@ -1386,34 +1396,34 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 }}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
                         </div>
 
                         {/* Step Indicator */}
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <div className="flex items-center space-x-8">
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-gray-200">
+                            <div className="flex items-center justify-between sm:justify-start sm:space-x-4 lg:space-x-8 overflow-x-auto">
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         1
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Crop Type & Location
                                     </span>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         2
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Planting Details
                                     </span>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                <div className="flex items-center space-x-2 flex-shrink-0">
+                                    <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         ✓
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs sm:text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Complete
                                     </span>
                                 </div>
@@ -1421,22 +1431,22 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                         </div>
 
                         {/* Modal Content */}
-                        <div className="p-6">
+                        <div className="p-4 sm:p-6">
                             {newPlantingStep === 1 && (
-                                <div className="space-y-6">
+                                <div className="space-y-4 sm:space-y-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Crop Type</label>
-                                        <div className="flex items-center space-x-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                                             <input
                                                 type="text"
                                                 value={plantingData.cropType}
                                                 onChange={(e) => setPlantingData(prev => ({ ...prev, cropType: e.target.value }))}
                                                 className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                             />
-                                            <Search className="w-4 h-4 text-gray-400" />
+                                            <Search className="w-4 h-4 text-gray-400 hidden sm:block" />
                                             <button
                                                 onClick={handleNewCropType}
-                                                className="text-blue-600 hover:text-blue-800 text-sm"
+                                                className="text-blue-600 hover:text-blue-800 text-sm text-center"
                                             >
                                                 New Crop Type
                                             </button>
@@ -1444,7 +1454,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Grow Location</label>
-                                        <div className="flex items-center space-x-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                                             <input
                                                 type="text"
                                                 value={plantingData.growLocation}
@@ -1453,7 +1463,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                             />
                                             <button
                                                 onClick={() => setShowNewGrowLocationModal(true)}
-                                                className="text-blue-600 hover:text-blue-800 text-sm"
+                                                className="text-blue-600 hover:text-blue-800 text-sm text-center"
                                             >
                                                 Add Grow Location
                                             </button>
@@ -1463,18 +1473,18 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             )}
 
                             {newPlantingStep === 2 && (
-                                <div className="space-y-6">
+                                <div className="space-y-4 sm:space-y-6">
                                     <div className="flex items-center space-x-3 mb-4">
-                                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm">
+                                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm">
                                             77
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-semibold">767, 767</h3>
-                                            <p className="text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
+                                            <h3 className="text-base sm:text-lg font-semibold">767, 767</h3>
+                                            <p className="text-xs sm:text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
                                             <select
@@ -1499,18 +1509,18 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                         </div>
                                     </div>
 
-                                    <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+                                    <div className="bg-blue-50 border border-blue-200 rounded-md p-3 sm:p-4">
                                         <div className="flex items-center space-x-2">
-                                            <Info className="w-4 h-4 text-blue-600" />
-                                            <span className="text-sm text-blue-800">
+                                            <Info className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                                            <span className="text-xs sm:text-sm text-blue-800">
                                                 Planting Info: 3 sqm (Approx.) - Planted in 1 rows (3937 per row)
                                             </span>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Planned First Harvest</label>
                                                 <input
@@ -1533,22 +1543,22 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                             <button
                                 onClick={() => {
                                     setShowNewPlantingModal(false);
                                     setNewPlantingStep(1);
                                 }}
-                                className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm"
+                                className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm text-center"
                             >
                                 Cancel
                             </button>
 
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-2 sm:space-x-3">
                                 {newPlantingStep < 2 ? (
                                     <button
                                         onClick={() => setNewPlantingStep(2)}
-                                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                        className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                     >
                                         Next
                                     </button>
@@ -1558,7 +1568,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                             setShowNewPlantingModal(false);
                                             setNewPlantingStep(1);
                                         }}
-                                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                        className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                                     >
                                         Create Planting(s)
                                     </button>
@@ -1570,20 +1580,20 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
             )}
 
             {showNewGrowLocationModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-semibold text-gray-800">New Grow Location</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
+                        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Grow Location</h2>
                             <button
                                 onClick={() => setShowNewGrowLocationModal(false)}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
                         </div>
 
-                        <div className="p-6 space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
+                        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
                                     <input
@@ -1605,30 +1615,30 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-4">
-                                <div className="bg-blue-50 border-2 border-blue-500 rounded-lg p-4 text-center">
-                                    <div className="text-2xl mb-2">🏠</div>
-                                    <h3 className="font-medium text-blue-800 mb-2">Planted in Beds</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <div className="bg-blue-50 border-2 border-blue-500 rounded-lg p-3 sm:p-4 text-center">
+                                    <div className="text-xl sm:text-2xl mb-2">🏠</div>
+                                    <h3 className="font-medium text-blue-800 mb-2 text-sm sm:text-base">Planted in Beds</h3>
                                     <p className="text-xs text-blue-600">Distinct number of beds for diverse crops. Often 100' length. Example: Carrots, Tomatos, Spinach, etc. Plantings based on row length and count.</p>
                                 </div>
-                                <div className="border-2 border-gray-200 rounded-lg p-4 text-center">
-                                    <div className="text-2xl mb-2">⬛</div>
-                                    <h3 className="font-medium text-gray-800 mb-2">Cover Crop</h3>
+                                <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
+                                    <div className="text-xl sm:text-2xl mb-2">⬛</div>
+                                    <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Cover Crop</h3>
                                     <p className="text-xs text-gray-600">Complete crop coverage or grazing location. Example: Alfalfa, Hay, Rye, Oats, Pasture, etc. Planting coverage based on location area.</p>
                                 </div>
-                                <div className="border-2 border-gray-200 rounded-lg p-4 text-center">
-                                    <div className="text-2xl mb-2">📏</div>
-                                    <h3 className="font-medium text-gray-800 mb-2">Row Crop</h3>
+                                <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
+                                    <div className="text-xl sm:text-2xl mb-2">📏</div>
+                                    <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Row Crop</h3>
                                     <p className="text-xs text-gray-600">One crop planted in rows wide enough to be cultivated by machinery. Example: Corn, Soy Beans, Hemp, Potatos, etc. Planting coverage based on location area.</p>
                                 </div>
-                                <div className="border-2 border-gray-200 rounded-lg p-4 text-center">
-                                    <div className="text-2xl mb-2">#</div>
-                                    <h3 className="font-medium text-gray-800 mb-2">Other</h3>
+                                <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
+                                    <div className="text-xl sm:text-2xl mb-2">#</div>
+                                    <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Other</h3>
                                     <p className="text-xs text-gray-600">Any alternative growing method. Example: Shelves, aquaponics, trays, etc. Plantings based on specified amount planted.</p>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">Number Of Beds</label>
                                     <input
@@ -1665,16 +1675,16 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                             <button
                                 onClick={() => setShowNewGrowLocationModal(false)}
-                                className="text-blue-600 hover:text-blue-800 px-4 py-2 text-sm"
+                                className="text-blue-600 hover:text-blue-800 px-3 sm:px-4 py-2 text-sm text-center"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={() => setShowNewGrowLocationModal(false)}
-                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                             >
                                 Save
                             </button>

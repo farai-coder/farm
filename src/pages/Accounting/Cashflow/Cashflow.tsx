@@ -23,35 +23,35 @@ export const CashFlowPage = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800">Copperdale Gardens Cash Flow Statement</h1>
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <h1 className="text-lg sm:text-2xl font-semibold text-gray-800">Copperdale Gardens Cash Flow Statement</h1>
                     <button className="text-gray-600 hover:text-gray-800 p-2">
                         <Printer className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* Date Range and Update */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-4">
-                        <div className="relative">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-0">
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                        <div className="relative flex-1 sm:flex-none">
                             <input
                                 type="text"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-32"
+                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-full sm:w-32"
                             />
                             <Calendar className="absolute right-2 top-2.5 w-4 h-4 text-gray-400" />
                         </div>
                         <span className="text-gray-600">to</span>
-                        <div className="relative">
+                        <div className="relative flex-1 sm:flex-none">
                             <input
                                 type="text"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-32"
+                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 w-full sm:w-32"
                             />
                             <Calendar className="absolute right-2 top-2.5 w-4 h-4 text-gray-400" />
                         </div>
@@ -63,7 +63,7 @@ export const CashFlowPage = () => {
 
                 {/* Cash Flow Statement */}
                 <div className="bg-white rounded-lg shadow-sm border-2 border-gray-300">
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                         {/* Beginning Cash Balance */}
                         <div className="flex justify-between items-center py-4 border-b-2 border-gray-300 mb-6">
                             <span className="font-medium text-gray-800">Beginning Cash Balance</span>

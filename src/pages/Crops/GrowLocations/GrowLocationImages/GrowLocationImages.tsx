@@ -55,7 +55,7 @@ export const GrowLocationsImages = () => {
                     </button>
 
                     <div className="text-sm text-gray-600">
-            // 100 Images (Max 10 MBs each)
+            100 Images (Max 10 MBs each)
                     </div>
                 </div>
 

@@ -140,31 +140,31 @@ export const FuturePlantingsPage = () => {
     return (
         <div className="bg-white min-h-screen">
             {/* Header */}
-            <div className="text-white px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                    <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold">
+            <div className="text-white px-4 md:px-6 py-4 flex items-center justify-between">
+                <div className="flex items-center space-x-3 md:space-x-4">
+                    <div className="bg-gray-400 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-white font-bold text-sm md:text-base">
                         77
                     </div>
                     <div>
-                        <h1 className="text-xl font-semibold">767, 767</h1>
-                        <p className="text-sm opacity-90">tyt</p>
+                        <h1 className="text-lg md:text-xl font-semibold">767, 767</h1>
+                        <p className="text-xs md:text-sm opacity-90">tyt</p>
                     </div>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 md:space-x-2">
                     <button
                         onClick={() => setShowNewPlantingModal(true)}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium"
+                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded text-sm md:text-base font-medium"
                     >
                         Add Planting
                     </button>
                     <button
                         onClick={() => setShowHarvestModal(true)}
-                        className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium"
+                        className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded text-sm md:text-base font-medium"
                     >
                         Harvest
                     </button>
                     <button className="text-white hover:text-gray-200">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                         </svg>
                     </button>
@@ -172,26 +172,26 @@ export const FuturePlantingsPage = () => {
             </div>
 
             {/* Content */}
-            <div className="p-6">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6">Future Plantings</h2>
+            <div className="p-4 md:p-6">
+                <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Future Plantings</h2>
 
                 {/* Future Plantings by Location Chart */}
-                <div className="mb-8">
-                    <h3 className="text-lg font-medium text-gray-700 mb-4">PLANNED PLANTINGS BY LOCATION</h3>
+                <div className="mb-6 md:mb-8">
+                    <h3 className="text-base md:text-lg font-medium text-gray-700 mb-3 md:mb-4">PLANNED PLANTINGS BY LOCATION</h3>
 
-                    <div className="bg-white border border-gray-200 rounded-lg p-6">
-                        <div className="relative h-64">
+                    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+                        <div className="relative h-48 md:h-64">
                             {/* Y-axis labels */}
                             <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-500">
                                 {chartData.locations.map((location, index) => (
-                                    <div key={index} className="flex items-center h-5">
+                                    <div key={index} className="flex items-center h-4 md:h-5 text-xs">
                                         {location}
                                     </div>
                                 ))}
                             </div>
 
                             {/* Chart area */}
-                            <div className="ml-12 h-full relative">
+                            <div className="ml-8 md:ml-12 h-full relative">
                                 {/* Grid lines */}
                                 <div className="absolute inset-0 flex flex-col justify-between">
                                     {chartData.locations.map((_, index) => (
@@ -230,7 +230,7 @@ export const FuturePlantingsPage = () => {
                                 </div>
 
                                 {/* X-axis label */}
-                                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 -rotate-45">
+                                <div className="absolute -bottom-6 md:-bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 -rotate-45">
                                     Oct. 2025 - Feb. 2026
                                 </div>
                             </div>
@@ -243,8 +243,8 @@ export const FuturePlantingsPage = () => {
                     {futurePlantings.map((item) => (
                         <div key={item.id} className="border-b border-gray-200 last:border-b-0">
                             {/* Main row */}
-                            <div className="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
-                                <div className="flex items-center space-x-4">
+                            <div className="px-4 md:px-6 py-3 md:py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 space-y-3 sm:space-y-0">
+                                <div className="flex items-center space-x-3 md:space-x-4">
                                     <button
                                         onClick={() => toggleExpanded(item.id)}
                                         className="text-gray-400 hover:text-gray-600"
@@ -259,7 +259,7 @@ export const FuturePlantingsPage = () => {
                                         </svg>
                                     </button>
 
-                                    <div className="font-medium text-gray-900 flex items-center">
+                                    <div className="font-medium text-gray-900 flex items-center text-sm md:text-base">
                                         {item.variety}
                                         <span className="ml-2 bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full text-xs font-medium">
                                             {item.plantingCount} Planned
@@ -267,25 +267,25 @@ export const FuturePlantingsPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-3 gap-8 text-sm">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-8 text-sm w-full sm:w-auto">
                                     <div>
                                         <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">START PLANTING</div>
-                                        <div className="text-gray-900 font-medium">{item.startPlantingDate}</div>
+                                        <div className="text-gray-900 font-medium text-sm md:text-base">{item.startPlantingDate}</div>
                                     </div>
 
                                     <div>
                                         <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">EXPECTED HARVEST</div>
-                                        <div className="text-gray-900 font-medium">{item.expectedHarvestDate}</div>
+                                        <div className="text-gray-900 font-medium text-sm md:text-base">{item.expectedHarvestDate}</div>
                                     </div>
 
                                     <div>
                                         <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">TOTAL PLANNED</div>
-                                        <div className="text-gray-900 font-medium">{item.totalPlanned}</div>
+                                        <div className="text-gray-900 font-medium text-sm md:text-base">{item.totalPlanned}</div>
                                     </div>
                                 </div>
 
-                                <button className="text-gray-400 hover:text-gray-600">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <button className="text-gray-400 hover:text-gray-600 self-end sm:self-auto">
+                                    <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                                     </svg>
                                 </button>
@@ -293,7 +293,7 @@ export const FuturePlantingsPage = () => {
 
                             {/* Expanded content - Detailed plantings table */}
                             {expandedItems[item.id] && (
-                                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                                <div className="px-4 md:px-6 py-3 md:py-4 bg-gray-50 border-t border-gray-200">
                                     <div className="overflow-x-auto">
                                         <table className="min-w-full">
                                             <thead>
@@ -313,7 +313,7 @@ export const FuturePlantingsPage = () => {
                                                         <td className="py-3 text-sm text-gray-700">{planting.startDate}</td>
                                                         <td className="py-3 text-sm text-gray-700">{planting.expectedHarvest}</td>
                                                         <td className="py-3 text-sm">
-                                                            <div className="flex items-center space-x-2">
+                                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
                                                                 <button className="text-blue-600 hover:text-blue-800 text-xs">Edit</button>
                                                                 <button className="text-green-600 hover:text-green-800 text-xs">Start Planting</button>
                                                                 <button className="text-red-600 hover:text-red-800 text-xs">Cancel</button>
@@ -325,11 +325,11 @@ export const FuturePlantingsPage = () => {
                                         </table>
                                     </div>
 
-                                    <div className="mt-4 flex items-center justify-between">
+                                    <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
                                         <div className="text-sm text-gray-600">
                                             Total: {item.plantingCount} planned plantings for {item.variety}
                                         </div>
-                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">
+                                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm w-full sm:w-auto">
                                             Add Location
                                         </button>
                                     </div>
@@ -340,17 +340,17 @@ export const FuturePlantingsPage = () => {
                 </div>
 
                 {futurePlantings.length === 0 && (
-                    <div className="bg-white border border-gray-200 rounded-lg p-12 text-center">
-                        <div className="text-gray-400 mb-4">
-                            <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="bg-white border border-gray-200 rounded-lg p-6 md:p-12 text-center">
+                        <div className="text-gray-400 mb-3 md:mb-4">
+                            <svg className="w-10 h-10 md:w-12 md:h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Future Plantings Planned</h3>
-                        <p className="text-gray-500 mb-4">Plan your next growing season by adding future plantings.</p>
+                        <h3 className="text-lg font-medium text-gray-900 mb-1 md:mb-2">No Future Plantings Planned</h3>
+                        <p className="text-gray-500 mb-3 md:mb-4 text-sm md:text-base">Plan your next growing season by adding future plantings.</p>
                         <button
                             onClick={() => setShowNewPlantingModal(true)}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-medium text-sm md:text-base"
                         >
                             Plan First Planting
                         </button>
@@ -360,10 +360,10 @@ export const FuturePlantingsPage = () => {
 
             {/* New Planting Modal */}
             {showNewPlantingModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                            <h2 className="text-xl font-semibold text-gray-800">New Planting</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200">
+                            <h2 className="text-lg md:text-xl font-semibold text-gray-800">New Planting</h2>
                             <button
                                 onClick={() => {
                                     setShowNewPlantingModal(false);
@@ -371,34 +371,34 @@ export const FuturePlantingsPage = () => {
                                 }}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5 md:w-6 md:h-6" />
                             </button>
                         </div>
 
                         {/* Step Indicator */}
-                        <div className="px-6 py-4 border-b border-gray-200">
-                            <div className="flex items-center space-x-8">
+                        <div className="px-4 md:px-6 py-3 md:py-4 border-b border-gray-200">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 md:space-x-8">
                                 <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                    <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         1
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs md:text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Crop Type & Location
                                     </span>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                    <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         2
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs md:text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Planting Details
                                     </span>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                    <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                         ✓
                                     </div>
-                                    <span className={`text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                    <span className={`text-xs md:text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                         Complete
                                     </span>
                                 </div>
@@ -406,22 +406,22 @@ export const FuturePlantingsPage = () => {
                         </div>
 
                         {/* Modal Content */}
-                        <div className="p-6">
+                        <div className="p-4 md:p-6">
                             {newPlantingStep === 1 && (
-                                <div className="space-y-6">
+                                <div className="space-y-4 md:space-y-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Crop Type</label>
-                                        <div className="flex items-center space-x-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                                             <input
                                                 type="text"
                                                 value={plantingData.cropType}
                                                 onChange={(e) => setPlantingData(prev => ({ ...prev, cropType: e.target.value }))}
-                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                             />
-                                            <Search className="w-4 h-4 text-gray-400" />
+                                            <Search className="w-4 h-4 text-gray-400 hidden sm:block" />
                                             <button
                                                 onClick={handleNewCropType}
-                                                className="text-blue-600 hover:text-blue-800 text-sm"
+                                                className="text-blue-600 hover:text-blue-800 text-sm text-left sm:text-center"
                                             >
                                                 New Crop Type
                                             </button>
@@ -429,16 +429,16 @@ export const FuturePlantingsPage = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Grow Location</label>
-                                        <div className="flex items-center space-x-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                                             <input
                                                 type="text"
                                                 value={plantingData.growLocation}
                                                 onChange={(e) => setPlantingData(prev => ({ ...prev, growLocation: e.target.value }))}
-                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                             />
                                             <button
                                                 onClick={() => console.log('Add grow location')}
-                                                className="text-blue-600 hover:text-blue-800 text-sm"
+                                                className="text-blue-600 hover:text-blue-800 text-sm text-left sm:text-center"
                                             >
                                                 Add Grow Location
                                             </button>
@@ -448,24 +448,24 @@ export const FuturePlantingsPage = () => {
                             )}
 
                             {newPlantingStep === 2 && (
-                                <div className="space-y-6">
-                                    <div className="flex items-center space-x-3 mb-4">
-                                        <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm">
+                                <div className="space-y-4 md:space-y-6">
+                                    <div className="flex items-center space-x-3 mb-3 md:mb-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm">
                                             77
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-semibold">767, 767</h3>
-                                            <p className="text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
+                                            <h3 className="text-base md:text-lg font-semibold">767, 767</h3>
+                                            <p className="text-xs md:text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
                                             <select
                                                 value={plantingData.startMethod}
                                                 onChange={(e) => setPlantingData(prev => ({ ...prev, startMethod: e.target.value }))}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                             >
                                                 <option value="Direct Sow">Direct Sow</option>
                                                 <option value="Transplant">Transplant</option>
@@ -476,7 +476,7 @@ export const FuturePlantingsPage = () => {
                                             <select
                                                 value={plantingData.growthStage}
                                                 onChange={(e) => setPlantingData(prev => ({ ...prev, growthStage: e.target.value }))}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                             >
                                                 <option value="Seed Started">Seed Started</option>
                                                 <option value="Germinated">Germinated</option>
@@ -484,23 +484,23 @@ export const FuturePlantingsPage = () => {
                                         </div>
                                     </div>
 
-                                    <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+                                    <div className="bg-blue-50 border border-blue-200 rounded-md p-3 md:p-4">
                                         <div className="flex items-center space-x-2">
                                             <Info className="w-4 h-4 text-blue-600" />
-                                            <span className="text-sm text-blue-800">
+                                            <span className="text-xs md:text-sm text-blue-800">
                                                 Planting Info: 3 sqm (Approx.) - Planted in 1 rows (3937 per row)
                                             </span>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <h3 className="text-base md:text-lg font-medium text-gray-800 mb-3 md:mb-4">Harvest Plan</h3>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Planned First Harvest</label>
                                                 <input
                                                     type="date"
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                                 />
                                             </div>
                                             <div>
@@ -509,7 +509,7 @@ export const FuturePlantingsPage = () => {
                                                     type="number"
                                                     value={plantingData.currentlyPlanted}
                                                     onChange={(e) => setPlantingData(prev => ({ ...prev, currentlyPlanted: e.target.value }))}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
                                                 />
                                             </div>
                                         </div>
@@ -519,22 +519,22 @@ export const FuturePlantingsPage = () => {
                         </div>
 
                         {/* Modal Footer */}
-                        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                        <div className="flex flex-col sm:flex-row items-center justify-between px-4 md:px-6 py-3 md:py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                             <button
                                 onClick={() => {
                                     setShowNewPlantingModal(false);
                                     setNewPlantingStep(1);
                                 }}
-                                className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm"
+                                className="text-gray-600 hover:text-gray-800 px-3 py-1.5 md:px-4 md:py-2 text-sm order-2 sm:order-1"
                             >
                                 Cancel
                             </button>
 
-                            <div className="flex items-center space-x-3">
+                            <div className="flex items-center space-x-3 order-1 sm:order-2">
                                 {newPlantingStep < 2 ? (
                                     <button
                                         onClick={() => setNewPlantingStep(2)}
-                                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-md text-sm font-medium"
                                     >
                                         Next
                                     </button>
@@ -544,7 +544,7 @@ export const FuturePlantingsPage = () => {
                                             setShowNewPlantingModal(false);
                                             setNewPlantingStep(1);
                                         }}
-                                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-md text-sm font-medium"
                                     >
                                         Create Planting(s)
                                     </button>
@@ -557,50 +557,50 @@ export const FuturePlantingsPage = () => {
 
             {/* Harvest Modal */}
             {showHarvestModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                         {/* Modal Header */}
-                        <div className=" text-white px-6 py-4 flex items-center justify-between rounded-t-lg">
-                            <div className="flex items-center space-x-4">
-                                <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold">
+                        <div className=" text-white px-4 md:px-6 py-4 flex items-center justify-between rounded-t-lg">
+                            <div className="flex items-center space-x-2 md:space-x-4">
+                                <div className="bg-gray-400 rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center text-white font-bold text-xs md:text-base">
                                     77
                                 </div>
                                 <div>
-                                    <h1 className="text-xl font-semibold">767, 767</h1>
-                                    <p className="text-sm opacity-90">tyt</p>
+                                    <h1 className="text-base md:text-xl font-semibold">767, 767</h1>
+                                    <p className="text-xs md:text-sm opacity-90">tyt</p>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-1 md:space-x-2">
                                 <button
                                     onClick={() => setShowNewPlantingModal(true)}
-                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium"
+                                    className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 md:px-4 md:py-2 rounded text-xs md:text-base font-medium"
                                 >
                                     Add Planting
                                 </button>
-                                <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium">
+                                <button className="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 md:px-4 md:py-2 rounded text-xs md:text-base font-medium">
                                     Harvest
                                 </button>
                                 <button
                                     onClick={() => setShowHarvestModal(false)}
                                     className="text-white hover:text-gray-200 p-1"
                                 >
-                                    <X size={20} />
+                                    <X size={16} className="md:w-5 md:h-5" />
                                 </button>
                             </div>
                         </div>
 
                         {/* Modal Content */}
-                        <div className="p-6">
-                            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Record Harvest</h2>
+                        <div className="p-4 md:p-6">
+                            <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Record Harvest</h2>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Date Harvested</label>
                                     <input
                                         type="date"
                                         value={harvestForm.dateHarvested}
                                         onChange={(e) => handleHarvestInputChange('dateHarvested', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                     />
                                 </div>
 
@@ -613,21 +613,21 @@ export const FuturePlantingsPage = () => {
                                             step="0.01"
                                             value={harvestForm.estimatedRevenue}
                                             onChange={(e) => handleHarvestInputChange('estimatedRevenue', e.target.value)}
-                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                         />
                                         <span className="text-gray-600 text-sm">per</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Batch Number</label>
                                     <input
                                         type="text"
                                         value={harvestForm.batchNumber}
                                         onChange={(e) => handleHarvestInputChange('batchNumber', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                     />
                                 </div>
 
@@ -638,31 +638,31 @@ export const FuturePlantingsPage = () => {
                                         value={harvestForm.traceNumber}
                                         onChange={(e) => handleHarvestInputChange('traceNumber', e.target.value)}
                                         placeholder="Leave blank to auto generate"
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                     />
                                 </div>
                             </div>
 
-                            <div className="mb-6">
+                            <div className="mb-4 md:mb-6">
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Note</label>
                                 <textarea
                                     value={harvestForm.note}
                                     onChange={(e) => handleHarvestInputChange('note', e.target.value)}
                                     rows={4}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                     placeholder="Enter harvest notes..."
                                 />
                             </div>
 
                             {/* Harvest Details Table */}
-                            <div className="mb-6">
-                                <div className="grid grid-cols-4 gap-4 mb-4">
+                            <div className="mb-4 md:mb-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-3 md:mb-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Harvested From</label>
                                         <select
                                             value={harvestForm.harvestedFrom}
                                             onChange={(e) => handleHarvestInputChange('harvestedFrom', e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                         >
                                             <option value="">Select...</option>
                                             <option value="field-a">Field A</option>
@@ -677,7 +677,7 @@ export const FuturePlantingsPage = () => {
                                             type="text"
                                             value={harvestForm.bed}
                                             onChange={(e) => handleHarvestInputChange('bed', e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                         />
                                     </div>
 
@@ -687,7 +687,7 @@ export const FuturePlantingsPage = () => {
                                             type="text"
                                             value={harvestForm.gradeSize}
                                             onChange={(e) => handleHarvestInputChange('gradeSize', e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                         />
                                     </div>
 
@@ -698,31 +698,31 @@ export const FuturePlantingsPage = () => {
                                             step="0.01"
                                             value={harvestForm.amountHarvested}
                                             onChange={(e) => handleHarvestInputChange('amountHarvested', e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm md:text-base"
                                         />
                                     </div>
                                 </div>
 
-                                <button className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-700">
+                                <button className="bg-gray-800 text-white px-3 py-1.5 md:px-4 md:py-2 rounded text-xs md:text-sm hover:bg-gray-700 w-full sm:w-auto">
                                     Add Location
                                 </button>
                             </div>
 
-                            <div className="text-right text-lg font-semibold text-gray-800 mb-6">
+                            <div className="text-right text-base md:text-lg font-semibold text-gray-800 mb-4 md:mb-6">
                                 Harvest Total: 0.00
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                            <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-6 border-t border-gray-200">
                                 <button
                                     onClick={handleCancelHarvest}
-                                    className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium"
+                                    className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium text-sm md:text-base order-2 sm:order-1"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={handleSaveHarvest}
-                                    className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+                                    className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium text-sm md:text-base order-1 sm:order-2"
                                 >
                                     Save
                                 </button>

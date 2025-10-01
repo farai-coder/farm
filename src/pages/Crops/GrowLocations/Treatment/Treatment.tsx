@@ -156,12 +156,12 @@ export const GrowLocationTreatments = () => {
     const isPartiallySelected = selectedTreatments.length > 0 && selectedTreatments.length < treatmentRecords.length;
 
     return (
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                 <div>
-                    <h1 className="text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                    <p className="text-sm text-gray-600">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
+                    <p className="text-sm text-gray-600 mt-1">
                         2.5 Acre
                         <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
                             Active
@@ -171,16 +171,18 @@ export const GrowLocationTreatments = () => {
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={() => setShowModal(true)}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+                        className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors w-full sm:w-auto"
                     >
                         New Treatment Record
                     </button>
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
-                        <i className="fas fa-print"></i>
-                    </button>
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
-                        <i className="fas fa-th"></i>
-                    </button>
+                    <div className="flex space-x-1">
+                        <button className="text-gray-500 hover:text-gray-700 p-2">
+                            <i className="fas fa-print"></i>
+                        </button>
+                        <button className="text-gray-500 hover:text-gray-700 p-2">
+                            <i className="fas fa-th"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -190,7 +192,7 @@ export const GrowLocationTreatments = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th className="px-6 py-3 text-left">
+                                <th className="px-4 sm:px-6 py-3 text-left">
                                     <input
                                         type="checkbox"
                                         checked={isAllSelected}
@@ -201,22 +203,22 @@ export const GrowLocationTreatments = () => {
                                         className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                                     />
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Date
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Type
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Details/Product
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Retreat Date
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Entered By
                                 </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
@@ -224,7 +226,7 @@ export const GrowLocationTreatments = () => {
                         <tbody className="bg-white divide-y divide-gray-200">
                             {treatmentRecords.map((record) => (
                                 <tr key={record.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                         <input
                                             type="checkbox"
                                             checked={selectedTreatments.includes(record.id)}
@@ -232,27 +234,30 @@ export const GrowLocationTreatments = () => {
                                             className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                                         />
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {record.date}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${record.typeColor}`}>
                                             {record.type} ▼
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         <span className="flex items-center">
-                                            {record.detailsProduct} ▼
+                                            <span className="truncate max-w-[120px] sm:max-w-none">
+                                                {record.detailsProduct}
+                                            </span>
+                                            ▼
                                             <span className="ml-1 font-medium">{record.amount}</span>
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {record.retreatDate}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {record.enteredBy}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div className="flex items-center space-x-2">
                                             <button className="text-blue-600 hover:text-blue-800 transition-colors">
                                                 <FileEdit size={16} />
@@ -267,17 +272,17 @@ export const GrowLocationTreatments = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
                     <p className="text-sm text-gray-700">Displaying all 7 treatments</p>
                 </div>
             </div>
 
             {/* Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-semibold text-gray-900">New Treatment for tyyt</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4 sm:mb-6">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">New Treatment for tyyt</h2>
                             <button
                                 onClick={handleCancel}
                                 className="text-gray-400 hover:text-gray-600"
@@ -287,7 +292,7 @@ export const GrowLocationTreatments = () => {
                         </div>
 
                         <form onSubmit={handleSubmit}>
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                                 {/* Left Column */}
                                 <div className="space-y-4">
                                     <div>
@@ -478,7 +483,7 @@ export const GrowLocationTreatments = () => {
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
                                             Treatment Total Cost
                                         </label>
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
                                             <div className="flex-1">
                                                 <input
                                                     type="text"
@@ -526,17 +531,17 @@ export const GrowLocationTreatments = () => {
                                 </div>
                             </div>
 
-                            <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+                            <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 mt-6 sm:mt-8 pt-6 border-t border-gray-200">
                                 <button
                                     type="button"
                                     onClick={handleCancel}
-                                    className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                                    className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors order-2 sm:order-1"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                                    className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors order-1 sm:order-2"
                                 >
                                     Save
                                 </button>

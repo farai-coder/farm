@@ -64,131 +64,233 @@ import { ResourcesEquipmentPage } from './pages/Resources/Equipment/Equipment';
 import { ForgotPassword } from './authentication/ForgotPassword';
 
 // Crops Secondary Sidebar Component
-const CropsSecondarySidebar: React.FC<{ activeSubmenu: string; setActiveSubmenu: (submenu: string) => void }> = ({
+const CropsSecondarySidebar: React.FC<{
+  activeSubmenu: string;
+  setActiveSubmenu: (submenu: string) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}> = ({
   activeSubmenu,
-  setActiveSubmenu
+  setActiveSubmenu,
+  isOpen,
+  setIsOpen
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const cropsMenuItems = [
-    { id: 'details', label: 'Details', path: '/crops/my-crops/details' },
-    { id: 'current-plantings', label: 'Current Plantings', path: '/crops/my-crops/current-plantings' },
-    { id: 'future-plantings', label: 'Future Plantings', path: '/crops/my-crops/future-plantings' },
-    { id: 'history', label: 'History', path: '/crops/my-crops/history' },
-    { id: 'harvests', label: 'Harvests', path: '/crops/my-crops/harvests' },
-    { id: 'tasks', icon: 'fa-tasks', label: 'Tasks', path: '/crops/my-crops/tasks' },
-    { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/my-crops/yield-comparison' },
-    { id: 'notes', label: 'Notes', path: '/crops/my-crops/notes' },
-    { id: 'accounting', label: 'Accounting', path: '/crops/my-crops/accounting' },
-    { id: 'photos', label: 'Photos', path: '/crops/my-crops/photos' },
-  ];
+    const cropsMenuItems = [
+      { id: 'details', label: 'Details', path: '/crops/my-crops/details' },
+      { id: 'current-plantings', label: 'Current Plantings', path: '/crops/my-crops/current-plantings' },
+      { id: 'future-plantings', label: 'Future Plantings', path: '/crops/my-crops/future-plantings' },
+      { id: 'history', label: 'History', path: '/crops/my-crops/history' },
+      { id: 'harvests', label: 'Harvests', path: '/crops/my-crops/harvests' },
+      { id: 'tasks', icon: 'fa-tasks', label: 'Tasks', path: '/crops/my-crops/tasks' },
+      { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/my-crops/yield-comparison' },
+      { id: 'notes', label: 'Notes', path: '/crops/my-crops/notes' },
+      { id: 'accounting', label: 'Accounting', path: '/crops/my-crops/accounting' },
+      { id: 'photos', label: 'Photos', path: '/crops/my-crops/photos' },
+    ];
 
-  React.useEffect(() => {
-    const currentPath = location.pathname;
-    const activeItem = cropsMenuItems.find(item => currentPath.includes(item.id));
-    if (activeItem) {
-      setActiveSubmenu(activeItem.id);
-    }
-  }, [location.pathname, setActiveSubmenu]);
+    React.useEffect(() => {
+      const currentPath = location.pathname;
+      const activeItem = cropsMenuItems.find(item => currentPath.includes(item.id));
+      if (activeItem) {
+        setActiveSubmenu(activeItem.id);
+      }
+    }, [location.pathname, setActiveSubmenu]);
 
-  return (
-    <div className="bg-gray-50 w-48 flex-shrink-0 relative h-full">
-      <div className="absolute right-0 top-0 h-screen w-px bg-gray-200"></div>
-      <div className="py-4">
-        {cropsMenuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => {
-              navigate(item.path);
-              setActiveSubmenu(item.id);
-            }}
-            className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
-              ? 'bg-white text-green-700 font-medium'
-              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-          >
-            {item.label}
-            {activeSubmenu === item.id && (
-              <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green-600"></div>
-            )}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
+    const handleMenuClick = (item: typeof cropsMenuItems[0]) => {
+      navigate(item.path);
+      setActiveSubmenu(item.id);
+      setIsOpen(false); // Close mobile drawer on navigation
+    };
+
+    return (
+      <>
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block bg-gray-50 w-48 flex-shrink-0 relative h-full">
+          <div className="absolute right-0 top-0 h-screen w-px bg-gray-200"></div>
+          <div className="py-4">
+            {cropsMenuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleMenuClick(item)}
+                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
+                    ? 'bg-white text-green-700 font-medium'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+              >
+                {item.label}
+                {activeSubmenu === item.id && (
+                  <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green-600"></div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Drawer */}
+        <div
+          className={`md:hidden fixed inset-0 z-40 bg-white transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-16' : '-translate-y-full'
+            }`}
+        >
+          <div className="h-full w-full flex flex-col">
+            {/* Mobile Drawer Header */}
+            <div className="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 flex-shrink-0">
+              <span className="text-lg font-semibold text-gray-800">My Crops Menu</span>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <i className="fas fa-times text-lg"></i>
+              </button>
+            </div>
+
+            {/* Mobile Navigation */}
+            <nav className="flex-1 overflow-y-auto overflow-x-hidden">
+              {cropsMenuItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleMenuClick(item)}
+                  className={`flex items-center justify-between px-4 py-3 border-b border-gray-100 ${activeSubmenu === item.id
+                      ? 'bg-green-50 text-green-700'
+                      : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                >
+                  <span className="text-sm font-medium truncate">{item.label}</span>
+                  {activeSubmenu === item.id && (
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  )}
+                </div>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </>
+    );
+  };
 
 // Grow Locations Secondary Sidebar Component
-const GrowLocationsSecondarySidebar: React.FC<{ activeSubmenu: string; setActiveSubmenu: (submenu: string) => void }> = ({
+const GrowLocationsSecondarySidebar: React.FC<{
+  activeSubmenu: string;
+  setActiveSubmenu: (submenu: string) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}> = ({
   activeSubmenu,
-  setActiveSubmenu
+  setActiveSubmenu,
+  isOpen,
+  setIsOpen
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const growLocationsMenuItems = [
-    { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
-    { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
-    { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
-    { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
-    { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
-    { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
-    { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
-    { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
-    { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
-    { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
-    { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
-    { id: 'accounting', label: 'Accounting', path: '/crops/grow-locations/accounting' },
-    { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
-  ];
+    const growLocationsMenuItems = [
+      { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
+      { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
+      { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
+      { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
+      { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
+      { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
+      { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
+      { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
+      { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
+      { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
+      { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
+      { id: 'accounting', label: 'Accounting', path: '/crops/grow-locations/accounting' },
+      { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
+    ];
 
-  React.useEffect(() => {
-    const currentPath = location.pathname;
-    const activeItem = growLocationsMenuItems.find(item => currentPath.includes(item.id));
-    if (activeItem) {
-      setActiveSubmenu(activeItem.id);
-    }
-  }, [location.pathname, setActiveSubmenu]);
+    React.useEffect(() => {
+      const currentPath = location.pathname;
+      const activeItem = growLocationsMenuItems.find(item => currentPath.includes(item.id));
+      if (activeItem) {
+        setActiveSubmenu(activeItem.id);
+      }
+    }, [location.pathname, setActiveSubmenu]);
 
-  return (
-    <div className="bg-gray-50 w-48 flex-shrink-0 relative h-full">
-      <div className="absolute right-0 top-0 h-screen w-px bg-gray-200"></div>
-      <div className="py-4">
-        {growLocationsMenuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => {
-              navigate(item.path);
-              setActiveSubmenu(item.id);
-            }}
-            className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
-              ? 'bg-white text-green-700 font-medium'
-              : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-          >
-            {item.label}
-            {activeSubmenu === item.id && (
-              <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green-600"></div>
-            )}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
+    const handleMenuClick = (item: typeof growLocationsMenuItems[0]) => {
+      navigate(item.path);
+      setActiveSubmenu(item.id);
+      setIsOpen(false); // Close mobile drawer on navigation
+    };
+
+    return (
+      <>
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block bg-gray-50 w-48 flex-shrink-0 relative h-full">
+          <div className="absolute right-0 top-0 h-screen w-px bg-gray-200"></div>
+          <div className="py-4">
+            {growLocationsMenuItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleMenuClick(item)}
+                className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
+                    ? 'bg-white text-green-700 font-medium'
+                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  }`}
+              >
+                {item.label}
+                {activeSubmenu === item.id && (
+                  <div className="absolute right-0 top-0 bottom-0 w-0.5 bg-green-600"></div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile Drawer */}
+        <div
+          className={`md:hidden fixed inset-0 z-40 bg-white transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-y-16' : '-translate-y-full'
+            }`}
+        >
+          <div className="h-full w-full flex flex-col">
+            {/* Mobile Drawer Header */}
+            <div className="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 flex-shrink-0">
+              <span className="text-lg font-semibold text-gray-800">Grow Locations Menu</span>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              >
+                <i className="fas fa-times text-lg"></i>
+              </button>
+            </div>
+
+            {/* Mobile Navigation */}
+            <nav className="flex-1 overflow-y-auto overflow-x-hidden">
+              {growLocationsMenuItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleMenuClick(item)}
+                  className={`flex items-center justify-between px-4 py-3 border-b border-gray-100 ${activeSubmenu === item.id
+                      ? 'bg-green-50 text-green-700'
+                      : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                >
+                  <span className="text-sm font-medium truncate">{item.label}</span>
+                  {activeSubmenu === item.id && (
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
+                  )}
+                </div>
+              ))}
+            </nav>
+          </div>
+        </div>
+      </>
+    );
+  };
 
 // New component for the protected layout
 const ProtectedLayout: React.FC = () => {
   const { userRole } = useAuth();
-  // const [activeMenu, setActiveMenu] = useState('crops');
   const [activeMenu, setActiveMenu] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeCropsSubmenu, setActiveCropsSubmenu] = useState('details');
   const [activeGrowLocationsSubmenu, setActiveGrowLocationsSubmenu] = useState('details');
   const [showCropsSubmenu, setShowCropsSubmenu] = useState(false);
   const [showGrowLocationsSubmenu, setShowGrowLocationsSubmenu] = useState(false);
+  const [isCropsSubmenuOpen, setIsCropsSubmenuOpen] = useState(false);
+  const [isGrowLocationsSubmenuOpen, setIsGrowLocationsSubmenuOpen] = useState(false);
 
   // State to track if crop types exist
   const [hasCropTypes, setHasCropTypes] = useState(false);
@@ -199,7 +301,6 @@ const ProtectedLayout: React.FC = () => {
 
   const [selectedGrowLocation, setSelectedGrowLocation] = useState<any>(null);
   const navigate = useNavigate();
-
 
   React.useEffect(() => {
     const isInMyCropsSection = location.pathname.startsWith('/crops/my-crops');
@@ -213,6 +314,8 @@ const ProtectedLayout: React.FC = () => {
     if (!isInMyCropsSection && !isInGrowLocationsSection) {
       setShowCropsSubmenu(false);
       setShowGrowLocationsSubmenu(false);
+      setIsCropsSubmenuOpen(false);
+      setIsGrowLocationsSubmenuOpen(false);
     }
 
     // Reset grow location selection when not in grow locations section
@@ -249,14 +352,29 @@ const ProtectedLayout: React.FC = () => {
         setActiveMenu={setActiveMenu}
       />
 
-      {/* Main Content Area */}
-      <div className="ml-64 flex min-h-screen">
-        {/* Secondary Sidebar for My Crops - Only show if crop types exist */}
+      {/* Mobile Menu Toggle Button - Only show when secondary menu should be visible */}
+      {(showCropsSubmenu || showGrowLocationsSubmenu) && (
+        <button
+          onClick={() => {
+            if (showCropsSubmenu) setIsCropsSubmenuOpen(true);
+            if (showGrowLocationsSubmenu) setIsGrowLocationsSubmenuOpen(true);
+          }}
+          className="md:hidden fixed top-20 left-4 z-30 text-gray-700 p-2 rounded-md hover:bg-gray-100 transition-colors duration-200"
+        >
+          <i className="fas fa-bars text-base"></i>
+        </button>
+      )}
+
+      {/* Main Content Area - FIXED: Only apply ml-64 on desktop */}
+      <div className="md:ml-64 flex min-h-screen">
+        {/* Secondary Sidebar for My Crops */}
         {showCropsSubmenu && (
           <div className="pt-16 flex-shrink-0 h-screen">
             <CropsSecondarySidebar
               activeSubmenu={activeCropsSubmenu}
               setActiveSubmenu={setActiveCropsSubmenu}
+              isOpen={isCropsSubmenuOpen}
+              setIsOpen={setIsCropsSubmenuOpen}
             />
           </div>
         )}
@@ -267,12 +385,14 @@ const ProtectedLayout: React.FC = () => {
             <GrowLocationsSecondarySidebar
               activeSubmenu={activeGrowLocationsSubmenu}
               setActiveSubmenu={setActiveGrowLocationsSubmenu}
+              isOpen={isGrowLocationsSubmenuOpen}
+              setIsOpen={setIsGrowLocationsSubmenuOpen}
             />
           </div>
         )}
 
-        {/* Content area with top padding to account for fixed header */}
-        <main className="pt-20 p-6 bg-gray-50 min-h-screen flex-1">
+        {/* Content area with responsive padding */}
+        <main className="pt-20 p-4 md:pt-0 md:p-6 bg-gray-50 min-h-screen flex-1 w-full">
           <Routes>
             <Route path="/livestock" element={
               <div className="bg-white rounded-lg shadow-sm p-6">
@@ -298,12 +418,12 @@ const ProtectedLayout: React.FC = () => {
             {/* Conditional routes for when crop types exist - My Crops submenu */}
             {hasCropTypes && (
               <>
-              
+
               </>
             )}
 
             {/* Other crops routes */}
-           
+
 
             <Route path="/crops/crop-plan" element={<CropPlan />} />
             <Route path="/crops/yield-comparison" element={<YieldComparison />} />
@@ -349,7 +469,7 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/crops/my-crops/yield-comparison" element={<MyCropsYieldComparison />} />
             <Route path="/crops/my-crops/tasks" element={<MyCropsTasks />} />
             <Route path="/crops/my-crops/notes" element={<MyCropsNotes />} />
-            <Route 
+            <Route
               path="/crops/grow-locations"
               element={<GrowLocationsPage onLocationSelect={handleLocationSelect} />}
             />

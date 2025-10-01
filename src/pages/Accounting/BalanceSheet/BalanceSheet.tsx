@@ -113,8 +113,8 @@ export const BalanceSheet: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <div className="bg-white border-b border-gray-200 px-6 py-4">
-                <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+            <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
+                <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 mb-4">
                     <span className="text-blue-600 hover:underline cursor-pointer">Accounting</span>
                     <span>›</span>
                     <span className="text-blue-600 hover:underline cursor-pointer">Reports</span>
@@ -122,16 +122,16 @@ export const BalanceSheet: React.FC = () => {
                     <span>Balance Sheet</span>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-semibold text-gray-900">GrossCart</h1>
-                        <p className="text-gray-600 mt-1">Balance Sheet</p>
+                        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">GrossCart</h1>
+                        <p className="text-sm sm:text-base text-gray-600 mt-1">Balance Sheet</p>
                     </div>
 
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
                         <button
                             onClick={handleExport}
-                            className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                            className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
                         >
                             <Download className="w-4 h-4" />
                             <span>Export</span>
@@ -139,7 +139,7 @@ export const BalanceSheet: React.FC = () => {
 
                         <button
                             onClick={handleReset}
-                            className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                            className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
                         >
                             <RotateCcw className="w-4 h-4" />
                             <span>Reset</span>
@@ -156,20 +156,20 @@ export const BalanceSheet: React.FC = () => {
             </div>
 
             {/* Balance Sheet Content */}
-            <div className="max-w-4xl mx-auto p-6">
+            <div className="max-w-4xl mx-auto p-4 sm:p-6">
                 <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                     {/* Assets Section */}
-                    <div className="p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">ASSETS</h2>
+                    <div className="p-4 sm:p-6">
+                        <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">ASSETS</h2>
 
                         <div className="space-y-1">
                             {assetsData[0].items.map((item) => (
                                 <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                                     <div className="flex-1">
-                                        <span className="text-gray-700">{item.name}</span>
+                                        <span className="text-sm sm:text-base text-gray-700">{item.name}</span>
                                     </div>
-                                    <div className="flex items-center space-x-4 w-32">
-                                        <span className="text-gray-500">$</span>
+                                    <div className="flex items-center space-x-2 sm:space-x-4 w-24 sm:w-32">
+                                        <span className="text-gray-500 text-sm">$</span>
                                         {editingItem === item.id ? (
                                             <input
                                                 type="number"
@@ -177,12 +177,12 @@ export const BalanceSheet: React.FC = () => {
                                                 onChange={(e) => handleItemEdit('assets', item.id, parseFloat(e.target.value) || 0)}
                                                 onBlur={() => setEditingItem(null)}
                                                 onKeyPress={(e) => e.key === 'Enter' && setEditingItem(null)}
-                                                className="w-20 text-right border border-gray-300 rounded px-2 py-1 text-sm"
+                                                className="w-16 sm:w-20 text-right border border-gray-300 rounded px-2 py-1 text-sm"
                                                 autoFocus
                                             />
                                         ) : (
                                             <span
-                                                className="text-gray-900 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded w-20 text-right"
+                                                className="text-gray-900 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded w-16 sm:w-20 text-right text-sm sm:text-base"
                                                 onClick={() => setEditingItem(item.id)}
                                             >
                                                 {item.amount.toFixed(2)}
@@ -196,7 +196,7 @@ export const BalanceSheet: React.FC = () => {
                             <div className="pt-2">
                                 <button
                                     onClick={() => addNewRow('assets')}
-                                    className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 text-sm"
+                                    className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 text-xs sm:text-sm"
                                 >
                                     <Plus className="w-4 h-4" />
                                     <span>Add Row</span>
@@ -206,26 +206,26 @@ export const BalanceSheet: React.FC = () => {
 
                         {/* Total Assets */}
                         <div className="flex items-center justify-between py-3 mt-4 border-t border-gray-300 font-semibold">
-                            <span className="text-gray-900">TOTAL ASSETS</span>
-                            <div className="flex items-center space-x-4 w-32">
-                                <span className="text-gray-500">$</span>
-                                <span className="text-gray-900 w-20 text-right">{totalAssets.toFixed(2)}</span>
+                            <span className="text-sm sm:text-base text-gray-900">TOTAL ASSETS</span>
+                            <div className="flex items-center space-x-2 sm:space-x-4 w-24 sm:w-32">
+                                <span className="text-gray-500 text-sm">$</span>
+                                <span className="text-gray-900 w-16 sm:w-20 text-right text-sm sm:text-base">{totalAssets.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Liabilities Section */}
-                    <div className="p-6 border-t border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">LIABILITIES</h2>
+                    <div className="p-4 sm:p-6 border-t border-gray-200">
+                        <h2 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">LIABILITIES</h2>
 
                         <div className="space-y-1">
                             {liabilitiesData[0].items.map((item) => (
                                 <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                                     <div className="flex-1">
-                                        <span className="text-gray-700">{item.name}</span>
+                                        <span className="text-sm sm:text-base text-gray-700">{item.name}</span>
                                     </div>
-                                    <div className="flex items-center space-x-4 w-32">
-                                        <span className="text-gray-500">$</span>
+                                    <div className="flex items-center space-x-2 sm:space-x-4 w-24 sm:w-32">
+                                        <span className="text-gray-500 text-sm">$</span>
                                         {editingItem === item.id ? (
                                             <input
                                                 type="number"
@@ -233,12 +233,12 @@ export const BalanceSheet: React.FC = () => {
                                                 onChange={(e) => handleItemEdit('liabilities', item.id, parseFloat(e.target.value) || 0)}
                                                 onBlur={() => setEditingItem(null)}
                                                 onKeyPress={(e) => e.key === 'Enter' && setEditingItem(null)}
-                                                className="w-20 text-right border border-gray-300 rounded px-2 py-1 text-sm"
+                                                className="w-16 sm:w-20 text-right border border-gray-300 rounded px-2 py-1 text-sm"
                                                 autoFocus
                                             />
                                         ) : (
                                             <span
-                                                className="text-gray-900 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded w-20 text-right"
+                                                className="text-gray-900 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded w-16 sm:w-20 text-right text-sm sm:text-base"
                                                 onClick={() => setEditingItem(item.id)}
                                             >
                                                 {item.amount.toFixed(2)}
@@ -252,7 +252,7 @@ export const BalanceSheet: React.FC = () => {
                             <div className="pt-2">
                                 <button
                                     onClick={() => addNewRow('liabilities')}
-                                    className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 text-sm"
+                                    className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 text-xs sm:text-sm"
                                 >
                                     <Plus className="w-4 h-4" />
                                     <span>Add Row</span>
@@ -262,27 +262,27 @@ export const BalanceSheet: React.FC = () => {
 
                         {/* Total Liabilities */}
                         <div className="flex items-center justify-between py-3 mt-4 border-t border-gray-300 font-semibold">
-                            <span className="text-gray-900">TOTAL LIABILITIES</span>
-                            <div className="flex items-center space-x-4 w-32">
-                                <span className="text-gray-500">$</span>
-                                <span className="text-gray-900 w-20 text-right">{totalLiabilities.toFixed(2)}</span>
+                            <span className="text-sm sm:text-base text-gray-900">TOTAL LIABILITIES</span>
+                            <div className="flex items-center space-x-2 sm:space-x-4 w-24 sm:w-32">
+                                <span className="text-gray-500 text-sm">$</span>
+                                <span className="text-gray-900 w-16 sm:w-20 text-right text-sm sm:text-base">{totalLiabilities.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Owner's Equity Section */}
-                    <div className="p-6 border-t border-gray-200 bg-gray-50">
-                        <div className="flex items-center justify-between py-3 font-semibold text-lg">
+                    <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50">
+                        <div className="flex items-center justify-between py-3 font-semibold text-base sm:text-lg">
                             <span className="text-gray-900">OWNER'S EQUITY</span>
-                            <div className="flex items-center space-x-4 w-32">
-                                <span className="text-gray-500">$</span>
-                                <span className="text-gray-900 w-20 text-right">{ownersEquity.toFixed(2)}</span>
+                            <div className="flex items-center space-x-2 sm:space-x-4 w-24 sm:w-32">
+                                <span className="text-gray-500 text-sm">$</span>
+                                <span className="text-gray-900 w-16 sm:w-20 text-right">{ownersEquity.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Footer Note */}
-                    <div className="p-6 border-t border-gray-200 bg-gray-50">
+                    <div className="p-4 sm:p-6 border-t border-gray-200 bg-gray-50">
                         <p className="text-xs text-gray-600 leading-relaxed">
                             <strong>Note:</strong> Updates and changes you make to the balance sheet are not saved. To save your updates please export or print your balance sheet before leaving this page.
                         </p>

@@ -93,15 +93,15 @@ export const TransactionsPage = () => {
     );
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
             <div className="max-w-7xl mx-auto">
                 {/* Summary Section */}
                 <div className="mb-6">
                     <h2 className="text-lg font-medium text-gray-800 mb-4">2022 Summary</h2>
 
-                    <div className="grid grid-cols-3 gap-6 mb-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
                         {/* Income vs Expense Chart */}
-                        <div className="col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
                             <h3 className="text-sm font-medium text-gray-600 mb-4">2022 INCOME VS EXPENSE</h3>
                             <div className="h-64 flex items-end justify-between space-x-1">
                                 {chartData.map((data, index) => (
@@ -150,7 +150,7 @@ export const TransactionsPage = () => {
                                             cy="18"
                                             r="15.9155"
                                             fill="none"
-                                            stroke="#0F766E" // teal-700
+                                            stroke="#0F766E"
                                             strokeWidth="3"
                                             strokeDasharray="28.14, 100"
                                         />
@@ -159,7 +159,7 @@ export const TransactionsPage = () => {
                                             cy="18"
                                             r="15.9155"
                                             fill="none"
-                                            stroke="#2563EB" // blue-600
+                                            stroke="#2563EB"
                                             strokeWidth="3"
                                             strokeDasharray="23.83, 100"
                                             strokeDashoffset="-28.14"
@@ -169,7 +169,7 @@ export const TransactionsPage = () => {
                                             cy="18"
                                             r="15.9155"
                                             fill="none"
-                                            stroke="#EAB308" // yellow-500
+                                            stroke="#EAB308"
                                             strokeWidth="3"
                                             strokeDasharray="22.54, 100"
                                             strokeDashoffset="-51.97"
@@ -179,7 +179,7 @@ export const TransactionsPage = () => {
                                             cy="18"
                                             r="15.9155"
                                             fill="none"
-                                            stroke="#22C55E" // green-500
+                                            stroke="#22C55E"
                                             strokeWidth="3"
                                             strokeDasharray="19.94, 100"
                                             strokeDashoffset="-74.51"
@@ -189,7 +189,7 @@ export const TransactionsPage = () => {
                                             cy="18"
                                             r="15.9155"
                                             fill="none"
-                                            stroke="#6B7280" // gray-500
+                                            stroke="#6B7280"
                                             strokeWidth="3"
                                             strokeDasharray="4.64, 100"
                                             strokeDashoffset="-94.45"
@@ -214,12 +214,13 @@ export const TransactionsPage = () => {
                 </div>
 
                 {/* Controls */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
+                    <div className="flex items-center space-x-2 md:space-x-4 flex-wrap gap-2">
                         {/* Record Transaction Button */}
-                        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2">
+                        <button className="bg-green-600 hover:bg-green-700 text-white px-3 md:px-4 py-2 rounded-md text-xs md:text-sm font-medium transition-colors duration-200 flex items-center space-x-2">
                             <Plus className="w-4 h-4" />
-                            <span>Record a Transaction</span>
+                            <span className="hidden sm:inline">Record a Transaction</span>
+                            <span className="sm:hidden">Record</span>
                         </button>
 
                         {/* Upload Button */}
@@ -233,9 +234,9 @@ export const TransactionsPage = () => {
                         </button>
                     </div>
 
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 w-full sm:w-auto">
                         {/* Search */}
-                        <div className="relative">
+                        <div className="relative flex-1 sm:flex-initial">
                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                                 <Search className="w-4 h-4 text-gray-400" />
                             </div>
@@ -244,37 +245,39 @@ export const TransactionsPage = () => {
                                 placeholder="Search Transactions"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pr-10 pl-4 py-2 w-64 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                className="pr-10 pl-4 py-2 w-full sm:w-64 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
                             />
                         </div>
                     </div>
                 </div>
 
                 {/* Summary Cards */}
-                <div className="flex items-center space-x-4 mb-6">
-                    <div className="relative">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6 overflow-x-auto">
+                    <div className="relative w-full sm:w-auto">
                         <button
                             onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-                            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+                            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-xs md:text-sm text-gray-700 hover:bg-gray-50 w-full sm:w-auto justify-between sm:justify-start"
                         >
                             <span>{dateFilter}</span>
                             <ChevronDown className="w-4 h-4" />
                         </button>
                     </div>
 
-                    <div className="bg-green-600 text-white px-4 py-2 rounded text-sm font-medium">
-                        Revenue: ${summaryData.revenue.toLocaleString()}
-                    </div>
-                    <div className="bg-red-600 text-white px-4 py-2 rounded text-sm font-medium">
-                        Expenses: ${summaryData.expenses.toLocaleString()}
-                    </div>
-                    <div className="bg-green-700 text-white px-4 py-2 rounded text-sm font-medium">
-                        Profit: ${summaryData.profit.toLocaleString()}
+                    <div className="flex space-x-2 sm:space-x-4 overflow-x-auto w-full sm:w-auto">
+                        <div className="bg-green-600 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm font-medium whitespace-nowrap">
+                            Revenue: ${summaryData.revenue.toLocaleString()}
+                        </div>
+                        <div className="bg-red-600 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm font-medium whitespace-nowrap">
+                            Expenses: ${summaryData.expenses.toLocaleString()}
+                        </div>
+                        <div className="bg-green-700 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm font-medium whitespace-nowrap">
+                            Profit: ${summaryData.profit.toLocaleString()}
+                        </div>
                     </div>
 
-                    <div className="ml-auto flex items-center space-x-2">
-                        <span className="text-sm text-gray-600">Criteria: Transaction Date: This Year</span>
-                        <button className="flex items-center space-x-1 px-3 py-1 bg-white border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto sm:ml-auto">
+                        <span className="text-xs md:text-sm text-gray-600">Criteria: Transaction Date: This Year</span>
+                        <button className="flex items-center space-x-1 px-3 py-1 bg-white border border-gray-300 rounded text-xs md:text-sm text-gray-700 hover:bg-gray-50">
                             <Filter className="w-4 h-4" />
                             <span>Filter</span>
                         </button>
@@ -282,9 +285,9 @@ export const TransactionsPage = () => {
                 </div>
 
                 {/* Transactions Table */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
                     {/* Table Header */}
-                    <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-600">
+                    <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-600">
                         <div className="col-span-2">Date</div>
                         <div className="col-span-3">Payee</div>
                         <div className="col-span-2">Category</div>
@@ -296,32 +299,55 @@ export const TransactionsPage = () => {
                     {/* Transaction Rows */}
                     <div className="divide-y divide-gray-200">
                         {filteredTransactions.map((transaction) => (
-                            <div key={transaction.id} className="grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
-                                <div className="col-span-2">
-                                    <span className="text-sm text-gray-900">{transaction.date}</span>
+                            <div key={transaction.id} className="md:grid md:grid-cols-12 gap-4 px-4 md:px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
+                                {/* Mobile Layout */}
+                                <div className="md:hidden space-y-2">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="text-sm font-medium text-gray-900">{transaction.payee}</div>
+                                            <div className="text-xs text-gray-500">{transaction.date}</div>
+                                        </div>
+                                        <span className={`text-sm font-medium ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            ${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                        </span>
+                                    </div>
+                                    <div className="text-xs text-gray-600">{transaction.category}</div>
+                                    <div className="text-xs text-gray-600">{transaction.description}</div>
+                                    <div>
+                                        <span className={`text-xs px-2 py-1 rounded ${transaction.type === 'Income' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                            {transaction.type}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="col-span-3">
-                                    <span className="text-sm text-gray-900">{transaction.payee}</span>
-                                </div>
-                                <div className="col-span-2">
-                                    <span className="text-sm text-gray-600">{transaction.category}</span>
-                                </div>
-                                <div className="col-span-3">
-                                    <span className="text-sm text-gray-600">{transaction.description}</span>
-                                </div>
-                                <div className="col-span-1">
-                                    <span className={`text-sm px-2 py-1 rounded text-xs ${transaction.type === 'Income'
+
+                                {/* Desktop Layout */}
+                                <div className="hidden md:contents">
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-gray-900">{transaction.date}</span>
+                                    </div>
+                                    <div className="col-span-3">
+                                        <span className="text-sm text-gray-900">{transaction.payee}</span>
+                                    </div>
+                                    <div className="col-span-2">
+                                        <span className="text-sm text-gray-600">{transaction.category}</span>
+                                    </div>
+                                    <div className="col-span-3">
+                                        <span className="text-sm text-gray-600">{transaction.description}</span>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <span className={`text-sm px-2 py-1 rounded text-xs ${transaction.type === 'Income'
                                             ? 'bg-green-100 text-green-800'
                                             : 'bg-red-100 text-red-800'
-                                        }`}>
-                                        {transaction.type}
-                                    </span>
-                                </div>
-                                <div className="col-span-1 text-right">
-                                    <span className={`text-sm font-medium ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
-                                        }`}>
-                                        ${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                                    </span>
+                                            }`}>
+                                            {transaction.type}
+                                        </span>
+                                    </div>
+                                    <div className="col-span-1 text-right">
+                                        <span className={`text-sm font-medium ${transaction.amount > 0 ? 'text-green-600' : 'text-red-600'
+                                            }`}>
+                                            ${Math.abs(transaction.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -332,3 +358,4 @@ export const TransactionsPage = () => {
     );
 };
 
+export default TransactionsPage;

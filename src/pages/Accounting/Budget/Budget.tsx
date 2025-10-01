@@ -112,8 +112,8 @@ export const Budgeting: React.FC = () => {
     if (budgets.length === 0) {
         return (
             <div className="min-h-screen bg-gray-50">
-                <div className="px-6 py-4 bg-white border-b border-gray-200">
-                    <h1 className="text-2xl font-semibold text-gray-900">Budgeting</h1>
+                <div className="px-4 sm:px-6 py-4 bg-white border-b border-gray-200">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Budgeting</h1>
                     <button
                         onClick={() => setShowModal(true)}
                         className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
@@ -122,16 +122,16 @@ export const Budgeting: React.FC = () => {
                     </button>
                 </div>
 
-                <div className="flex flex-col items-center justify-center py-20">
+                <div className="flex flex-col items-center justify-center py-12 sm:py-20 px-4">
                     {/* Dotted rectangle containing all the content */}
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-2xl">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 sm:p-12 flex flex-col items-center w-full max-w-2xl">
                         <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center mb-6">
                             <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-medium text-gray-900 mb-2">Nothing yet?</h3>
-                        <p className="text-gray-600 mb-5 text-center">Add a budget and they'll show up here</p>
+                        <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Nothing yet?</h3>
+                        <p className="text-gray-600 mb-5 text-center text-sm sm:text-base">Add a budget and they'll show up here</p>
                         <button
                             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
                         >
@@ -142,10 +142,10 @@ export const Budgeting: React.FC = () => {
 
                 {/* Modal */}
                 {showModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-semibold text-gray-900">New Budget</h2>
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md">
+                            <div className="flex items-center justify-between mb-4 sm:mb-6">
+                                <h2 className="text-base sm:text-lg font-semibold text-gray-900">New Budget</h2>
                                 <button
                                     onClick={() => setShowModal(false)}
                                     className="text-gray-400 hover:text-gray-600"
@@ -198,13 +198,13 @@ export const Budgeting: React.FC = () => {
                             <div className="flex items-center justify-end space-x-3 mt-6">
                                 <button
                                     onClick={() => setShowModal(false)}
-                                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
                                 >
                                     Close
                                 </button>
                                 <button
                                     onClick={handleCreateBudget}
-                                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors text-sm"
                                 >
                                     Create
                                 </button>
@@ -221,8 +221,8 @@ export const Budgeting: React.FC = () => {
         return (
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
-                <div className="px-6 py-4 bg-white border-b border-gray-200">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                <div className="px-4 sm:px-6 py-4 bg-white border-b border-gray-200">
+                    <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600 mb-4">
                         <button
                             onClick={() => setSelectedBudget(null)}
                             className="text-blue-600 hover:underline cursor-pointer"
@@ -230,19 +230,19 @@ export const Budgeting: React.FC = () => {
                             Budgeting
                         </button>
                         <span>›</span>
-                        <span>{selectedBudget.name}</span>
+                        <span className="truncate">{selectedBudget.name}</span>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-2xl font-semibold text-gray-900">{selectedBudget.name}</h1>
-                            <span className="text-lg text-gray-600">{selectedBudget.year}</span>
+                            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">{selectedBudget.name}</h1>
+                            <span className="text-base sm:text-lg text-gray-600">{selectedBudget.year}</span>
                         </div>
 
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
                             <button
                                 onClick={() => setShowModal(true)}
-                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+                                className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-green-700 transition-colors flex-1 sm:flex-none"
                             >
                                 New Budget Category
                             </button>
@@ -255,7 +255,7 @@ export const Budgeting: React.FC = () => {
                                 <Printer className="w-4 h-4" />
                             </button>
 
-                            <button className="px-4 py-2 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors text-sm">
+                            <button className="px-3 sm:px-4 py-2 text-blue-600 border border-blue-200 rounded-md hover:bg-blue-50 transition-colors text-xs sm:text-sm">
                                 Compare
                             </button>
                         </div>
@@ -263,21 +263,21 @@ export const Budgeting: React.FC = () => {
                 </div>
 
                 {/* Budget Table */}
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                         <div className="overflow-x-auto">
                             <table className="min-w-full">
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-48">
+                                        <th className="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-32 sm:w-48">
                                             Category
                                         </th>
                                         {months.map(month => (
-                                            <th key={month} className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <th key={month} className="px-2 sm:px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 {month}
                                             </th>
                                         ))}
-                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th className="px-2 sm:px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Total
                                         </th>
                                     </tr>
@@ -286,7 +286,7 @@ export const Budgeting: React.FC = () => {
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {/* Income Section */}
                                     <tr className="bg-gray-50">
-                                        <td className="px-6 py-3 text-sm font-medium text-gray-900 flex items-center">
+                                        <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm font-medium text-gray-900 flex items-center">
                                             INCOME
                                             <button
                                                 onClick={addIncomeCategory}
@@ -295,28 +295,28 @@ export const Budgeting: React.FC = () => {
                                             >
                                                 <Plus className="w-4 h-4" />
                                             </button>
-                                            <span className="ml-auto text-blue-600 text-xs cursor-pointer">+ Add Income Category</span>
+                                            <span className="ml-auto text-blue-600 text-xs cursor-pointer hidden sm:inline">+ Add Income Category</span>
                                         </td>
                                         {months.map(() => (
-                                            <td key={Math.random()} className="px-4 py-3"></td>
+                                            <td key={Math.random()} className="px-2 sm:px-4 py-3"></td>
                                         ))}
-                                        <td className="px-4 py-3"></td>
+                                        <td className="px-2 sm:px-4 py-3"></td>
                                     </tr>
 
                                     {budgetCategories.filter(cat => cat.type === 'income').map(category => (
                                         <tr key={category.id}>
-                                            <td className="px-6 py-3 text-sm text-gray-900">{category.name}</td>
+                                            <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm text-gray-900">{category.name}</td>
                                             {category.monthlyValues.map((value, monthIndex) => (
-                                                <td key={monthIndex} className="px-4 py-3 text-center">
+                                                <td key={monthIndex} className="px-2 sm:px-4 py-3 text-center">
                                                     <input
                                                         type="number"
                                                         value={value}
                                                         onChange={(e) => updateCategoryValue(category.id, monthIndex, parseFloat(e.target.value) || 0)}
-                                                        className="w-16 text-center border-0 bg-transparent focus:bg-white focus:border focus:border-blue-300 rounded px-1 py-1 text-sm"
+                                                        className="w-12 sm:w-16 text-center border-0 bg-transparent focus:bg-white focus:border focus:border-blue-300 rounded px-1 py-1 text-xs sm:text-sm"
                                                     />
                                                 </td>
                                             ))}
-                                            <td className="px-4 py-3 text-center text-sm font-medium">
+                                            <td className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm font-medium">
                                                 ${category.monthlyValues.reduce((sum, val) => sum + val, 0).toFixed(2)}
                                             </td>
                                         </tr>
@@ -324,20 +324,20 @@ export const Budgeting: React.FC = () => {
 
                                     {/* Total Income */}
                                     <tr className="bg-gray-100 font-medium">
-                                        <td className="px-6 py-3 text-sm text-gray-900">TOTAL INCOME</td>
+                                        <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm text-gray-900">TOTAL INCOME</td>
                                         {calculateMonthlyTotals('income').map((monthTotal, index) => (
-                                            <td key={index} className="px-4 py-3 text-center text-sm">
+                                            <td key={index} className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                                 ${monthTotal.toFixed(2)}
                                             </td>
                                         ))}
-                                        <td className="px-4 py-3 text-center text-sm">
+                                        <td className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                             ${calculateTotal('income').toFixed(2)}
                                         </td>
                                     </tr>
 
                                     {/* Expenses Section */}
                                     <tr className="bg-gray-50">
-                                        <td className="px-6 py-3 text-sm font-medium text-gray-900 flex items-center">
+                                        <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm font-medium text-gray-900 flex items-center">
                                             EXPENSES
                                             <button
                                                 onClick={addExpenseCategory}
@@ -346,28 +346,28 @@ export const Budgeting: React.FC = () => {
                                             >
                                                 <Plus className="w-4 h-4" />
                                             </button>
-                                            <span className="ml-auto text-blue-600 text-xs cursor-pointer">+ Add Expense Category</span>
+                                            <span className="ml-auto text-blue-600 text-xs cursor-pointer hidden sm:inline">+ Add Expense Category</span>
                                         </td>
                                         {months.map(() => (
-                                            <td key={Math.random()} className="px-4 py-3"></td>
+                                            <td key={Math.random()} className="px-2 sm:px-4 py-3"></td>
                                         ))}
-                                        <td className="px-4 py-3"></td>
+                                        <td className="px-2 sm:px-4 py-3"></td>
                                     </tr>
 
                                     {budgetCategories.filter(cat => cat.type === 'expense').map(category => (
                                         <tr key={category.id}>
-                                            <td className="px-6 py-3 text-sm text-gray-900">{category.name}</td>
+                                            <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm text-gray-900">{category.name}</td>
                                             {category.monthlyValues.map((value, monthIndex) => (
-                                                <td key={monthIndex} className="px-4 py-3 text-center">
+                                                <td key={monthIndex} className="px-2 sm:px-4 py-3 text-center">
                                                     <input
                                                         type="number"
                                                         value={value}
                                                         onChange={(e) => updateCategoryValue(category.id, monthIndex, parseFloat(e.target.value) || 0)}
-                                                        className="w-16 text-center border-0 bg-transparent focus:bg-white focus:border focus:border-blue-300 rounded px-1 py-1 text-sm"
+                                                        className="w-12 sm:w-16 text-center border-0 bg-transparent focus:bg-white focus:border focus:border-blue-300 rounded px-1 py-1 text-xs sm:text-sm"
                                                     />
                                                 </td>
                                             ))}
-                                            <td className="px-4 py-3 text-center text-sm font-medium">
+                                            <td className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm font-medium">
                                                 ${category.monthlyValues.reduce((sum, val) => sum + val, 0).toFixed(2)}
                                             </td>
                                         </tr>
@@ -375,26 +375,26 @@ export const Budgeting: React.FC = () => {
 
                                     {/* Total Expenses */}
                                     <tr className="bg-gray-100 font-medium">
-                                        <td className="px-6 py-3 text-sm text-gray-900">TOTAL EXPENSES</td>
+                                        <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm text-gray-900">TOTAL EXPENSES</td>
                                         {calculateMonthlyTotals('expense').map((monthTotal, index) => (
-                                            <td key={index} className="px-4 py-3 text-center text-sm">
+                                            <td key={index} className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                                 ${monthTotal.toFixed(2)}
                                             </td>
                                         ))}
-                                        <td className="px-4 py-3 text-center text-sm">
+                                        <td className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                             ${calculateTotal('expense').toFixed(2)}
                                         </td>
                                     </tr>
 
                                     {/* Net Profit */}
                                     <tr className="bg-blue-50 font-semibold">
-                                        <td className="px-6 py-3 text-sm text-gray-900">NET PROFIT</td>
+                                        <td className="px-3 sm:px-6 py-3 text-xs sm:text-sm text-gray-900">NET PROFIT</td>
                                         {calculateNetProfit().map((profit, index) => (
-                                            <td key={index} className="px-4 py-3 text-center text-sm">
+                                            <td key={index} className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                                 ${profit.toFixed(2)}
                                             </td>
                                         ))}
-                                        <td className="px-4 py-3 text-center text-sm">
+                                        <td className="px-2 sm:px-4 py-3 text-center text-xs sm:text-sm">
                                             ${(calculateTotal('income') - calculateTotal('expense')).toFixed(2)}
                                         </td>
                                     </tr>
@@ -406,10 +406,10 @@ export const Budgeting: React.FC = () => {
 
                 {/* Category Modal */}
                 {showModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-semibold text-gray-900">Add Budget Category</h2>
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-md">
+                            <div className="flex items-center justify-between mb-4 sm:mb-6">
+                                <h2 className="text-base sm:text-lg font-semibold text-gray-900">Add Budget Category</h2>
                                 <button
                                     onClick={() => setShowModal(false)}
                                     className="text-gray-400 hover:text-gray-600"
@@ -418,7 +418,7 @@ export const Budgeting: React.FC = () => {
                                 </button>
                             </div>
 
-                            <div className="flex space-x-4">
+                            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                                 <button
                                     onClick={() => {
                                         addIncomeCategory();
@@ -426,8 +426,8 @@ export const Budgeting: React.FC = () => {
                                     }}
                                     className="flex-1 p-4 border border-green-200 rounded-lg hover:bg-green-50 transition-colors text-center"
                                 >
-                                    <div className="text-green-600 font-medium">Income Category</div>
-                                    <div className="text-sm text-gray-600 mt-1">Add revenue source</div>
+                                    <div className="text-green-600 font-medium text-sm sm:text-base">Income Category</div>
+                                    <div className="text-xs sm:text-sm text-gray-600 mt-1">Add revenue source</div>
                                 </button>
 
                                 <button
@@ -437,8 +437,8 @@ export const Budgeting: React.FC = () => {
                                     }}
                                     className="flex-1 p-4 border border-red-200 rounded-lg hover:bg-red-50 transition-colors text-center"
                                 >
-                                    <div className="text-red-600 font-medium">Expense Category</div>
-                                    <div className="text-sm text-gray-600 mt-1">Add cost item</div>
+                                    <div className="text-red-600 font-medium text-sm sm:text-base">Expense Category</div>
+                                    <div className="text-xs sm:text-sm text-gray-600 mt-1">Add cost item</div>
                                 </button>
                             </div>
                         </div>
@@ -451,8 +451,8 @@ export const Budgeting: React.FC = () => {
     // Budget List View (if there are budgets but none selected)
     return (
         <div className="min-h-screen bg-gray-50">
-            <div className="px-6 py-4 bg-white border-b border-gray-200">
-                <h1 className="text-2xl font-semibold text-gray-900">Budgeting</h1>
+            <div className="px-4 sm:px-6 py-4 bg-white border-b border-gray-200">
+                <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Budgeting</h1>
                 <button
                     onClick={() => setShowModal(true)}
                     className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
@@ -461,17 +461,17 @@ export const Budgeting: React.FC = () => {
                 </button>
             </div>
 
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
                 <div className="grid gap-4">
                     {budgets.map(budget => (
                         <div
                             key={budget.id}
                             onClick={() => setSelectedBudget(budget)}
-                            className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+                            className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
                         >
-                            <h3 className="text-lg font-semibold text-gray-900">{budget.name}</h3>
-                            <p className="text-gray-600">{budget.year}</p>
-                            {budget.description && <p className="text-gray-500 mt-2">{budget.description}</p>}
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900">{budget.name}</h3>
+                            <p className="text-sm sm:text-base text-gray-600">{budget.year}</p>
+                            {budget.description && <p className="text-sm text-gray-500 mt-2">{budget.description}</p>}
                         </div>
                     ))}
                 </div>

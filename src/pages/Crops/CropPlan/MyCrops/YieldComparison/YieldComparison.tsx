@@ -43,11 +43,11 @@ export const MyCropsYieldComparison = () => {
     const weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison</h1>
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison</h1>
 
                     {/* Type Selector */}
                     <div className="flex items-center space-x-2">
@@ -68,12 +68,12 @@ export const MyCropsYieldComparison = () => {
                 </div>
 
                 {/* Chart Section */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
                     <div className="mb-4">
                         <h3 className="text-sm font-medium text-gray-700 mb-2">VARIETY YIELD BY WEEK</h3>
                     </div>
 
-                    <div className="h-80">
+                    <div className="h-64 sm:h-80">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={yieldData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -117,11 +117,11 @@ export const MyCropsYieldComparison = () => {
                         <table className="min-w-full border-collapse">
                             <thead className="bg-gray-50 border-b border-gray-200">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200">
                                         Variety
                                     </th>
                                     {weeks.map(week => (
-                                        <th key={week} className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0">
+                                        <th key={week} className="px-3 sm:px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 last:border-r-0">
                                             {week}
                                         </th>
                                     ))}
@@ -130,34 +130,34 @@ export const MyCropsYieldComparison = () => {
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {varietyData.map((variety) => (
                                     <tr key={variety.id} className="hover:bg-gray-50">
-                                        <td className="px-6 py-4 border-r border-gray-200">
+                                        <td className="px-4 sm:px-6 py-4 border-r border-gray-200">
                                             <div className="flex items-center space-x-3">
                                                 <div
-                                                    className="w-4 h-4 rounded-full border-2"
+                                                    className="w-4 h-4 rounded-full border-2 flex-shrink-0"
                                                     style={{ backgroundColor: variety.color, borderColor: variety.color }}
                                                 ></div>
-                                                <div className="flex flex-col">
-                                                    <span className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer truncate">
                                                         {variety.variety}
                                                     </span>
-                                                    <span className="text-xs text-gray-500">{variety.code}</span>
+                                                    <span className="text-xs text-gray-500 truncate">{variety.code}</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
-                                            {variety.week1}
+                                        <td className="px-3 sm:px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
+                                            <span className="whitespace-nowrap">{variety.week1}</span>
                                         </td>
-                                        <td className="px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
-                                            {variety.week2}
+                                        <td className="px-3 sm:px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
+                                            <span className="whitespace-nowrap">{variety.week2}</span>
                                         </td>
-                                        <td className="px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
-                                            {variety.week3}
+                                        <td className="px-3 sm:px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
+                                            <span className="whitespace-nowrap">{variety.week3}</span>
                                         </td>
-                                        <td className="px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
-                                            {variety.week4}
+                                        <td className="px-3 sm:px-4 py-4 text-center text-sm text-gray-900 border-r border-gray-200">
+                                            <span className="whitespace-nowrap">{variety.week4}</span>
                                         </td>
-                                        <td className="px-4 py-4 text-center text-sm text-gray-900">
-                                            {variety.week5}
+                                        <td className="px-3 sm:px-4 py-4 text-center text-sm text-gray-900">
+                                            <span className="whitespace-nowrap">{variety.week5}</span>
                                         </td>
                                     </tr>
                                 ))}

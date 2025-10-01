@@ -119,17 +119,13 @@ export const GrowLocationDetails: React.FC = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-50">
-           
-
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
-                
-
                 {/* Content */}
-                <div className="flex-1 p-6">
+                <div className="flex-1 p-4 sm:p-6">
                     {activeSection === 'Details' && (
-                        <div className="max-w-4xl">
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
                                 <div className="space-y-6">
                                     {/* Name */}
                                     <div>
@@ -143,7 +139,7 @@ export const GrowLocationDetails: React.FC = () => {
                                     </div>
 
                                     {/* Internal ID and Electronic ID */}
-                                    <div className="grid grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                                 Internal Id <span className="text-blue-500">ⓘ</span>
@@ -184,23 +180,23 @@ export const GrowLocationDetails: React.FC = () => {
                                     {/* Planting Format */}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-3">Planting Format</label>
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                             <div
-                                                className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Planted in Beds'
+                                                className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Planted in Beds'
                                                     ? 'border-blue-500 bg-blue-50'
                                                     : 'border-gray-300 hover:border-gray-400'
                                                     }`}
                                                 onClick={() => handleInputChange('plantingFormat', 'Planted in Beds')}
                                             >
                                                 <div className="flex items-center mb-2">
-                                                    <div className="w-6 h-6 bg-gray-800 rounded mr-3 flex items-center justify-center">
+                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-800 rounded mr-2 sm:mr-3 flex items-center justify-center">
                                                         <div className="grid grid-cols-3 gap-px">
                                                             {[...Array(9)].map((_, i) => (
                                                                 <div key={i} className="w-1 h-1 bg-white rounded-full"></div>
                                                             ))}
                                                         </div>
                                                     </div>
-                                                    <span className="font-medium">Planted in Beds</span>
+                                                    <span className="font-medium text-sm sm:text-base">Planted in Beds</span>
                                                 </div>
                                                 <p className="text-xs text-gray-600">
                                                     Distinct number of beds for diverse crops. Often 100' length. Example: Carrots, Tomatos, Spinach, etc. Plantings based on row length and count.
@@ -208,15 +204,15 @@ export const GrowLocationDetails: React.FC = () => {
                                             </div>
 
                                             <div
-                                                className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Cover Crop'
+                                                className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Cover Crop'
                                                     ? 'border-blue-500 bg-blue-50'
                                                     : 'border-gray-300 hover:border-gray-400'
                                                     }`}
                                                 onClick={() => handleInputChange('plantingFormat', 'Cover Crop')}
                                             >
                                                 <div className="flex items-center mb-2">
-                                                    <div className="w-6 h-6 bg-black rounded mr-3"></div>
-                                                    <span className="font-medium">Cover Crop</span>
+                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-black rounded mr-2 sm:mr-3"></div>
+                                                    <span className="font-medium text-sm sm:text-base">Cover Crop</span>
                                                 </div>
                                                 <p className="text-xs text-gray-600">
                                                     Complete crop coverage or grazing location. Example: Alfalfa, Hay, Rye, Wheat, Pasture, etc. Planting coverage based on location area.
@@ -224,21 +220,21 @@ export const GrowLocationDetails: React.FC = () => {
                                             </div>
 
                                             <div
-                                                className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Row Crop'
+                                                className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Row Crop'
                                                     ? 'border-blue-500 bg-blue-50'
                                                     : 'border-gray-300 hover:border-gray-400'
                                                     }`}
                                                 onClick={() => handleInputChange('plantingFormat', 'Row Crop')}
                                             >
                                                 <div className="flex items-center mb-2">
-                                                    <div className="w-6 h-6 bg-gray-600 rounded mr-3 flex items-center justify-center">
+                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-600 rounded mr-2 sm:mr-3 flex items-center justify-center">
                                                         <div className="space-y-1">
                                                             {[...Array(3)].map((_, i) => (
-                                                                <div key={i} className="w-4 h-px bg-white"></div>
+                                                                <div key={i} className="w-3 sm:w-4 h-px bg-white"></div>
                                                             ))}
                                                         </div>
                                                     </div>
-                                                    <span className="font-medium">Row Crop</span>
+                                                    <span className="font-medium text-sm sm:text-base">Row Crop</span>
                                                 </div>
                                                 <p className="text-xs text-gray-600">
                                                     One crop planted in rows wide enough to be cultivated by machinery. Example: Corn, Soy Beans, Hemp, Potatos, etc. Planting coverage based on location area.
@@ -246,15 +242,15 @@ export const GrowLocationDetails: React.FC = () => {
                                             </div>
 
                                             <div
-                                                className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Other'
+                                                className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-colors ${formData.plantingFormat === 'Other'
                                                     ? 'border-blue-500 bg-blue-50'
                                                     : 'border-gray-300 hover:border-gray-400'
                                                     }`}
                                                 onClick={() => handleInputChange('plantingFormat', 'Other')}
                                             >
                                                 <div className="flex items-center mb-2">
-                                                    <div className="w-6 h-6 bg-gray-600 rounded mr-3 flex items-center justify-center text-white text-xs">#</div>
-                                                    <span className="font-medium">Other</span>
+                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-600 rounded mr-2 sm:mr-3 flex items-center justify-center text-white text-xs">#</div>
+                                                    <span className="font-medium text-sm sm:text-base">Other</span>
                                                 </div>
                                                 <p className="text-xs text-gray-600">
                                                     Any alternative growing method. Example: Shelves, aquaponics, trays, etc. Plantings based on specified amount planted.
@@ -264,7 +260,7 @@ export const GrowLocationDetails: React.FC = () => {
                                     </div>
 
                                     {/* Area/Size and Mapped Area */}
-                                    <div className="grid grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                                 Area/Size (Ha) <span className="text-blue-500">ⓘ</span>
@@ -279,10 +275,10 @@ export const GrowLocationDetails: React.FC = () => {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">Mapped Area</label>
-                                            <div className="flex items-center justify-center py-8 border border-gray-300 rounded-md bg-gray-50">
+                                            <div className="flex items-center justify-center py-6 sm:py-8 border border-gray-300 rounded-md bg-gray-50">
                                                 <div className="text-center">
-                                                    <i className="fas fa-map-marker-alt text-2xl text-gray-400 mb-2"></i>
-                                                    <p className="text-sm text-gray-600">Map location to calculate area</p>
+                                                    <i className="fas fa-map-marker-alt text-xl sm:text-2xl text-gray-400 mb-2"></i>
+                                                    <p className="text-xs sm:text-sm text-gray-600">Map location to calculate area</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -356,18 +352,21 @@ export const GrowLocationDetails: React.FC = () => {
                                         />
                                     </div>
 
-                                    <button
-                                        onClick={handleCancel}
-                                        className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        onClick={handleSave}
-                                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200 font-medium"
-                                    >
-                                        Save
-                                    </button>
+                                    {/* Action Buttons */}
+                                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 justify-between items-start sm:items-center pt-4 border-t border-gray-200">
+                                        <button
+                                            onClick={handleCancel}
+                                            className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200 w-full sm:w-auto text-center"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            onClick={handleSave}
+                                            className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200 font-medium w-full sm:w-auto text-center"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -377,17 +376,13 @@ export const GrowLocationDetails: React.FC = () => {
                     {activeSection !== 'Details' && (
                         <div className="flex items-center justify-center h-64">
                             <div className="text-center">
-                                <i className={`${sidebarItems.find(item => item.name === activeSection)?.icon} text-4xl text-gray-400 mb-4`}></i>
+                                <i className={`${sidebarItems.find(item => item.name === activeSection)?.icon} text-3xl sm:text-4xl text-gray-400 mb-4`}></i>
                                 <h3 className="text-lg font-medium text-gray-900 mb-2">{activeSection}</h3>
-                                <p className="text-gray-500">This section is not implemented yet.</p>
+                                <p className="text-gray-500 text-sm sm:text-base">This section is not implemented yet.</p>
                             </div>
                         </div>
                     )}
-
-                    
                 </div>
-
-               
             </div>
         </div>
     );

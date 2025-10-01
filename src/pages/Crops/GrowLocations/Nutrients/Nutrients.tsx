@@ -338,51 +338,53 @@ export const GrowLocationNutrients = () => {
     );
 
     return (
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                 <div>
-                    <h1 className="text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                    <p className="text-sm text-gray-600">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
+                    <p className="text-sm text-gray-600 mt-1">
                         2.5 Acre
                         <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
                             Active
                         </span>
                     </p>
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2 flex-wrap">
                     <button
                         onClick={() => setShowNutrientsModal(true)}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+                        className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex-1 sm:flex-none text-center"
                     >
                         Add Nutrients
                     </button>
                     <button
                         onClick={() => setShowSampleModal(true)}
-                        className="border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
+                        className="border border-gray-300 text-gray-700 px-3 sm:px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex-1 sm:flex-none text-center"
                     >
                         Record Sample
                     </button>
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
-                        <i className="fas fa-print"></i>
-                    </button>
-                    <button className="text-gray-500 hover:text-gray-700 p-2">
-                        <i className="fas fa-th"></i>
-                    </button>
+                    <div className="flex gap-1">
+                        <button className="text-gray-500 hover:text-gray-700 p-2">
+                            <i className="fas fa-print"></i>
+                        </button>
+                        <button className="text-gray-500 hover:text-gray-700 p-2">
+                            <i className="fas fa-th"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
             {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
                 {renderChart(
                     'N-P-K MEASUREMENTS',
                     ['nitrogen', 'phosphorus', 'potassium'],
-                    chartColors.nitrogen // Use a single color for the chart
+                    chartColors.nitrogen
                 )}
                 {renderChart(
                     'OTHER NUTRIENTS SAMPLE',
                     ['calcium', 'sulfur', 'boron', 'magnesium'],
-                    chartColors.calcium // Use a single color for the chart
+                    chartColors.calcium
                 )}
                 {renderChart(
                     'PH MEASUREMENTS',
@@ -397,51 +399,54 @@ export const GrowLocationNutrients = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-yellow-100">
                             <tr>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Date
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Action
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     N
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     P
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     K
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Mg
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     S
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Ca
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     B
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Cu
                                 </th>
-                                <th className="px-4 py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-center text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     PH
                                 </th>
-                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
                                     Entered By
+                                </th>
+                                <th className="px-3 py-2 sm:px-4 sm:py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">
+                                    Actions
                                 </th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {nutrientRecords.map((record) => (
                                 <tr key={record.id} className="hover:bg-gray-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900">
                                         {record.date}
                                     </td>
-                                    <td className="px-4 py-3 text-sm text-gray-900 max-w-xs">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 text-sm text-gray-900 max-w-xs truncate">
                                         {record.action.includes('Sampled') ? (
                                             <span className="text-blue-600 cursor-pointer hover:underline">
                                                 {record.action} ▲
@@ -450,43 +455,43 @@ export const GrowLocationNutrients = () => {
                                             record.action
                                         )}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.nitrogen || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.phosphorus || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.potassium || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.magnesium || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.sulfur || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.calcium || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.boron || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.copper || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900 text-center">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900 text-center">
                                         {record.pH || '-'}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm text-gray-900">
                                         {record.enteredBy}
                                     </td>
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm font-medium">
-                                        <div className="flex space-x-2">
+                                    <td className="px-3 py-2 sm:px-4 sm:py-3 whitespace-nowrap text-sm font-medium">
+                                        <div className="flex space-x-1 sm:space-x-2">
                                             <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                                                <FileEdit size={16} />
+                                                <FileEdit size={14} className="sm:w-4" />
                                             </button>
                                             <button className="text-red-600 hover:text-red-800 transition-colors">
-                                                <Trash size={16} />
+                                                <Trash size={14} className="sm:w-4" />
                                             </button>
                                         </div>
                                     </td>
@@ -496,21 +501,22 @@ export const GrowLocationNutrients = () => {
                     </table>
                 </div>
             </div>
+
             {/* New Nutrients Modal */}
             {showNutrientsModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-semibold text-gray-900">New Nutrients</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4 sm:mb-6">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">New Nutrients</h2>
                             <button
                                 onClick={handleNutrientsCancel}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X size={24} />
+                                <X size={20} className="sm:w-6" />
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6 mb-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
                                     Product Applied
@@ -565,8 +571,8 @@ export const GrowLocationNutrients = () => {
                         </div>
 
                         <div className="mb-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Nutrients Applied</h3>
-                            <div className="grid grid-cols-3 gap-4">
+                            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-4">Nutrients Applied</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Nitrogen (N)
@@ -713,18 +719,18 @@ export const GrowLocationNutrients = () => {
                             />
                         </div>
 
-                        <div className="flex justify-end space-x-3">
+                        <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
                             <button
                                 type="button"
                                 onClick={handleNutrientsCancel}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors order-2 sm:order-1"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="button"
                                 onClick={handleNutrientsSubmit}
-                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors order-1 sm:order-2"
                             >
                                 Save
                             </button>
@@ -735,15 +741,15 @@ export const GrowLocationNutrients = () => {
 
             {/* New Sample Modal */}
             {showSampleModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-xl font-semibold text-gray-900">New Sample</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4 sm:mb-6">
+                            <h2 className="text-lg sm:text-xl font-semibold text-gray-900">New Sample</h2>
                             <button
                                 onClick={handleSampleCancel}
                                 className="text-gray-400 hover:text-gray-600"
                             >
-                                <X size={24} />
+                                <X size={20} className="sm:w-6" />
                             </button>
                         </div>
 
@@ -760,8 +766,8 @@ export const GrowLocationNutrients = () => {
                         </div>
 
                         <div className="mb-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Sample Details</h3>
-                            <div className="grid grid-cols-3 gap-4">
+                            <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-4">Sample Details</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Nitrogen (N)
@@ -954,18 +960,18 @@ export const GrowLocationNutrients = () => {
                             />
                         </div>
 
-                        <div className="flex justify-end space-x-3">
+                        <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
                             <button
                                 type="button"
                                 onClick={handleSampleCancel}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors order-2 sm:order-1"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="button"
                                 onClick={handleSampleSubmit}
-                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors order-1 sm:order-2"
                             >
                                 Save
                             </button>

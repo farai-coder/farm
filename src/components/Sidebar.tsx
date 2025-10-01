@@ -134,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <>
       {/* Top Bar */}
       <div className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-4 md:px-6 shadow-sm">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4">
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -222,13 +222,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Mobile Full-Screen Drawer */}
-      <div className={`md:hidden fixed inset-0 z-40 bg-white transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-y-0' : '-translate-y-full'
-        }`} style={{ top: '64px' }}>
-        <div className="bg-white h-full w-full flex flex-col">
+      <div className={`md:hidden fixed z-40 bg-white transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-y-0' : '-translate-y-full'
+        }`} style={{ top: '64px', left: 0, right: 0, bottom: 0 }}>
+        <div className="bg-white h-full w-full flex flex-col overflow-hidden">
           {/* Mobile Drawer Header */}
-          <div className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4">
-            <div className="flex items-center space-x-3">
-              <span className="text-xl font-semibold text-gray-800">Menu</span>
+          <div className="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-4 flex-shrink-0">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg font-semibold text-gray-800">Menu</span>
             </div>
             <button
               onClick={() => setIsSidebarOpen(false)}
@@ -239,7 +239,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Mobile Navigation */}
-          <nav className="flex-1 overflow-y-auto py-0">
+          <nav className="flex-1 overflow-y-auto">
             {menuItems.map((item) => (
               <div key={item.id} className="border-b border-gray-100">
                 <div
@@ -264,19 +264,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       setIsSidebarOpen(false);
                     }
                   }}
-                  className={`flex items-center px-4 py-4 cursor-pointer transition-all duration-200 ${activeMenu === item.id
+                  className={`flex items-center px-4 py-3 cursor-pointer transition-all duration-200 ${activeMenu === item.id
                     ? 'bg-green-50 text-green-700'
                     : 'text-gray-700 hover:bg-gray-50'
                     }`}
                 >
-                  <div className="flex items-center justify-center w-6 h-6 mr-4">
-                    <i className={`fas ${item.icon} text-lg ${activeMenu === item.id ? 'text-green-600' : 'text-gray-500'
+                  <div className="flex items-center justify-center w-5 h-5 mr-3 flex-shrink-0">
+                    <i className={`fas ${item.icon} text-base ${activeMenu === item.id ? 'text-green-600' : 'text-gray-500'
                       }`}></i>
                   </div>
-                  <span className="text-base font-medium flex-1">{item.label}</span>
+                  <span className="text-sm font-medium flex-1 min-w-0">{item.label}</span>
                   {/* Show dropdown arrow for items with submenus */}
                   {item.hasSub && (
-                    <i className={`fas ml-2 text-sm transition-transform duration-200 ${(item.id === 'accounting' && accountingOpen) ||
+                    <i className={`fas ml-2 text-xs transition-transform duration-200 flex-shrink-0 ${(item.id === 'accounting' && accountingOpen) ||
                       (item.id === 'crops' && cropsOpen) ||
                       (item.id === 'livestock' && livestockOpen) ||
                       (item.id === 'resources' && resourcesOpen) ||
@@ -300,12 +300,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             setActiveMenu('crops');
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-3 cursor-pointer transition-all duration-200 ${isActiveSubItem
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
                             ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
                             : 'text-gray-600 hover:bg-gray-100'
                             }`}
                         >
-                          <span className="text-sm">{subItem.label}</span>
+                          <span className="text-xs">{subItem.label}</span>
                         </Link>
                       );
                     })}
@@ -322,7 +322,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           setActiveMenu('livestock');
                           setIsSidebarOpen(false);
                         }}
-                        className="flex items-center pl-12 pr-4 py-3 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+                        className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
                       >
                         {subItem.label}
                       </Link>
@@ -342,12 +342,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             setActiveMenu('resources');
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-3 cursor-pointer transition-all duration-200 ${isActiveSubItem
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
                             ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
                             : 'text-gray-600 hover:bg-gray-100'
                             }`}
                         >
-                          <span className="text-sm">{subItem.label}</span>
+                          <span className="text-xs">{subItem.label}</span>
                         </Link>
                       );
                     })}
@@ -364,7 +364,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           setActiveMenu('market');
                           setIsSidebarOpen(false);
                         }}
-                        className="flex items-center pl-12 pr-4 py-3 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+                        className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
                       >
                         {subItem.label}
                       </Link>
@@ -384,12 +384,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                             setActiveMenu('accounting');
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-3 cursor-pointer transition-all duration-200 ${isActiveSubItem
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
                             ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
                             : 'text-gray-600 hover:bg-gray-100'
                             }`}
                         >
-                          <span className="text-sm">{subItem.label}</span>
+                          <span className="text-xs">{subItem.label}</span>
                         </Link>
                       );
                     })}
@@ -406,7 +406,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           setActiveMenu('climate');
                           setIsSidebarOpen(false);
                         }}
-                        className="flex items-center pl-12 pr-4 py-3 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+                        className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
                       >
                         {subItem.label}
                       </Link>
@@ -418,17 +418,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </nav>
 
           {/* Mobile Footer */}
-          <div className="border-t border-gray-200 p-4 space-y-2">
-            <button className="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-md transition-colors duration-200">
-              <i className="fas fa-user-circle text-lg text-gray-600 mr-4"></i>
-              <span className="text-base">Your Profile</span>
+          <div className="border-t border-gray-200 p-4 space-y-2 flex-shrink-0">
+            <button className="w-full flex items-center px-3 py-2.5 text-gray-700 hover:bg-gray-50 rounded-md transition-colors duration-200">
+              <i className="fas fa-user-circle text-base text-gray-600 mr-3"></i>
+              <span className="text-sm">Your Profile</span>
             </button>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200"
+              className="w-full flex items-center px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-md transition-colors duration-200"
             >
-              <i className="fas fa-sign-out-alt text-lg mr-4"></i>
-              <span className="text-base">Sign Out</span>
+              <i className="fas fa-sign-out-alt text-base mr-3"></i>
+              <span className="text-sm">Sign Out</span>
             </button>
           </div>
         </div>

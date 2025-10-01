@@ -147,7 +147,7 @@ export const FarmMap: React.FC = () => {
                     strokeWeight: 2,
                     strokeColor: '#FFFFFF',
                     editable: true,
-                    draggable: true,
+                    draggable: true, // Added missing comma here
                 },
             });
         }
@@ -164,25 +164,25 @@ export const FarmMap: React.FC = () => {
 
     return (
         <div className="h-full bg-white">
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            {/* Header - Mobile responsive */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 sm:p-6 border-b border-gray-200 space-y-3 sm:space-y-0">
                 <div className="flex items-center space-x-2">
-                    <h1 className="text-2xl font-semibold text-gray-800">Farm Map</h1>
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Farm Map</h1>
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 </div>
 
-                <div className="flex items-center space-x-4">
-                    {/* Map Labels Toggle */}
-                    <div className="flex items-center space-x-2">
-                        <span className="text-sm text-gray-600">Show Map Labels</span>
+                <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-4">
+                    {/* Map Labels Toggle - Hidden on small mobile, visible on larger */}
+                    <div className="hidden xs:flex items-center space-x-2">
+                        <span className="text-xs sm:text-sm text-gray-600">Labels</span>
                         <button
                             onClick={() => setShowMapLabels(!showMapLabels)}
                             className="focus:outline-none"
                         >
                             {showMapLabels ? (
-                                <ToggleRight className="w-8 h-5 text-green-600" />
+                                <ToggleRight className="w-6 h-4 sm:w-8 sm:h-5 text-green-600" />
                             ) : (
-                                <ToggleLeft className="w-8 h-5 text-gray-400" />
+                                <ToggleLeft className="w-6 h-4 sm:w-8 sm:h-5 text-gray-400" />
                             )}
                         </button>
                     </div>
@@ -191,24 +191,24 @@ export const FarmMap: React.FC = () => {
                     <div className="relative">
                         <button
                             onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
-                            className="flex items-center space-x-2 px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 rounded-md text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50"
                         >
-                            <span>Type</span>
-                            <ChevronDown className="w-4 h-4" />
+                            <span className="hidden xs:inline">Type</span>
+                            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
                         </button>
 
                         {isTypeDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
+                            <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                                 <div className="py-1">
                                     {areaTypes.map((type) => (
                                         <button
                                             key={type.id}
                                             onClick={() => handleTypeChange(type.id)}
-                                            className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center space-x-2 ${selectedAreaType === type.id ? 'bg-gray-100' : ''
+                                            className={`w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-gray-50 flex items-center space-x-2 ${selectedAreaType === type.id ? 'bg-gray-100' : ''
                                                 }`}
                                         >
                                             <div
-                                                className="w-3 h-3 rounded-full"
+                                                className="w-2 h-2 sm:w-3 sm:h-3 rounded-full"
                                                 style={{ backgroundColor: type.color }}
                                             ></div>
                                             <span>{type.label}</span>
@@ -220,54 +220,59 @@ export const FarmMap: React.FC = () => {
                     </div>
 
                     {/* Print Button */}
-                    <button className="p-2 text-gray-500 hover:text-gray-700">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button className="p-1.5 sm:p-2 text-gray-500 hover:text-gray-700">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                         </svg>
                     </button>
 
                     {/* More Options */}
-                    <button className="p-2 text-gray-500 hover:text-gray-700">
-                        <MoreVertical className="w-5 h-5" />
+                    <button className="p-1.5 sm:p-2 text-gray-500 hover:text-gray-700">
+                        <MoreVertical className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                 </div>
             </div>
 
-            {/* Map Controls */}
-            <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                <div className="flex items-center space-x-4">
+            {/* Map Controls - Mobile responsive */}
+            <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border-b border-gray-200">
+                <div className="flex items-center space-x-3 sm:space-x-4">
                     {/* Add Place Button */}
                     <button
                         onClick={handleAddPlace}
-                        className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${isDrawingMode
+                        className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-colors flex-1 sm:flex-none justify-center ${isDrawingMode
                             ? 'bg-green-700 text-white'
                             : 'bg-green-600 text-white hover:bg-green-700'
                             }`}
                     >
-                        <Plus className="w-4 h-4" />
-                        <span>{isDrawingMode ? 'Stop Drawing' : 'Add Place to Map'}</span>
-                        <ChevronDown className="w-4 h-4" />
+                        <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span className="hidden xs:inline">
+                            {isDrawingMode ? 'Stop Drawing' : 'Add Place to Map'}
+                        </span>
+                        <span className="xs:hidden">
+                            {isDrawingMode ? 'Stop' : 'Add Place'}
+                        </span>
+                        <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 hidden sm:block" />
                     </button>
 
                     {/* More Options */}
-                    <button className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800">
-                        <MoreVertical className="w-4 h-4" />
+                    <button className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1.5 sm:py-2 text-gray-600 hover:text-gray-800">
+                        <MoreVertical className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                 </div>
 
                 {/* Instructions */}
                 {isDrawingMode && (
-                    <div className="mt-3 flex items-center space-x-2 text-sm text-blue-600">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="mt-2 sm:mt-3 flex items-start space-x-2 text-xs sm:text-sm text-blue-600">
+                        <svg className="w-3 h-3 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
-                        <span>Drag on the map to draw a rectangle. The area will be filled with a light color.</span>
+                        <span className="flex-1">Drag on the map to draw a rectangle. The area will be filled with a light color.</span>
                     </div>
                 )}
             </div>
 
-            {/* Map Container */}
-            <div className="relative flex-1" style={{ height: 'calc(100vh - 280px)' }}>
+            {/* Map Container - Mobile responsive */}
+            <div className="relative flex-1" style={{ height: 'calc(100vh - 200px)' }}>
                 <div
                     ref={mapRef}
                     className="w-full h-full"

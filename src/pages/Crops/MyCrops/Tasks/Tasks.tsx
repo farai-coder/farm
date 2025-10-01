@@ -55,69 +55,71 @@ export const MyCropsTasks = () => {
 
     const ListView = () => (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            <table className="min-w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
-                            <input type="checkbox" className="rounded border-gray-300" />
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Associated To</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Due
-                            <span className="ml-1">▲</span>
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignee</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {tasks.map((task) => (
-                        <tr key={task.id} className="hover:bg-gray-50">
-                            <td className="px-6 py-4">
+            <div className="overflow-x-auto">
+                <table className="min-w-full">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12">
                                 <input type="checkbox" className="rounded border-gray-300" />
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="text-sm font-medium text-gray-900">{task.title}</div>
-                                <div className="text-xs text-gray-500">{task.description}</div>
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{task.associatedTo}</td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{task.dueDate}</td>
-                            <td className="px-6 py-4">
-                                <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
-                                    {task.priority}
-                                </span>
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-900">{task.status}</td>
-                            <td className="px-6 py-4">
-                                <div className="flex items-center">
-                                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm mr-2">
-                                        {task.avatar}
-                                    </div>
-                                    <span className="text-sm text-gray-900">{task.assignee}</span>
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <button className="text-gray-400 hover:text-gray-600 p-1">⋯</button>
-                            </td>
+                            </th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Associated To</th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                                Due
+                                <span className="ml-1">▲</span>
+                            </th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">Priority</th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">Status</th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Assignee</th>
+                            <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-12"></th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {tasks.map((task) => (
+                            <tr key={task.id} className="hover:bg-gray-50">
+                                <td className="px-4 sm:px-6 py-4">
+                                    <input type="checkbox" className="rounded border-gray-300" />
+                                </td>
+                                <td className="px-4 sm:px-6 py-4">
+                                    <div className="text-sm font-medium text-gray-900">{task.title}</div>
+                                    <div className="text-xs text-gray-500">{task.description}</div>
+                                </td>
+                                <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 hidden sm:table-cell">{task.associatedTo}</td>
+                                <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 hidden md:table-cell">{task.dueDate}</td>
+                                <td className="px-4 sm:px-6 py-4 hidden lg:table-cell">
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                        {task.priority}
+                                    </span>
+                                </td>
+                                <td className="px-4 sm:px-6 py-4 text-sm text-gray-900 hidden sm:table-cell">{task.status}</td>
+                                <td className="px-4 sm:px-6 py-4 hidden md:table-cell">
+                                    <div className="flex items-center">
+                                        <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-white text-sm mr-2">
+                                            {task.avatar}
+                                        </div>
+                                        <span className="text-sm text-gray-900">{task.assignee}</span>
+                                    </div>
+                                </td>
+                                <td className="px-4 sm:px-6 py-4">
+                                    <button className="text-gray-400 hover:text-gray-600 p-1">⋯</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
                 <p className="text-sm text-gray-700">Displaying {tasks.length} record{tasks.length !== 1 ? 's' : ''}</p>
             </div>
         </div>
     );
 
     const BoardView = () => (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {Object.entries(groupedTasks).map(([status, statusTasks]) => (
-                <div key={status} className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-medium text-gray-800 flex items-center">
+                <div key={status} className="bg-gray-50 rounded-lg p-3 sm:p-4">
+                    <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="font-medium text-gray-800 flex items-center text-sm sm:text-base">
                             {status.toUpperCase()}
                             <span className="ml-2 bg-gray-600 text-white text-xs px-2 py-1 rounded-full">
                                 {statusTasks.length}
@@ -125,8 +127,8 @@ export const MyCropsTasks = () => {
                         </h3>
                         {status === 'Done' && (
                             <div className="flex items-center text-green-600">
-                                <span className="text-sm">ALL COMPLETED</span>
-                                <div className="ml-2 w-4 h-4 bg-green-600 rounded-full flex items-center justify-center">
+                                <span className="text-xs sm:text-sm hidden sm:inline">ALL COMPLETED</span>
+                                <div className="ml-1 sm:ml-2 w-4 h-4 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
                                     <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                     </svg>
@@ -135,17 +137,17 @@ export const MyCropsTasks = () => {
                         )}
                     </div>
 
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                         {statusTasks.map((task) => (
-                            <div key={task.id} className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
-                                <h4 className="text-sm font-medium text-gray-800 mb-2">{task.title}</h4>
-                                <div className="text-xs text-gray-500 mb-3">{task.category}</div>
+                            <div key={task.id} className="bg-white rounded-lg p-3 sm:p-4 shadow-sm border border-gray-200">
+                                <h4 className="text-sm font-medium text-gray-800 mb-1 sm:mb-2">{task.title}</h4>
+                                <div className="text-xs text-gray-500 mb-2 sm:mb-3">{task.category}</div>
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
-                                        <div className="w-5 h-5 bg-gray-300 rounded-full mr-2"></div>
-                                        <span className="text-xs text-gray-600">{task.assignee.split(' ')[0]}</span>
+                                        <div className="w-5 h-5 bg-gray-300 rounded-full mr-2 flex-shrink-0"></div>
+                                        <span className="text-xs text-gray-600 truncate">{task.assignee.split(' ')[0]}</span>
                                     </div>
-                                    <span className="text-xs text-gray-500">{task.due}</span>
+                                    <span className="text-xs text-gray-500 whitespace-nowrap">{task.due}</span>
                                 </div>
                             </div>
                         ))}
@@ -156,20 +158,25 @@ export const MyCropsTasks = () => {
     );
 
     const EmptyTasksState = ({ onAddTask }) => (
-        <div className="flex flex-col items-center justify-center py-20">
+        <div className="flex flex-col items-center justify-center py-12 sm:py-20">
             {/* Dotted rectangle containing all the content - made wider */}
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-8xl">
-                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-12 flex flex-col items-center w-full max-w-8xl">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-4 sm:mb-6">
+                    <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                         <line x1="16" y1="2" x2="16" y2="6" />
                         <line x1="8" y1="2" x2="8" y2="6" />
                         <line x1="3" y1="10" x2="21" y2="10" />
                     </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">Nothing to do yet?</h3>
-                <p className="text-gray-600 mb-5 text-center">Add a new task and it will show up here.</p>
-              
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 mb-2 sm:mb-3 text-center">Nothing to do yet?</h3>
+                <p className="text-gray-600 mb-4 sm:mb-5 text-center text-sm sm:text-base">Add a new task and it will show up here.</p>
+                <button
+                    onClick={onAddTask}
+                    className="bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md text-sm sm:text-base font-medium hover:bg-green-700 transition-colors"
+                >
+                    Add Your First Task
+                </button>
             </div>
         </div>
     );
@@ -213,17 +220,17 @@ export const MyCropsTasks = () => {
         };
 
         return (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-semibold">New Task</h2>
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="flex justify-between items-center mb-4 sm:mb-6">
+                        <h2 className="text-lg sm:text-xl font-semibold">New Task</h2>
                         <button onClick={() => setShowNewTaskModal(false)} className="text-gray-500 hover:text-gray-700 text-2xl">
                             ×
                         </button>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-2 gap-6">
+                    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
                                 <input
@@ -253,7 +260,7 @@ export const MyCropsTasks = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                             <div className="border border-gray-300 rounded-md">
-                                <div className="flex items-center space-x-2 p-2 border-b border-gray-200">
+                                <div className="flex items-center space-x-1 sm:space-x-2 p-2 border-b border-gray-200 overflow-x-auto">
                                     <select className="text-sm border-none">
                                         <option>Normal</option>
                                     </select>
@@ -278,7 +285,7 @@ export const MyCropsTasks = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
                                 <select
@@ -317,7 +324,7 @@ export const MyCropsTasks = () => {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
                                 <input
@@ -357,17 +364,17 @@ export const MyCropsTasks = () => {
                             />
                         </div>
 
-                        <div className="flex space-x-4">
-                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                            <button type="button" className="text-blue-600 hover:text-blue-800 text-sm">
                                 <i className="fas fa-list mr-2"></i>Add Checklist Item
                             </button>
-                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                            <button type="button" className="text-blue-600 hover:text-blue-800 text-sm">
                                 <i className="fas fa-map-marker-alt mr-2"></i>Add Map Location
                             </button>
                         </div>
 
                         <div>
-                            <button type="button" className="text-blue-600 hover:text-blue-800">
+                            <button type="button" className="text-blue-600 hover:text-blue-800 text-sm">
                                 <i className="fas fa-paperclip mr-2"></i>Add Attachment
                             </button>
                         </div>
@@ -401,17 +408,17 @@ export const MyCropsTasks = () => {
                             </div>
                         </div>
 
-                        <div className="flex justify-end space-x-3 pt-4">
+                        <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
                             <button
                                 type="button"
                                 onClick={() => setShowNewTaskModal(false)}
-                                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                                className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base"
                             >
                                 Close
                             </button>
                             <button
                                 type="submit"
-                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm sm:text-base"
                             >
                                 Create
                             </button>
@@ -423,69 +430,72 @@ export const MyCropsTasks = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-4 sm:p-6 bg-gray-50 min-h-screen">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800">Tasks: All Users</h1>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
+                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Tasks: All Users</h1>
                     <div className="flex items-center space-x-3">
                         {/* View Toggle */}
                         <div className="flex items-center bg-gray-100 rounded-lg p-1">
                             <button
                                 onClick={() => setViewMode('list')}
-                                className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-2 ${viewMode === 'list'
+                                className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-1 sm:space-x-2 ${viewMode === 'list'
                                     ? 'bg-white text-gray-800 shadow-sm'
                                     : 'text-gray-600 hover:text-gray-800'
                                     }`}
                             >
                                 <List className="w-4 h-4" />
-                                <span className="text-sm font-medium">List View</span>
+                                <span className="text-xs sm:text-sm font-medium hidden sm:inline">List View</span>
+                                <span className="text-xs sm:text-sm font-medium sm:hidden">List</span>
                             </button>
                             <button
                                 onClick={() => setViewMode('board')}
-                                className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-2 ${viewMode === 'board'
+                                className={`p-2 rounded-md transition-colors duration-200 flex items-center space-x-1 sm:space-x-2 ${viewMode === 'board'
                                     ? 'bg-white text-gray-800 shadow-sm'
                                     : 'text-gray-600 hover:text-gray-800'
                                     }`}
                             >
                                 <LayoutGrid className="w-4 h-4" />
-                                <span className="text-sm font-medium">Board View</span>
+                                <span className="text-xs sm:text-sm font-medium hidden sm:inline">Board View</span>
+                                <span className="text-xs sm:text-sm font-medium sm:hidden">Board</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
                 {/* Controls */}
-
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-3">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 sm:mb-6 space-y-4 lg:space-y-0">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
                         <button
                             onClick={() => setShowNewTaskModal(true)}
-                            className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                            className="bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-green-700 whitespace-nowrap"
                         >
                             Add Task
                         </button>
-                        <button className="text-gray-600 hover:text-gray-800 px-3 py-2 text-sm border border-gray-300 rounded-md">
+                        <button className="text-gray-600 hover:text-gray-800 px-2 sm:px-3 py-2 text-xs sm:text-sm border border-gray-300 rounded-md whitespace-nowrap">
                             Use Template
                         </button>
                         <button className="text-gray-500 hover:text-gray-700 p-2">⋯</button>
                     </div>
 
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                         <input
                             type="text"
                             placeholder="Search Tasks"
-                            className="px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
+                            className="px-3 sm:px-4 py-2 border border-gray-300 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
                         />
-                        <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                        <select className="px-2 sm:px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm">
                             <option>All Users</option>
                         </select>
-                        <select className="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                        <select className="px-2 sm:px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm">
                             <option>All</option>
                         </select>
                     </div>
                 </div>
+
                 {showNewTaskModal && <NewTaskModal />}
+
                 {/* Content */}
                 {tasks.length === 0 ? (
                     <EmptyTasksState onAddTask={() => setShowNewTaskModal(true)} />

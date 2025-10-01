@@ -164,18 +164,18 @@ export const MyCurrentPlantings = () => {
 
     // Edit Modal Component
     const EditModal = () => (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
             <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-800">Edit Crop Details</h2>
+                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">Edit Crop Details</h2>
                     <button
                         onClick={() => setShowEditModal(false)}
                         className="text-gray-400 hover:text-gray-600"
                     >
-                        <X className="w-6 h-6" />
+                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </div>
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     <CropDetailsPageContent />
                 </div>
             </div>
@@ -185,25 +185,25 @@ export const MyCurrentPlantings = () => {
     const CropDetailsPageContent = () => (
         <div className="bg-white min-h-screen">
             {/* Header */}
-            <div className="text-white px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                    <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold">
+            <div className="text-white px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                    <div className="bg-gray-400 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white font-bold text-sm sm:text-base">
                         77
                     </div>
                     <div>
-                        <h1 className="text-xl font-semibold">767, 767</h1>
-                        <p className="text-sm opacity-90">tyt</p>
+                        <h1 className="text-lg sm:text-xl font-semibold">767, 767</h1>
+                        <p className="text-xs sm:text-sm opacity-90">tyt</p>
                     </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                    <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium">
+                <div className="flex items-center space-x-1 sm:space-x-2 self-end sm:self-auto">
+                    <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded font-medium text-sm sm:text-base">
                         Add Planting
                     </button>
-                    <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium">
+                    <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded font-medium text-sm sm:text-base">
                         Harvest
                     </button>
-                    <button className="text-white hover:text-gray-200">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <button className="text-white hover:text-gray-200 p-1">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                         </svg>
                     </button>
@@ -211,19 +211,19 @@ export const MyCurrentPlantings = () => {
             </div>
 
             {/* Content */}
-            <div className="p-6 max-w-4xl">
+            <div className="p-4 sm:p-6 max-w-4xl">
                 {/* Type & Variety Section */}
-                <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-6">Type & Variety</h2>
+                <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Type & Variety</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Crop Type</label>
                             <input
                                 type="text"
                                 value={formData.cropType}
                                 onChange={(e) => handleInputChange('cropType', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
 
@@ -233,19 +233,19 @@ export const MyCurrentPlantings = () => {
                                 type="text"
                                 value={formData.variety}
                                 onChange={(e) => handleInputChange('variety', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Botanical Name</label>
                             <input
                                 type="text"
                                 value={formData.botanicalName}
                                 onChange={(e) => handleInputChange('botanicalName', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
 
@@ -260,114 +260,114 @@ export const MyCurrentPlantings = () => {
                                 type="text"
                                 value={formData.internalId}
                                 onChange={(e) => handleInputChange('internalId', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <label className="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-                        <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold">
+                        <div className="bg-gray-400 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-white font-bold text-sm sm:text-base">
                             77
                         </div>
                     </div>
                 </div>
 
                 {/* Planting Details Section */}
-                <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-6">Planting Details</h2>
+                <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Planting Details</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="flex items-center justify-between">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Start Before Last Frost</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.startBeforeLastFrost}
                                     onChange={(e) => handleInputChange('startBeforeLastFrost', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">weeks</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Days To Emerge</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.daysToEmerge}
                                     onChange={(e) => handleInputChange('daysToEmerge', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">days</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="flex items-center justify-between">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Plant Spacing</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.plantSpacing}
                                     onChange={(e) => handleInputChange('plantSpacing', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">cm</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Row Spacing</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.rowSpacing}
                                     onChange={(e) => handleInputChange('rowSpacing', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="flex items-center justify-between">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Planting Depth</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.plantingDepth}
                                     onChange={(e) => handleInputChange('plantingDepth', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">cm</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Average Height</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.averageHeight}
                                     onChange={(e) => handleInputChange('averageHeight', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="space-y-4 mb-6">
+                    <div className="space-y-4 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Start Method</label>
                             <select
                                 value={formData.startMethod}
                                 onChange={(e) => handleInputChange('startMethod', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             >
                                 <option value="">Select start method...</option>
                                 <option value="direct-seed">Direct Seed</option>
@@ -381,7 +381,7 @@ export const MyCurrentPlantings = () => {
                             <select
                                 value={formData.lightProfile}
                                 onChange={(e) => handleInputChange('lightProfile', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             >
                                 <option value="">Select light profile...</option>
                                 <option value="full-sun">Full Sun</option>
@@ -395,7 +395,7 @@ export const MyCurrentPlantings = () => {
                             <select
                                 value={formData.soilConditions}
                                 onChange={(e) => handleInputChange('soilConditions', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             >
                                 <option value="">Select soil conditions...</option>
                                 <option value="well-drained">Well Drained</option>
@@ -405,14 +405,14 @@ export const MyCurrentPlantings = () => {
                         </div>
                     </div>
 
-                    <div className="space-y-4 mb-6">
+                    <div className="space-y-4 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Planting Details</label>
                             <textarea
                                 value={formData.plantingDetails}
                                 onChange={(e) => handleInputChange('plantingDetails', e.target.value)}
                                 rows={4}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 placeholder="Enter planting details..."
                             />
                         </div>
@@ -423,7 +423,7 @@ export const MyCurrentPlantings = () => {
                                 value={formData.pruningDetails}
                                 onChange={(e) => handleInputChange('pruningDetails', e.target.value)}
                                 rows={4}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 placeholder="Enter pruning details..."
                             />
                         </div>
@@ -453,52 +453,52 @@ export const MyCurrentPlantings = () => {
                 </div>
 
                 {/* Harvest Details Section */}
-                <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-6">Harvest Details</h2>
+                <div className="mb-6 sm:mb-8">
+                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6">Harvest Details</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="flex items-center justify-between">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Days To Flower</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.daysToFlower}
                                     onChange={(e) => handleInputChange('daysToFlower', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">days</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Days To Maturity</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.daysToMaturity}
                                     onChange={(e) => handleInputChange('daysToMaturity', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">Days</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                        <div className="flex items-center justify-between">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700">Harvest Window</label>
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="number"
                                     value={formData.harvestWindow}
                                     onChange={(e) => handleInputChange('harvestWindow', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">Days</span>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                             <label className="text-sm font-medium text-gray-700 flex items-center">
                                 Estimated Loss Rate
                                 <svg className="w-4 h-4 ml-1 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -511,20 +511,20 @@ export const MyCurrentPlantings = () => {
                                     step="0.1"
                                     value={formData.estimatedLossRate}
                                     onChange={(e) => handleInputChange('estimatedLossRate', e.target.value)}
-                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-16 px-2 py-1 border border-gray-300 rounded text-center focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                                 <span className="text-sm text-gray-600">%</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Harvest Units</label>
                             <select
                                 value={formData.harvestUnits}
                                 onChange={(e) => handleInputChange('harvestUnits', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             >
                                 <option value="quantity">quantity</option>
                                 <option value="weight">weight</option>
@@ -546,14 +546,15 @@ export const MyCurrentPlantings = () => {
                                     step="0.01"
                                     value={formData.estimatedRevenue}
                                     onChange={(e) => handleInputChange('estimatedRevenue', e.target.value)}
-                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
-                                <span className="text-gray-600 ml-2 text-sm">per harvest unit</span>
+                                <span className="text-gray-600 ml-2 text-sm hidden sm:inline">per harvest unit</span>
+                                <span className="text-gray-600 ml-2 text-sm sm:hidden">per unit</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
                                 Expected Yield Per 30.48m
@@ -565,7 +566,7 @@ export const MyCurrentPlantings = () => {
                                 type="number"
                                 value={formData.expectedYieldPer30_48m}
                                 onChange={(e) => handleInputChange('expectedYieldPer30_48m', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
 
@@ -580,12 +581,12 @@ export const MyCurrentPlantings = () => {
                                 type="number"
                                 value={formData.expectedYieldPerHectare}
                                 onChange={(e) => handleInputChange('expectedYieldPerHectare', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <button className="text-teal-600 hover:text-teal-700 text-sm font-medium flex items-center">
                             <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -596,16 +597,16 @@ export const MyCurrentPlantings = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-6 border-t border-gray-200">
                     <button
                         onClick={handleCancel}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium"
+                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium order-2 sm:order-1"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleSave}
-                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+                        className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium order-1 sm:order-2"
                     >
                         Save
                     </button>
@@ -616,47 +617,47 @@ export const MyCurrentPlantings = () => {
 
     // Harvest Modal Component
     const HarvestModal = () => (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-2 sm:mx-4 max-h-[90vh] overflow-y-auto">
                 {/* Modal Header */}
-                <div className=" text-white px-6 py-4 flex items-center justify-between rounded-t-lg" >
-                    <div className="flex items-center space-x-4">
-                        <div className="bg-gray-400 rounded-full w-12 h-12 flex items-center justify-center text-white font-bold">
+                <div className=" text-white px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-t-lg gap-3 sm:gap-0">
+                    <div className="flex items-center space-x-2 sm:space-x-4">
+                        <div className="bg-gray-400 rounded-full w-8 h-8 sm:w-12 sm:h-12 flex items-center justify-center text-white font-bold text-xs sm:text-base">
                             77
                         </div>
                         <div>
-                            <h1 className="text-xl font-semibold">767, 767</h1>
-                            <p className="text-sm opacity-90">tyt</p>
+                            <h1 className="text-base sm:text-xl font-semibold">767, 767</h1>
+                            <p className="text-xs sm:text-sm opacity-90">tyt</p>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                        <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium">
+                    <div className="flex items-center space-x-1 sm:space-x-2 self-end sm:self-auto">
+                        <button className="bg-green-600 hover:bg-green-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded font-medium text-xs sm:text-base">
                             Add Planting
                         </button>
-                        <button className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium">
+                        <button className="bg-gray-600 hover:bg-gray-700 text-white px-2 py-1 sm:px-4 sm:py-2 rounded font-medium text-xs sm:text-base">
                             Harvest
                         </button>
                         <button
                             onClick={() => setShowHarvestModal(false)}
                             className="text-white hover:text-gray-200 p-1"
                         >
-                            <X size={20} />
+                            <X size={16} className="sm:w-5 sm:h-5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Modal Content */}
-                <div className="p-6">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-6">Record Harvest</h2>
+                <div className="p-4 sm:p-6">
+                    <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">Record Harvest</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Date Harvested</label>
                             <input
                                 type="date"
                                 value={harvestForm.dateHarvested}
                                 onChange={(e) => handleHarvestInputChange('dateHarvested', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
 
@@ -669,21 +670,21 @@ export const MyCurrentPlantings = () => {
                                     step="0.01"
                                     value={harvestForm.estimatedRevenue}
                                     onChange={(e) => handleHarvestInputChange('estimatedRevenue', e.target.value)}
-                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
-                                <span className="text-gray-600 text-sm">per</span>
+                                <span className="text-gray-600 text-sm hidden sm:inline">per</span>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Batch Number</label>
                             <input
                                 type="text"
                                 value={harvestForm.batchNumber}
                                 onChange={(e) => handleHarvestInputChange('batchNumber', e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
 
@@ -694,31 +695,31 @@ export const MyCurrentPlantings = () => {
                                 value={harvestForm.traceNumber}
                                 onChange={(e) => handleHarvestInputChange('traceNumber', e.target.value)}
                                 placeholder="Leave blank to auto generate"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             />
                         </div>
                     </div>
 
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         <label className="block text-sm font-medium text-gray-700 mb-2">Note</label>
                         <textarea
                             value={harvestForm.note}
                             onChange={(e) => handleHarvestInputChange('note', e.target.value)}
                             rows={4}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                             placeholder="Enter harvest notes..."
                         />
                     </div>
 
                     {/* Harvest Details Table */}
-                    <div className="mb-6">
-                        <div className="grid grid-cols-4 gap-4 mb-4">
+                    <div className="mb-4 sm:mb-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Harvested From</label>
                                 <select
                                     value={harvestForm.harvestedFrom}
                                     onChange={(e) => handleHarvestInputChange('harvestedFrom', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 >
                                     <option value="">Select...</option>
                                     <option value="field-a">Field A</option>
@@ -733,7 +734,7 @@ export const MyCurrentPlantings = () => {
                                     type="text"
                                     value={harvestForm.bed}
                                     onChange={(e) => handleHarvestInputChange('bed', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                             </div>
 
@@ -743,7 +744,7 @@ export const MyCurrentPlantings = () => {
                                     type="text"
                                     value={harvestForm.gradeSize}
                                     onChange={(e) => handleHarvestInputChange('gradeSize', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                             </div>
 
@@ -754,31 +755,31 @@ export const MyCurrentPlantings = () => {
                                     step="0.01"
                                     value={harvestForm.amountHarvested}
                                     onChange={(e) => handleHarvestInputChange('amountHarvested', e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm sm:text-base"
                                 />
                             </div>
                         </div>
 
-                        <button className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-700">
+                        <button className="bg-gray-800 text-white px-4 py-2 rounded text-sm hover:bg-gray-700 w-full sm:w-auto">
                             Add Location
                         </button>
                     </div>
 
-                    <div className="text-right text-lg font-semibold text-gray-800 mb-6">
+                    <div className="text-right text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-6">
                         Harvest Total: 0.00
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <div className="flex flex-col sm:flex-row sm:justify-end space-y-3 sm:space-y-0 sm:space-x-3 pt-6 border-t border-gray-200">
                         <button
                             onClick={handleCancelHarvest}
-                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium"
+                            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium order-2 sm:order-1"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleSaveHarvest}
-                            className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium"
+                            className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium order-1 sm:order-2"
                         >
                             Save
                         </button>
@@ -789,56 +790,56 @@ export const MyCurrentPlantings = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-0">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-lg flex items-center justify-center">
                             🌶️
                         </div>
                         <div>
-                            <h1 className="text-2xl font-semibold text-gray-800">Peppers (Hot), Thai Dragon</h1>
+                            <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Peppers (Hot), Thai Dragon</h1>
                             <p className="text-sm text-gray-600">Capsicum annuum, Hot</p>
                             <span className="inline-block bg-gray-100 text-gray-800 px-2 py-0.5 rounded text-xs">PERTH</span>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1 sm:space-x-2 self-end sm:self-auto">
                         <button
                             onClick={() => setShowEditModal(true)}
-                            className="bg-gray-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium"
+                            className="bg-gray-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded font-medium text-sm sm:text-base"
                         >
                             Edit Plant
                         </button>
                         <button
                             onClick={() => setShowNewPlantingModal(true)}
-                            className="bg-green-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium"
+                            className="bg-green-600 hover:bg-gray-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded font-medium text-sm sm:text-base"
                         >
                             New Planting
                         </button>
                         <button
                             onClick={() => setShowHarvestModal(true)}
-                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium"
+                            className="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded font-medium text-sm sm:text-base"
                         >
                             New Harvest
                         </button>
                         <button className="text-red-600 hover:text-red-800 p-1">
-                            <Trash2 size={16} />
+                            <Trash2 size={14} className="sm:w-4 sm:h-4" />
                         </button>
                     </div>
                 </div>
 
                 <>
                     {/* Chart View */}
-                    <div className="mb-6">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-1">3 Locations Planted</h2>
-                        <p className="text-sm text-gray-600 mb-4">Planned Jan. 01, 2022 - Jan. 12, 2022</p>
-                        <p className="text-sm text-gray-600 mb-6">EXPECTED POUNDS PER WEEK</p>
+                    <div className="mb-4 sm:mb-6">
+                        <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-1">3 Locations Planted</h2>
+                        <p className="text-sm text-gray-600 mb-2 sm:mb-4">Planned Jan. 01, 2022 - Jan. 12, 2022</p>
+                        <p className="text-sm text-gray-600 mb-4 sm:mb-6">EXPECTED POUNDS PER WEEK</p>
                     </div>
 
                     {/* Chart */}
-                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                        <div className="h-64">
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+                        <div className="h-48 sm:h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={expectedPoundsData}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -880,14 +881,14 @@ export const MyCurrentPlantings = () => {
                     </div>
 
                     {/* Detailed Plantings View */}
-                    <div className="mb-6">
+                    <div className="mb-4 sm:mb-6">
                         {/* Planting Details Table */}
-                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
-                            <div className="p-4 border-b border-gray-200">
-                                <div className="flex items-center justify-between">
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-4 sm:mb-6">
+                            <div className="p-3 sm:p-4 border-b border-gray-200">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
                                     <div className="flex items-center space-x-2">
                                         <button className="text-gray-400 hover:text-gray-600">
-                                            <ChevronDown size={16} />
+                                            <ChevronDown size={14} className="sm:w-4 sm:h-4" />
                                         </button>
                                         <h3 className="font-medium text-gray-800">Tyyt</h3>
                                         <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">3</span>
@@ -905,30 +906,30 @@ export const MyCurrentPlantings = () => {
                                 <table className="min-w-full">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th className="px-4 py-3 text-left">
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left">
                                                 <input type="checkbox" className="rounded border-gray-300" />
                                             </th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harvest</th>
-                                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start</th>
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harvest</th>
+                                            <th className="px-3 sm:px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         <tr>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <input type="checkbox" className="rounded border-gray-300" />
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-blue-600 hover:text-blue-800">767, 767</div>
                                                 <div className="text-xs text-gray-500">Bed: 01</div>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">2.54 sqm (100.0 bed m)</div>
                                                 <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">~3,937 Plants</span>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">Plant Sep. 23, 2025</div>
                                                 <div className="text-xs text-gray-500">Direct Sow</div>
                                                 <div className="flex items-center text-xs text-gray-500">
@@ -936,26 +937,26 @@ export const MyCurrentPlantings = () => {
                                                     <span>Seed Started</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-500">-</td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4 text-sm text-gray-500">-</td>
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <button className="text-gray-400 hover:text-gray-600">
-                                                    <MoreHorizontal size={16} />
+                                                    <MoreHorizontal size={14} className="sm:w-4 sm:h-4" />
                                                 </button>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <input type="checkbox" className="rounded border-gray-300" />
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-blue-600 hover:text-blue-800">767, 767</div>
                                                 <div className="text-xs text-gray-500">Bed: 01</div>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">2.54 sqm (100.0 bed m)</div>
                                                 <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">~3,937 Plants</span>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">Plant Sep. 23, 2025</div>
                                                 <div className="text-xs text-gray-500">Transplant</div>
                                                 <div className="flex items-center text-xs text-gray-500">
@@ -963,26 +964,26 @@ export const MyCurrentPlantings = () => {
                                                     <span>Seed Started</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-500">-</td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4 text-sm text-gray-500">-</td>
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <button className="text-gray-400 hover:text-gray-600">
-                                                    <MoreHorizontal size={16} />
+                                                    <MoreHorizontal size={14} className="sm:w-4 sm:h-4" />
                                                 </button>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <input type="checkbox" className="rounded border-gray-300" />
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-blue-600 hover:text-blue-800">767, 767</div>
                                                 <div className="text-xs text-gray-500">Bed: 01</div>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">2.54 sqm (100.0 bed m)</div>
                                                 <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">~3,937 Plants</span>
                                             </td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <div className="text-sm text-gray-900">Plant Sep. 23, 2025</div>
                                                 <div className="text-xs text-gray-500">Direct Sow</div>
                                                 <div className="flex items-center text-xs text-gray-500">
@@ -990,10 +991,10 @@ export const MyCurrentPlantings = () => {
                                                     <span>Seed Started</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-sm text-gray-500">-</td>
-                                            <td className="px-4 py-4">
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4 text-sm text-gray-500">-</td>
+                                            <td className="px-3 sm:px-4 py-3 sm:py-4">
                                                 <button className="text-gray-400 hover:text-gray-600">
-                                                    <MoreHorizontal size={16} />
+                                                    <MoreHorizontal size={14} className="sm:w-4 sm:h-4" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -1001,7 +1002,7 @@ export const MyCurrentPlantings = () => {
                                 </table>
                             </div>
 
-                            <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 text-center">
+                            <div className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border-t border-gray-200 text-center">
                                 <button className="text-blue-600 hover:text-blue-800 text-sm">
                                     View all Plantings in Tyyt
                                 </button>
@@ -1014,10 +1015,10 @@ export const MyCurrentPlantings = () => {
                 {showEditModal && <EditModal />}
 
                 {showNewPlantingModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
                         <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                                <h2 className="text-xl font-semibold text-gray-800">New Planting</h2>
+                            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
+                                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Planting</h2>
                                 <button
                                     onClick={() => {
                                         setShowNewPlantingModal(false);
@@ -1025,34 +1026,34 @@ export const MyCurrentPlantings = () => {
                                     }}
                                     className="text-gray-400 hover:text-gray-600"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                                 </button>
                             </div>
 
                             {/* Step Indicator */}
-                            <div className="px-6 py-4 border-b border-gray-200">
-                                <div className="flex items-center space-x-8">
+                            <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-8 space-y-4 sm:space-y-0">
                                     <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 1 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                             1
                                         </div>
-                                        <span className={`text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${newPlantingStep >= 1 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Crop Type & Location
                                         </span>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 2 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                             2
                                         </div>
-                                        <span className={`text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${newPlantingStep >= 2 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Planting Details
                                         </span>
                                     </div>
                                     <div className="flex items-center space-x-2">
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                                        <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${newPlantingStep >= 3 ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-600'}`}>
                                             ✓
                                         </div>
-                                        <span className={`text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
+                                        <span className={`text-xs sm:text-sm ${newPlantingStep >= 3 ? 'text-gray-800 font-medium' : 'text-gray-500'}`}>
                                             Complete
                                         </span>
                                     </div>
@@ -1060,35 +1061,37 @@ export const MyCurrentPlantings = () => {
                             </div>
 
                             {/* Modal Content */}
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 {newPlantingStep === 1 && (
-                                    <div className="space-y-6">
+                                    <div className="space-y-4 sm:space-y-6">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Crop Type</label>
-                                            <div className="flex items-center space-x-3">
+                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                                                 <input
                                                     type="text"
                                                     value={plantingData.cropType}
                                                     onChange={(e) => setPlantingData(prev => ({ ...prev, cropType: e.target.value }))}
-                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                 />
-                                                <Search className="w-4 h-4 text-gray-400" />
-                                                <button
-                                                    onClick={handleNewCropType}
-                                                    className="text-blue-600 hover:text-blue-800 text-sm"
-                                                >
-                                                    New Crop Type
-                                                </button>
+                                                <div className="flex items-center space-x-3">
+                                                    <Search className="w-4 h-4 text-gray-400" />
+                                                    <button
+                                                        onClick={handleNewCropType}
+                                                        className="text-blue-600 hover:text-blue-800 text-sm"
+                                                    >
+                                                        New Crop Type
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Grow Location</label>
-                                            <div className="flex items-center space-x-3">
+                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                                                 <input
                                                     type="text"
                                                     value={plantingData.growLocation}
                                                     onChange={(e) => setPlantingData(prev => ({ ...prev, growLocation: e.target.value }))}
-                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                 />
                                                 <button
                                                     onClick={() => setShowNewPlantingModal(true)}
@@ -1102,24 +1105,24 @@ export const MyCurrentPlantings = () => {
                                 )}
 
                                 {newPlantingStep === 2 && (
-                                    <div className="space-y-6">
+                                    <div className="space-y-4 sm:space-y-6">
                                         <div className="flex items-center space-x-3 mb-4">
-                                            <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-sm">
+                                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 text-xs sm:text-sm">
                                                 77
                                             </div>
                                             <div>
-                                                <h3 className="text-lg font-semibold">767, 767</h3>
-                                                <p className="text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
+                                                <h3 className="text-base sm:text-lg font-semibold">767, 767</h3>
+                                                <p className="text-xs sm:text-sm text-gray-600">tyyt - Bed: 01 tyt-yt-B01</p>
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
                                                 <select
                                                     value={plantingData.startMethod}
                                                     onChange={(e) => setPlantingData(prev => ({ ...prev, startMethod: e.target.value }))}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                 >
                                                     <option value="Direct Sow">Direct Sow</option>
                                                     <option value="Transplant">Transplant</option>
@@ -1130,7 +1133,7 @@ export const MyCurrentPlantings = () => {
                                                 <select
                                                     value={plantingData.growthStage}
                                                     onChange={(e) => setPlantingData(prev => ({ ...prev, growthStage: e.target.value }))}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                 >
                                                     <option value="Seed Started">Seed Started</option>
                                                     <option value="Germinated">Germinated</option>
@@ -1138,23 +1141,23 @@ export const MyCurrentPlantings = () => {
                                             </div>
                                         </div>
 
-                                        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
-                                            <div className="flex items-center space-x-2">
-                                                <Info className="w-4 h-4 text-blue-600" />
-                                                <span className="text-sm text-blue-800">
+                                        <div className="bg-blue-50 border border-blue-200 rounded-md p-3 sm:p-4">
+                                            <div className="flex items-start space-x-2">
+                                                <Info className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                                                <span className="text-xs sm:text-sm text-blue-800">
                                                     Planting Info: 3 sqm (Approx.) - Planted in 1 rows (3937 per row)
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div>
-                                            <h3 className="text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-700 mb-1">Planned First Harvest</label>
                                                     <input
                                                         type="date"
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                     />
                                                 </div>
                                                 <div>
@@ -1162,7 +1165,7 @@ export const MyCurrentPlantings = () => {
                                                     <input
                                                         type="number"
                                                         value={plantingData.currentlyPlanted}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-sm sm:text-base"
                                                     />
                                                 </div>
                                             </div>
@@ -1172,22 +1175,22 @@ export const MyCurrentPlantings = () => {
                             </div>
 
                             {/* Modal Footer */}
-                            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
                                 <button
                                     onClick={() => {
                                         setShowNewPlantingModal(false);
                                         setNewPlantingStep(1);
                                     }}
-                                    className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm"
+                                    className="text-gray-600 hover:text-gray-800 px-4 py-2 text-sm order-2 sm:order-1"
                                 >
                                     Cancel
                                 </button>
 
-                                <div className="flex items-center space-x-3">
+                                <div className="flex items-center space-x-3 order-1 sm:order-2">
                                     {newPlantingStep < 2 ? (
                                         <button
                                             onClick={() => setNewPlantingStep(2)}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium w-full sm:w-auto"
                                         >
                                             Next
                                         </button>
@@ -1197,7 +1200,7 @@ export const MyCurrentPlantings = () => {
                                                 setShowNewPlantingModal(false);
                                                 setNewPlantingStep(1);
                                             }}
-                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium w-full sm:w-auto"
                                         >
                                             Create Planting(s)
                                         </button>
