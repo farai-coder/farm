@@ -7,7 +7,6 @@ interface UserFormData {
   surname: string;
   gender: string;
   phone_number: string;
-  license_plate: string;
   role: string;
   password: string;
   confirmPassword: string;
@@ -47,7 +46,6 @@ export const SignUp: React.FC = () => {
     surname: '',
     gender: 'female',
     phone_number: '',
-    license_plate: '',
     role: 'staff',
     password: '',
     confirmPassword: ''
@@ -77,45 +75,68 @@ export const SignUp: React.FC = () => {
     navigate('/login');
   };
 
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
   const validateStep = (step: number) => {
     const newErrors: any = {};
 
     if (step === 1) {
-      if (!userForm.name) newErrors.name = 'Required';
-      if (!userForm.surname) newErrors.surname = 'Required';
-      if (!userForm.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userForm.email)) {
-        newErrors.email = 'Invalid email';
+      if (!userForm.name.trim()) newErrors.name = 'First name is required';
+      if (!userForm.surname.trim()) newErrors.surname = 'Last name is required';
+
+      if (!userForm.email.trim()) {
+        newErrors.email = 'Email is required';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userForm.email)) {
+        newErrors.email = 'Please enter a valid email address';
       }
-      if (!userForm.phone_number || userForm.phone_number.length < 10) {
-        newErrors.phone_number = 'Must be 10+ digits';
+
+      if (!userForm.phone_number.trim()) {
+        newErrors.phone_number = 'Phone number is required';
+      } else if (userForm.phone_number.replace(/\D/g, '').length < 10) {
+        newErrors.phone_number = 'Phone number must be at least 10 digits';
       }
-      if (!userForm.license_plate) newErrors.license_plate = 'Required';
-      if (!userForm.password || userForm.password.length < 8) {
-        newErrors.password = '8+ characters required';
+
+      if (!userForm.password) {
+        newErrors.password = 'Password is required';
+      } else if (userForm.password.length < 8) {
+        newErrors.password = 'Password must be at least 8 characters';
       }
-      if (userForm.password !== userForm.confirmPassword) {
-        newErrors.confirmPassword = 'Passwords must match';
+
+      if (!userForm.confirmPassword) {
+        newErrors.confirmPassword = 'Please confirm your password';
+      } else if (userForm.password !== userForm.confirmPassword) {
+        newErrors.confirmPassword = 'Passwords do not match';
       }
     }
 
     if (step === 2) {
-      if (!farmForm.farmName) newErrors.farmName = 'Farm name is required';
-      if (!farmForm.address) newErrors.address = 'Address is required';
-      if (!farmForm.city) newErrors.city = 'City is required';
+      if (!farmForm.farmName.trim()) newErrors.farmName = 'Farm name is required';
+      if (!farmForm.address.trim()) newErrors.address = 'Address is required';
+      if (!farmForm.city.trim()) newErrors.city = 'City is required';
     }
 
     setErrors(newErrors);
+    console.log('Validation errors:', newErrors); // Debug log
     return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
+    console.log('Current step:', currentStep); // Debug log
+    console.log('Form data:', userForm); // Debug log
+
     if (validateStep(currentStep)) {
       setCurrentStep(currentStep + 1);
+      setErrors({}); // Clear errors when moving to next step
+    } else {
+      console.log('Validation failed'); // Debug log
     }
   };
 
   const handleBack = () => {
     setCurrentStep(currentStep - 1);
+    setErrors({}); // Clear errors when going back
   };
 
   const handleSubmit = async () => {
@@ -140,17 +161,15 @@ export const SignUp: React.FC = () => {
     }
   };
 
-  
-
   const renderProgressSteps = () => (
     <div className="flex items-center justify-center mb-8">
       {[1, 2, 3].map((step) => (
         <React.Fragment key={step}>
           <div className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step <= currentStep
-              ? 'bg-green-500 border-green-500 text-white'
-              : step === currentStep + 1
-                ? 'border-green-500 text-green-500 bg-white'
-                : 'border-gray-300 text-gray-400 bg-white'
+            ? 'bg-green-500 border-green-500 text-white'
+            : step === currentStep + 1
+              ? 'border-green-500 text-green-500 bg-white'
+              : 'border-gray-300 text-gray-400 bg-white'
             }`}>
             {step < currentStep ? (
               <i className="fas fa-check text-sm"></i>
@@ -175,7 +194,7 @@ export const SignUp: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
           <input
             type="text"
             className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.name ? 'border-red-300' : 'border-gray-300'
@@ -187,7 +206,7 @@ export const SignUp: React.FC = () => {
           {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
           <input
             type="text"
             className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.surname ? 'border-red-300' : 'border-gray-300'
@@ -201,7 +220,7 @@ export const SignUp: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
         <input
           type="email"
           className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.email ? 'border-red-300' : 'border-gray-300'
@@ -214,27 +233,26 @@ export const SignUp: React.FC = () => {
       </div>
 
       <div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-          <input
-            type="text"
-            className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.phone_number ? 'border-red-300' : 'border-gray-300'
-              }`}
-            value={userForm.phone_number}
-            onChange={(e) => setUserForm({ ...userForm, phone_number: e.target.value })}
-          />
-          {errors.phone_number && <p className="mt-1 text-xs text-red-500">{errors.phone_number}</p>}
-        </div>
-        
+        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+        <input
+          type="text"
+          className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.phone_number ? 'border-red-300' : 'border-gray-300'
+            }`}
+          placeholder="Enter your phone number"
+          value={userForm.phone_number}
+          onChange={(e) => setUserForm({ ...userForm, phone_number: e.target.value })}
+        />
+        {errors.phone_number && <p className="mt-1 text-xs text-red-500">{errors.phone_number}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
         <div className="relative">
           <input
             type={showPassword ? 'text' : 'password'}
             className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.password ? 'border-red-300' : 'border-gray-300'
               }`}
+            placeholder="Enter your password"
             value={userForm.password}
             onChange={(e) => setUserForm({ ...userForm, password: e.target.value })}
           />
@@ -246,16 +264,17 @@ export const SignUp: React.FC = () => {
             <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
           </button>
         </div>
-        <p className="mt-1 text-xs text-gray-500">8 characters min • One uppercase • One lowercase</p>
+        <p className="mt-1 text-xs text-gray-500">8 characters minimum</p>
         {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
         <input
           type={showPassword ? 'text' : 'password'}
           className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'
             }`}
+          placeholder="Confirm your password"
           value={userForm.confirmPassword}
           onChange={(e) => setUserForm({ ...userForm, confirmPassword: e.target.value })}
         />
@@ -274,11 +293,11 @@ export const SignUp: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">About your Farm</h2>
-        <p className="text-gray-600">Step 1 of 2</p>
+        <p className="text-gray-600">Step 2 of 3</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">What do you call your farm?</label>
+        <label className="block text-sm font-medium text-gray-700 mb-2">What do you call your farm? *</label>
         <input
           type="text"
           className={`w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.farmName ? 'border-red-300' : ''
@@ -349,7 +368,7 @@ export const SignUp: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Address</label>
+            <label className="block text-xs font-medium text-gray-600 mb-1">Address *</label>
             <input
               type="text"
               className={`w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.address ? 'border-red-300' : ''
@@ -363,7 +382,7 @@ export const SignUp: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">City</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">City *</label>
               <input
                 type="text"
                 className={`w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.city ? 'border-red-300' : ''
@@ -425,7 +444,7 @@ export const SignUp: React.FC = () => {
     <div className="space-y-6">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">Your Account Preferences</h2>
-        <p className="text-gray-600">Step 2 of 2</p>
+        <p className="text-gray-600">Step 3 of 3</p>
       </div>
 
       <div className="space-y-4">
@@ -542,7 +561,8 @@ export const SignUp: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg flex items-center"
+                    className="px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmitting}
                   >
                     Next <i className="fas fa-arrow-right ml-2"></i>
                   </button>
@@ -551,7 +571,7 @@ export const SignUp: React.FC = () => {
                     type="button"
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    className="px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg flex items-center"
+                    className="px-8 py-2.5 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <>
