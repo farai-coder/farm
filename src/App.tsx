@@ -43,14 +43,14 @@ import { WeatherHistory } from './pages/Climate/WeatherHistory/WeatherHistory';
 import { ClimateGauges } from './pages/Climate/ClimateGauge/ClimateGauge';
 import { WeatherLogs } from './pages/Climate/WeatherLogs/WeatherLogs';
 import { WeatherMap } from './pages/Climate/WeatherMap/WeatherMap'
-import { MyCropsPage } from './pages/Crops/CropPlan/MyCrops/MyCrops';
-import { CropDetailsPage } from './pages/Crops/CropPlan/MyCrops/Details/Details';
-import { CropHistoryPage } from './pages/Crops/CropPlan/MyCrops/CropHistory/CropHistory';
-import { HarvestManagement } from './pages/Crops/CropPlan/MyCrops/Harvest/Harvest';
+import { MyCropsPage } from './pages/Crops/MyCrops/MyCrops';
+import { CropDetailsPage } from './pages/Crops/MyCrops/Details/Details';
+import { CropHistoryPage } from './pages/Crops/MyCrops/CropHistory/CropHistory';
+import { HarvestManagement } from './pages/Crops/MyCrops/Harvest/Harvest';
 import { FuturePlantingsPage } from './pages/Crops/MyCrops/FuturePlanting/FuturePlanting';
 import { MyCropsAccounting } from './pages/Crops/MyCrops/Accounting/Accounting';
 import { MyCropsImages } from './pages/Crops/MyCrops/Images/Images';
-import { MyCropsYieldComparison } from './pages/Crops/CropPlan/MyCrops/YieldComparison/YieldComparison';
+import { MyCropsYieldComparison } from './pages/Crops/MyCrops/YieldComparison/YieldComparison';
 import { MyCropsTasks } from './pages/Crops/MyCrops/Tasks/Tasks';
 import { MyCropsNotes } from './pages/Crops/MyCrops/Notes/Notes';
 import { GrowLocationsPage } from './pages/Crops/GrowLocations/GrowLocations/GrowLocations';
@@ -117,8 +117,8 @@ const CropsSecondarySidebar: React.FC<{
                 key={item.id}
                 onClick={() => handleMenuClick(item)}
                 className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
-                    ? 'bg-white text-green-700 font-medium'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-white text-green-700 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`}
               >
                 {item.label}
@@ -154,8 +154,8 @@ const CropsSecondarySidebar: React.FC<{
                   key={item.id}
                   onClick={() => handleMenuClick(item)}
                   className={`flex items-center justify-between px-4 py-3 border-b border-gray-100 ${activeSubmenu === item.id
-                      ? 'bg-green-50 text-green-700'
-                      : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-green-50 text-green-700'
+                    : 'text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   <span className="text-sm font-medium truncate">{item.label}</span>
@@ -227,8 +227,8 @@ const GrowLocationsSecondarySidebar: React.FC<{
                 key={item.id}
                 onClick={() => handleMenuClick(item)}
                 className={`w-full text-left px-4 py-2 text-sm transition-colors duration-200 relative ${activeSubmenu === item.id
-                    ? 'bg-white text-green-700 font-medium'
-                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                  ? 'bg-white text-green-700 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`}
               >
                 {item.label}
@@ -264,8 +264,8 @@ const GrowLocationsSecondarySidebar: React.FC<{
                   key={item.id}
                   onClick={() => handleMenuClick(item)}
                   className={`flex items-center justify-between px-4 py-3 border-b border-gray-100 ${activeSubmenu === item.id
-                      ? 'bg-green-50 text-green-700'
-                      : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-green-50 text-green-700'
+                    : 'text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   <span className="text-sm font-medium truncate">{item.label}</span>

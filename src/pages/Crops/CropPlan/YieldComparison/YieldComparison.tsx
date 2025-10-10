@@ -47,7 +47,7 @@ export const YieldComparison = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison</h1>
+                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison1</h1>
 
                     {/* Type Selector */}
                     <div className="flex items-center space-x-2">

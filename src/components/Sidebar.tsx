@@ -148,7 +148,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center">
               <i className="fas fa-leaf text-white text-sm"></i>
             </div>
-            <span className="text-xl font-semibold text-gray-800 hidden sm:block">farm</span>
+            <span className="text-xl font-semibold text-gray-800 hidden sm:block">Drayce Farm</span>
           </div>
         </div>
 

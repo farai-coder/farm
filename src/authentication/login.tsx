@@ -12,23 +12,46 @@ export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
 
-
   const { login } = useAuth();
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
+    // Call login with the data from API response
+    login('1', 'farai', 'user', 'farai@gmail.com', '1');
+
+    // Navigate after successful login
     navigate('/');
-    login(1, "farai", "admin", "farai@gmail.com");
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log('Sign in attempt:', { email, password, keepSignedIn });
-      // Handle successful sign in
+      const response = await fetch(`http://localhost:8000/v1/identity/login`, {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Login failed');
+      }
+
+      const data = await response.json();
+
+      // Call login with the data from API response
+      login(data.user_id, data.name, data.role, data.email, data.farm_id);
+
+      // Navigate after successful login
+      navigate('/');
+
     } catch (error) {
-      setError('Invalid email or password. Please try again.');
+      setError(error instanceof Error ? error.message : 'Invalid email or password. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -51,7 +74,7 @@ export const Login: React.FC = () => {
             <div className="w-8 h-8 bg-green-500 rounded mr-2 flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-full"></div>
             </div>
-            <h1 className="text-3xl font-bold text-gray-800">farm</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Drayce Farm</h1>
           </div>
         </div>
 

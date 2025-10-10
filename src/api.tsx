@@ -1,2 +1,2 @@
 
-export const BASE_URL = "https://fastapi-app-mxcp.onrender.com"
+export const BASE_URL = "http//localhost:8000/api";

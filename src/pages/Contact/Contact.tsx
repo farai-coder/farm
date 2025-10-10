@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Search, X, ChevronDown, MoreVertical, Edit, Trash2 } from 'lucide-react';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { useAuth } from '../../authentication/AuthProvider'; // Adjust the import path as needed
 
 export const ContactsPage = () => {
     const [showNewContactModal, setShowNewContactModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeMenu, setActiveMenu] = useState(null); // Track which contact's menu is open
+    const [activeMenu, setActiveMenu] = useState(null);
+    const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [formErrors, setFormErrors] = useState({});
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -23,11 +30,8 @@ export const ContactsPage = () => {
         description: ''
     });
 
-    // Mock contacts data - start empty to show empty state
-    const [contacts, setContacts] = useState([
-        // Add some sample data for testing
-
-    ]);
+    // Get farmId from useAuth hook
+    const { farmId } = useAuth();
 
     const contactTypes = [
         'Buyer',
@@ -101,109 +105,217 @@ export const ContactsPage = () => {
         'Wyoming'
     ];
 
+    // Form validation
+    const validateForm = () => {
+        const errors = {};
+
+        if (!formData.firstName.trim()) {
+            errors.firstName = 'First name is required';
+        }
+
+        if (!formData.lastName.trim()) {
+            errors.lastName = 'Last name is required';
+        }
+
+        if (!formData.email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            errors.email = 'Email is invalid';
+        }
+
+        if (!formData.contactType) {
+            errors.contactType = 'Contact type is required';
+        }
+
+        if (!formData.primaryPhone.trim()) {
+            errors.primaryPhone = 'Primary phone is required';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    // Fetch contacts from API
+    const fetchContacts = async () => {
+        if (!farmId) return;
+
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`http://localhost:8000/v1/contacts/?farm_id=${farmId}`, {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch contacts: ${response.status}`);
+            }
+
+            const contactsData = await response.json();
+            setContacts(contactsData);
+        } catch (err) {
+            setError(err.message);
+            console.error('Error fetching contacts:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Create new contact
+    const createContact = async (contactData) => {
+        try {
+            const response = await fetch('http://localhost:8000/v1/contacts/', {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...contactData,
+                    farmId: farmId
+                }),
+            });
+
+            if (!response.ok) {
+                if (response.status === 409) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Contact already exists');
+                }
+                throw new Error(`Failed to create contact: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result;
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    // Load contacts on component mount
+    useEffect(() => {
+        fetchContacts();
+    }, [farmId]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
+        // Clear error when user starts typing
+        if (formErrors[name]) {
+            setFormErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
     };
 
-    const handleSave = () => {
-        // Create new contact with unique ID
-        const newContact = {
-            id: contacts.length > 0 ? Math.max(...contacts.map(contact => contact.id)) + 1 : 1,
-            name: `${formData.lastName}, ${formData.firstName}`,
-            type: formData.contactType,
-            company: formData.company,
-            email: formData.email,
-            phone: formData.primaryPhone,
-            city: formData.city
-        };
-
-        // Add the new contact to contacts array
-        setContacts([...contacts, newContact]);
-
-        setShowNewContactModal(false);
-        // Reset form
-        setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            contactType: '',
-            website: '',
-            primaryPhone: '',
-            mobilePhone: '',
-            fax: '',
-            company: '',
-            address: '',
-            city: '',
-            country: '',
-            stateProvince: '',
-            postalCode: '',
-            description: ''
-        });
+    const handlePhoneChange = (value, name) => {
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        // Clear error when user starts typing
+        if (formErrors[name]) {
+            setFormErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
     };
 
-    const handleCancel = () => {
-        setShowNewContactModal(false);
-        setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            contactType: '',
-            website: '',
-            primaryPhone: '',
-            mobilePhone: '',
-            fax: '',
-            company: '',
-            address: '',
-            city: '',
-            country: '',
-            stateProvince: '',
-            postalCode: '',
-            description: ''
-        });
-    };
+    const handleSave = async () => {
+        if (!validateForm()) {
+            return;
+        }
 
-    const handleEdit = (contactId) => {
-        // Find the contact to edit
-        const contactToEdit = contacts.find(contact => contact.id === contactId);
-        if (contactToEdit) {
-            // Parse the name (assuming format "Last, First")
-            const nameParts = contactToEdit.name.split(', ');
-            const lastName = nameParts[0];
-            const firstName = nameParts[1] || '';
+        try {
+            setError(null);
+            await createContact(formData);
 
-            // Pre-fill the form with contact data
+            // Refresh contacts list
+            await fetchContacts();
+
+            setShowNewContactModal(false);
+            // Reset form
             setFormData({
-                firstName: firstName,
-                lastName: lastName,
-                email: contactToEdit.email,
-                contactType: contactToEdit.type,
+                firstName: '',
+                lastName: '',
+                email: '',
+                contactType: '',
                 website: '',
-                primaryPhone: contactToEdit.phone,
+                primaryPhone: '',
                 mobilePhone: '',
                 fax: '',
-                company: contactToEdit.company,
+                company: '',
                 address: '',
-                city: contactToEdit.city,
+                city: '',
                 country: '',
                 stateProvince: '',
                 postalCode: '',
                 description: ''
             });
-
-            // Open the modal for editing
-            setShowNewContactModal(true);
-
-            // Close the menu
-            setActiveMenu(null);
+            setFormErrors({});
+        } catch (err) {
+            setError(err.message);
         }
     };
 
-    const handleDelete = (contactId) => {
-        // Remove the contact from the list
+    const handleCancel = () => {
+        setShowNewContactModal(false);
+        setError(null);
+        setFormErrors({});
+        setFormData({
+            firstName: '',
+            lastName: '',
+            email: '',
+            contactType: '',
+            website: '',
+            primaryPhone: '',
+            mobilePhone: '',
+            fax: '',
+            company: '',
+            address: '',
+            city: '',
+            country: '',
+            stateProvince: '',
+            postalCode: '',
+            description: ''
+        });
+    };
+
+    const handleEdit = (contact) => {
+        // Pre-fill the form with contact data
+        setFormData({
+            firstName: contact.firstName,
+            lastName: contact.lastName,
+            email: contact.email,
+            contactType: contact.contactType,
+            website: contact.website || '',
+            primaryPhone: contact.primaryPhone,
+            mobilePhone: contact.mobilePhone || '',
+            fax: contact.fax || '',
+            company: contact.company || '',
+            address: contact.address || '',
+            city: contact.city || '',
+            country: contact.country || '',
+            stateProvince: contact.stateProvince || '',
+            postalCode: contact.postalCode || '',
+            description: contact.description || ''
+        });
+
+        // Open the modal for editing
+        setShowNewContactModal(true);
+        setActiveMenu(null);
+        setFormErrors({});
+    };
+
+    const handleDelete = async (contactId) => {
+        // Note: You'll need to implement a DELETE API endpoint
+        // For now, just remove from local state
         setContacts(contacts.filter(contact => contact.id !== contactId));
         setActiveMenu(null);
     };
@@ -212,17 +324,70 @@ export const ContactsPage = () => {
         setActiveMenu(activeMenu === contactId ? null : contactId);
     };
 
+    const handlePrint = () => {
+        const printContent = `
+            <html>
+                <head>
+                    <title>Contacts List</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        th { background-color: #f5f5f5; font-weight: bold; }
+                        .header { text-align: center; margin-bottom: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Contacts List</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()}</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Company</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>City</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${filteredContacts.map(contact => `
+                                <tr>
+                                    <td>${contact.lastName}, ${contact.firstName}</td>
+                                    <td>${contact.contactType}</td>
+                                    <td>${contact.company}</td>
+                                    <td>${contact.email}</td>
+                                    <td>${contact.primaryPhone}</td>
+                                    <td>${contact.city}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </body>
+            </html>
+        `;
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(printContent);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    };
+
     const filteredContacts = contacts.filter(contact =>
-        contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        `${contact.firstName} ${contact.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
         contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        contact.company.toLowerCase().includes(searchTerm.toLowerCase())
+        (contact.company && contact.company.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     // Empty Contacts State Component
     const EmptyContactsState = ({ onAddContact }) => (
         <div className="flex flex-col items-center justify-center py-12 md:py-20 px-4">
-            {/* Dotted rectangle containing all the content */}
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 md:p-12 flex flex-col items-center w-full max-w-2xl">
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 md:p-12 flex flex-col items-center w-full max-w-12xl mx-4">
                 <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
                     <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -249,6 +414,13 @@ export const ContactsPage = () => {
                     <h1 className="text-xl md:text-2xl font-semibold text-gray-800">Contacts</h1>
                 </div>
 
+                {/* Error Message */}
+                {error && (
+                    <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+                        <p className="text-red-700 text-sm">{error}</p>
+                    </div>
+                )}
+
                 {/* Controls */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mb-4 md:mb-6 gap-3">
                     <div className="flex items-center space-x-2 sm:space-x-4">
@@ -263,7 +435,10 @@ export const ContactsPage = () => {
                         </button>
 
                         {/* Print Button */}
-                        <button className="text-gray-600 hover:text-gray-800 p-2">
+                        <button
+                            onClick={handlePrint}
+                            className="text-gray-600 hover:text-gray-800 p-2"
+                        >
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zM5 14H4v-3h1v3zm1 0v2h8v-2H6z" clipRule="evenodd" />
                             </svg>
@@ -287,8 +462,15 @@ export const ContactsPage = () => {
                     </div>
                 </div>
 
+                {/* Loading State */}
+                {loading && (
+                    <div className="flex justify-center py-8">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                    </div>
+                )}
+
                 {/* Contacts Table or Empty State */}
-                {contacts.length === 0 ? (
+                {!loading && contacts.length === 0 ? (
                     <EmptyContactsState onAddContact={() => setShowNewContactModal(true)} />
                 ) : (
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
@@ -310,10 +492,12 @@ export const ContactsPage = () => {
                                     {/* Desktop View */}
                                     <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors duration-150 min-w-[1000px]">
                                         <div className="col-span-2">
-                                            <div className="text-sm font-medium text-gray-900 truncate">{contact.name}</div>
+                                            <div className="text-sm font-medium text-gray-900 truncate">
+                                                {contact.lastName}, {contact.firstName}
+                                            </div>
                                         </div>
                                         <div className="col-span-2">
-                                            <span className="text-sm text-gray-600 truncate">{contact.type}</span>
+                                            <span className="text-sm text-gray-600 truncate">{contact.contactType}</span>
                                         </div>
                                         <div className="col-span-2">
                                             <span className="text-sm text-gray-600 truncate">{contact.company}</span>
@@ -322,7 +506,7 @@ export const ContactsPage = () => {
                                             <span className="text-sm text-blue-600 hover:text-blue-800 truncate">{contact.email}</span>
                                         </div>
                                         <div className="col-span-2">
-                                            <span className="text-sm text-gray-600 truncate">{contact.phone}</span>
+                                            <span className="text-sm text-gray-600 truncate">{contact.primaryPhone}</span>
                                         </div>
                                         <div className="col-span-1">
                                             <span className="text-sm text-gray-600 truncate">{contact.city}</span>
@@ -339,7 +523,7 @@ export const ContactsPage = () => {
                                             {activeMenu === contact.id && (
                                                 <div className="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                                                     <button
-                                                        onClick={() => handleEdit(contact.id)}
+                                                        onClick={() => handleEdit(contact)}
                                                         className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                     >
                                                         <Edit className="w-4 h-4 mr-2" />
@@ -361,8 +545,10 @@ export const ContactsPage = () => {
                                     <div className="md:hidden p-4 hover:bg-gray-50 transition-colors duration-150 relative">
                                         <div className="flex justify-between items-start mb-2">
                                             <div className="flex-1">
-                                                <div className="text-sm font-medium text-gray-900 mb-1">{contact.name}</div>
-                                                <div className="text-xs text-gray-500">{contact.type}</div>
+                                                <div className="text-sm font-medium text-gray-900 mb-1">
+                                                    {contact.lastName}, {contact.firstName}
+                                                </div>
+                                                <div className="text-xs text-gray-500">{contact.contactType}</div>
                                             </div>
                                             <button
                                                 onClick={() => toggleMenu(contact.id)}
@@ -381,7 +567,7 @@ export const ContactsPage = () => {
                                         )}
 
                                         <div className="flex flex-wrap gap-x-3 text-sm text-gray-600">
-                                            {contact.phone && <span>{contact.phone}</span>}
+                                            {contact.primaryPhone && <span>{contact.primaryPhone}</span>}
                                             {contact.city && <span>• {contact.city}</span>}
                                         </div>
 
@@ -389,7 +575,7 @@ export const ContactsPage = () => {
                                         {activeMenu === contact.id && (
                                             <div className="absolute right-4 mt-2 w-32 bg-white rounded-md shadow-lg border border-gray-200 z-10">
                                                 <button
-                                                    onClick={() => handleEdit(contact.id)}
+                                                    onClick={() => handleEdit(contact)}
                                                     className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 >
                                                     <Edit className="w-4 h-4 mr-2" />
@@ -426,64 +612,97 @@ export const ContactsPage = () => {
                                 </button>
                             </div>
 
+                            {/* Error Message in Modal */}
+                            {error && (
+                                <div className="mx-4 md:mx-6 mt-4 p-4 bg-red-50 border border-red-200 rounded-md">
+                                    <p className="text-red-700 text-sm">{error}</p>
+                                </div>
+                            )}
+
                             {/* Modal Body */}
                             <div className="p-4 md:p-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                                     {/* First Name */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            First Name <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="firstName"
                                             value={formData.firstName}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 ${formErrors.firstName ? 'border-red-300' : 'border-gray-300'
+                                                }`}
                                         />
+                                        {formErrors.firstName && (
+                                            <p className="mt-1 text-sm text-red-600">{formErrors.firstName}</p>
+                                        )}
                                     </div>
 
                                     {/* Last Name */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Last Name <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="lastName"
                                             value={formData.lastName}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 ${formErrors.lastName ? 'border-red-300' : 'border-gray-300'
+                                                }`}
                                         />
+                                        {formErrors.lastName && (
+                                            <p className="mt-1 text-sm text-red-600">{formErrors.lastName}</p>
+                                        )}
                                     </div>
 
                                     {/* Email */}
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Email <span className="text-red-500">*</span>
+                                        </label>
                                         <input
                                             type="email"
                                             name="email"
                                             value={formData.email}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 ${formErrors.email ? 'border-red-300' : 'border-gray-300'
+                                                }`}
                                         />
+                                        {formErrors.email && (
+                                            <p className="mt-1 text-sm text-red-600">{formErrors.email}</p>
+                                        )}
                                     </div>
 
                                     {/* Contact Type */}
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Contact Type</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Contact Type <span className="text-red-500">*</span>
+                                        </label>
                                         <select
                                             name="contactType"
                                             value={formData.contactType}
                                             onChange={handleInputChange}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 ${formErrors.contactType ? 'border-red-300' : 'border-gray-300'
+                                                }`}
                                         >
                                             <option value="">Select a contact type...</option>
                                             {contactTypes.map(type => (
                                                 <option key={type} value={type}>{type}</option>
                                             ))}
                                         </select>
+                                        {formErrors.contactType && (
+                                            <p className="mt-1 text-sm text-red-600">{formErrors.contactType}</p>
+                                        )}
                                     </div>
 
                                     {/* Website */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Website <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <input
                                             type="url"
                                             name="website"
@@ -496,46 +715,60 @@ export const ContactsPage = () => {
 
                                     {/* Primary Phone */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Primary Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="primaryPhone"
-                                            value={formData.primaryPhone}
-                                            onChange={handleInputChange}
-                                            placeholder="555-555-5555"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                        />
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Primary Phone <span className="text-red-500">*</span>
+                                        </label>
+                                        <div className={`react-phone-input ${formErrors.primaryPhone ? 'border-red-300 rounded-md border' : ''}`}>
+                                            <PhoneInput
+                                                country={'zw'}
+                                                value={formData.primaryPhone}
+                                                onChange={(phone) => handlePhoneChange(phone, 'primaryPhone')}
+                                                inputClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 ${formErrors.primaryPhone ? 'border-red-300' : 'border-gray-300'
+                                                    }`}
+                                                containerClass="react-phone-input"
+                                                buttonClass="react-phone-input__button"
+                                            />
+                                        </div>
+                                        {formErrors.primaryPhone && (
+                                            <p className="mt-1 text-sm text-red-600">{formErrors.primaryPhone}</p>
+                                        )}
                                     </div>
 
                                     {/* Mobile Phone */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Mobile Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="mobilePhone"
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Mobile Phone <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
+                                        <PhoneInput
+                                            country={'zw'}
                                             value={formData.mobilePhone}
-                                            onChange={handleInputChange}
-                                            placeholder="555-555-5555"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            onChange={(phone) => handlePhoneChange(phone, 'mobilePhone')}
+                                            inputClass="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            containerClass="react-phone-input"
+                                            buttonClass="react-phone-input__button"
                                         />
                                     </div>
 
                                     {/* Fax */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Fax</label>
-                                        <input
-                                            type="tel"
-                                            name="fax"
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Fax <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
+                                        <PhoneInput
+                                            country={'zw'}
                                             value={formData.fax}
-                                            onChange={handleInputChange}
-                                            placeholder="555-555-5555"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            onChange={(phone) => handlePhoneChange(phone, 'fax')}
+                                            inputClass="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            containerClass="react-phone-input"
+                                            buttonClass="react-phone-input__button"
                                         />
                                     </div>
 
                                     {/* Company */}
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Company <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="company"
@@ -547,7 +780,9 @@ export const ContactsPage = () => {
 
                                     {/* Address */}
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Address <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="address"
@@ -559,7 +794,9 @@ export const ContactsPage = () => {
 
                                     {/* City */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            City <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="city"
@@ -571,39 +808,39 @@ export const ContactsPage = () => {
 
                                     {/* Country */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
-                                        <select
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Country <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
+                                        <input
+                                            type="text"
                                             name="country"
                                             value={formData.country}
                                             onChange={handleInputChange}
+                                            placeholder="Enter country"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                        >
-                                            <option value="">United States</option>
-                                            {countries.map(country => (
-                                                <option key={country} value={country}>{country}</option>
-                                            ))}
-                                        </select>
+                                        />
                                     </div>
 
                                     {/* State/Province */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">State/Province</label>
-                                        <select
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            State/Province <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
+                                        <input
+                                            type="text"
                                             name="stateProvince"
                                             value={formData.stateProvince}
                                             onChange={handleInputChange}
+                                            placeholder="Enter state or province"
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                        >
-                                            <option value="">Montana</option>
-                                            {stateProvinces.map(state => (
-                                                <option key={state} value={state}>{state}</option>
-                                            ))}
-                                        </select>
+                                        />
                                     </div>
 
                                     {/* Postal Code */}
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Postal Code</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Postal Code <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <input
                                             type="text"
                                             name="postalCode"
@@ -615,7 +852,9 @@ export const ContactsPage = () => {
 
                                     {/* Description */}
                                     <div className="md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Description <span className="text-gray-400 text-xs">(Optional)</span>
+                                        </label>
                                         <textarea
                                             name="description"
                                             value={formData.description}

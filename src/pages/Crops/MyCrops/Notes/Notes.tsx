@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { Plus, Search, Filter, Grid3X3, MoreHorizontal } from 'lucide-react';
+import { Plus, Search, Filter, Grid3X3, MoreHorizontal, X } from 'lucide-react';
 
 export const MyCropsNotes = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterOpen, setFilterOpen] = useState(false);
+    const [showAddNoteModal, setShowAddNoteModal] = useState(false);
+    const [newNote, setNewNote] = useState({
+        content: '',
+        category: 'Observation'
+    });
 
     // Sample notes data matching the image
     const notes = [
@@ -47,6 +52,26 @@ export const MyCropsNotes = () => {
         }
     };
 
+    const handleAddNote = () => {
+        // Here you would typically send the note to your backend
+        console.log('Adding new note:', newNote);
+
+        // For demo purposes, we'll just close the modal and reset the form
+        setShowAddNoteModal(false);
+        setNewNote({
+            content: '',
+            category: 'Observation'
+        });
+    };
+
+    const handleCancel = () => {
+        setShowAddNoteModal(false);
+        setNewNote({
+            content: '',
+            category: 'Observation'
+        });
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-6">
             <div className="max-w-7xl mx-auto">
@@ -68,7 +93,10 @@ export const MyCropsNotes = () => {
 
                 {/* Controls */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 space-y-3 sm:space-y-0">
-                    <button className="bg-green-600 text-white px-3 py-2 md:px-4 md:py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center sm:justify-start space-x-2 w-full sm:w-auto">
+                    <button
+                        onClick={() => setShowAddNoteModal(true)}
+                        className="bg-green-600 text-white px-3 py-2 md:px-4 md:py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center justify-center sm:justify-start space-x-2 w-full sm:w-auto"
+                    >
                         <Plus size={16} />
                         <span>New Note</span>
                     </button>
@@ -171,7 +199,10 @@ export const MyCropsNotes = () => {
                             {searchTerm ? 'Try adjusting your search terms.' : 'Get started by creating your first note.'}
                         </p>
                         {!searchTerm && (
-                            <button className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors">
+                            <button
+                                onClick={() => setShowAddNoteModal(true)}
+                                className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors"
+                            >
                                 Create First Note
                             </button>
                         )}
@@ -185,6 +216,71 @@ export const MyCropsNotes = () => {
                     </div>
                 )}
             </div>
+
+            {/* Add Note Modal */}
+            {showAddNoteModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200">
+                            <h2 className="text-lg md:text-xl font-semibold text-gray-800">Add New Note</h2>
+                            <button
+                                onClick={handleCancel}
+                                className="text-gray-400 hover:text-gray-600"
+                            >
+                                <X className="w-5 h-5 md:w-6 md:h-6" />
+                            </button>
+                        </div>
+
+                        <div className="p-4 md:p-6">
+                            <div className="space-y-4 md:space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Category
+                                    </label>
+                                    <select
+                                        value={newNote.category}
+                                        onChange={(e) => setNewNote(prev => ({ ...prev, category: e.target.value }))}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
+                                    >
+                                        <option value="Observation">Observation</option>
+                                        <option value="Planning">Planning</option>
+                                        <option value="Treatment">Treatment</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Note Content
+                                    </label>
+                                    <textarea
+                                        value={newNote.content}
+                                        onChange={(e) => setNewNote(prev => ({ ...prev, content: e.target.value }))}
+                                        rows={6}
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm md:text-base"
+                                        placeholder="Enter your note here..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 px-4 md:px-6 py-4 border-t border-gray-200">
+                            <button
+                                onClick={handleCancel}
+                                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium text-sm md:text-base order-2 sm:order-1 w-full sm:w-auto"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleAddNote}
+                                disabled={!newNote.content.trim()}
+                                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium text-sm md:text-base disabled:bg-gray-400 disabled:cursor-not-allowed order-1 sm:order-2 w-full sm:w-auto"
+                            >
+                                Add Note
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

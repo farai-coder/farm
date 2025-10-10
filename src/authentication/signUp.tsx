@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 
 interface UserFormData {
   email: string;
@@ -38,6 +40,8 @@ export const SignUp: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<any>({});
   const [apiError, setApiError] = useState<string>('');
+  const [apiSuccess, setApiSuccess] = useState<string>('');
+  const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
 
   const [userForm, setUserForm] = useState<UserFormData>({
@@ -53,7 +57,7 @@ export const SignUp: React.FC = () => {
 
   const [farmForm, setFarmForm] = useState<FarmFormData>({
     farmName: '',
-    farmType: 'mixed',
+    farmType: 'MIXED',
     country: 'Zimbabwe',
     address: '',
     city: '',
@@ -92,10 +96,11 @@ export const SignUp: React.FC = () => {
         newErrors.email = 'Please enter a valid email address';
       }
 
+      const phoneNumberWithoutCode = userForm.phone_number.replace(/\D/g, '');
       if (!userForm.phone_number.trim()) {
         newErrors.phone_number = 'Phone number is required';
-      } else if (userForm.phone_number.replace(/\D/g, '').length < 10) {
-        newErrors.phone_number = 'Phone number must be at least 10 digits';
+      } else if (phoneNumberWithoutCode.length < 9) {
+        newErrors.phone_number = 'Phone number must be at least 9 digits';
       }
 
       if (!userForm.password) {
@@ -118,25 +123,29 @@ export const SignUp: React.FC = () => {
     }
 
     setErrors(newErrors);
-    console.log('Validation errors:', newErrors); // Debug log
+    console.log('Validation errors:', newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleNext = () => {
-    console.log('Current step:', currentStep); // Debug log
-    console.log('Form data:', userForm); // Debug log
+    console.log('Current step:', currentStep);
+    console.log('Form data:', userForm);
 
     if (validateStep(currentStep)) {
       setCurrentStep(currentStep + 1);
-      setErrors({}); // Clear errors when moving to next step
+      setErrors({});
+      setApiError('');
+      setApiSuccess('');
     } else {
-      console.log('Validation failed'); // Debug log
+      console.log('Validation failed');
     }
   };
 
   const handleBack = () => {
     setCurrentStep(currentStep - 1);
-    setErrors({}); // Clear errors when going back
+    setErrors({});
+    setApiError('');
+    setApiSuccess('');
   };
 
   const handleSubmit = async () => {
@@ -144,20 +153,90 @@ export const SignUp: React.FC = () => {
 
     setIsSubmitting(true);
     setApiError('');
+    setApiSuccess('');
+    setUploadProgress(0);
 
     try {
-      // This would integrate with your existing API calls
-      console.log('Submitting:', { userForm, farmForm, preferencesForm });
+      const requestData = {
+        user: {
+          email: userForm.email,
+          name: userForm.name,
+          surname: userForm.surname,
+          role: 'OWNER',
+          gender: userForm.gender,
+          password: userForm.password,
+          phoneNumber: userForm.phone_number
+        },
+        farm: {
+          farmName: farmForm.farmName,
+          farmType: farmForm.farmType, // Already in correct format (MIXED, CROPS, LIVESTOCK)
+          country: farmForm.country.toLowerCase(),
+          address: farmForm.address,
+          city: farmForm.city,
+          state: farmForm.state || 'N/A',
+          postalCode: farmForm.postalCode || 'N/A',
+          latitude: parseFloat(farmForm.latitude) || 0,
+          longitude: parseFloat(farmForm.longitude) || 0
+        },
+        prefs: {
+          measurementSystem: preferencesForm.measurementSystem,
+          timezone: preferencesForm.timezone,
+          currency: preferencesForm.currency,
+          lastFrostMonth: preferencesForm.lastFrostMonth,
+          lastFrostDay: preferencesForm.lastFrostDay
+        }
+      };
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Submitting registration data:', requestData);
 
-      // Navigate to success or dashboard
-      handleNavigation('/dashboard');
+      // Simulate progress for better UX
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev >= 90) {
+            clearInterval(progressInterval);
+            return 90;
+          }
+          return prev + 10;
+        });
+      }, 200);
+
+      const response = await fetch('http://localhost:8000/v1/identity/register-user-farm-and-preferences', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+      });
+
+      clearInterval(progressInterval);
+      setUploadProgress(100);
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle both 'message' and 'detail' fields from backend
+        const errorMessage = result.detail || result.message || `Registration failed with status: ${response.status}`;
+        throw new Error(errorMessage);
+      }
+
+      console.log('Registration successful:', result);
+
+      // Use both 'message' and 'detail' fields from backend for success
+      const successMessage = result.detail || result.message || 'Registration completed successfully.';
+      setApiSuccess(successMessage);
+
+      // Navigate to dashboard after a short delay to show success message
+      setTimeout(() => {
+        handleNavigation('/login');
+      }, 2000);
+
     } catch (error) {
-      setApiError(error instanceof Error ? error.message : 'Registration failed');
+      console.error('Registration error:', error);
+      setApiError(error instanceof Error ? error.message : 'Registration failed. Please try again.');
     } finally {
       setIsSubmitting(false);
+      setTimeout(() => setUploadProgress(0), 1000);
     }
   };
 
@@ -233,15 +312,39 @@ export const SignUp: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-        <input
-          type="text"
-          className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.phone_number ? 'border-red-300' : 'border-gray-300'
+        <label className="block text-sm font-medium text-gray-700 mb-1">Gender *</label>
+        <select
+          className={`w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-200 focus:border-green-500 ${errors.gender ? 'border-red-300' : 'border-gray-300'
             }`}
-          placeholder="Enter your phone number"
-          value={userForm.phone_number}
-          onChange={(e) => setUserForm({ ...userForm, phone_number: e.target.value })}
-        />
+          value={userForm.gender}
+          onChange={(e) => setUserForm({ ...userForm, gender: e.target.value })}
+        >
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+          <option value="other">Other</option>
+          <option value="prefer_not_to_say">Prefer not to say</option>
+        </select>
+        {errors.gender && <p className="mt-1 text-xs text-red-500">{errors.gender}</p>}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+        <div className={`border rounded-lg focus-within:ring-2 focus-within:ring-green-200 focus-within:border-green-500 ${errors.phone_number ? 'border-red-300' : 'border-gray-300'}`}>
+          <PhoneInput
+            defaultCountry="zw"
+            value={userForm.phone_number}
+            onChange={(phone) => setUserForm({ ...userForm, phone_number: phone })}
+            inputClassName="w-full px-3 py-2.5 border-0 focus:ring-0"
+            countrySelectorStyleProps={{
+              buttonClassName: "border-0 px-3 hover:bg-gray-50",
+              dropdownStyleProps: {
+                listItemClassName: "hover:bg-gray-50 px-3 py-2",
+                listItemCountryNameClassName: "text-sm",
+                listItemCountryDialcodeClassName: "text-sm text-gray-500",
+              }
+            }}
+          />
+        </div>
         {errors.phone_number && <p className="mt-1 text-xs text-red-500">{errors.phone_number}</p>}
       </div>
 
@@ -316,8 +419,8 @@ export const SignUp: React.FC = () => {
             <input
               type="radio"
               name="farmType"
-              value="mixed"
-              checked={farmForm.farmType === 'mixed'}
+              value="MIXED"
+              checked={farmForm.farmType === 'MIXED'}
               onChange={(e) => setFarmForm({ ...farmForm, farmType: e.target.value })}
               className="text-green-500 focus:ring-green-500"
             />
@@ -327,8 +430,8 @@ export const SignUp: React.FC = () => {
             <input
               type="radio"
               name="farmType"
-              value="livestock"
-              checked={farmForm.farmType === 'livestock'}
+              value="LIVESTOCK"
+              checked={farmForm.farmType === 'LIVESTOCK'}
               onChange={(e) => setFarmForm({ ...farmForm, farmType: e.target.value })}
               className="text-green-500 focus:ring-green-500"
             />
@@ -338,8 +441,8 @@ export const SignUp: React.FC = () => {
             <input
               type="radio"
               name="farmType"
-              value="crops"
-              checked={farmForm.farmType === 'crops'}
+              value="CROPS"
+              checked={farmForm.farmType === 'CROPS'}
               onChange={(e) => setFarmForm({ ...farmForm, farmType: e.target.value })}
               className="text-green-500 focus:ring-green-500"
             />
@@ -523,7 +626,7 @@ export const SignUp: React.FC = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
             <div className="w-8 h-8 bg-green-500 rounded mr-2"></div>
-            <h1 className="text-3xl font-bold text-gray-800">farm</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Drayce Farm</h1>
           </div>
           {currentStep < 3 && (
             <p className="text-lg text-gray-600">Ready for a more organized and productive farm?</p>
@@ -541,6 +644,29 @@ export const SignUp: React.FC = () => {
               </div>
             )}
 
+            {apiSuccess && (
+              <div className="mb-6 p-4 bg-green-50 text-green-600 text-sm rounded-lg flex items-start">
+                <i className="fas fa-check-circle mt-0.5 mr-2"></i>
+                <span>{apiSuccess}</span>
+              </div>
+            )}
+
+            {/* Upload Progress Bar */}
+            {isSubmitting && (
+              <div className="mb-6">
+                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                  <span>Creating your account...</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className="bg-green-500 h-2 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+              </div>
+            )}
+
             {currentStep === 1 && renderStep1()}
             {currentStep === 2 && renderStep2()}
             {currentStep === 3 && renderStep3()}
@@ -551,6 +677,7 @@ export const SignUp: React.FC = () => {
                   type="button"
                   onClick={handleBack}
                   className="px-6 py-2.5 text-green-600 border border-green-600 rounded-lg hover:bg-green-50 font-medium"
+                  disabled={isSubmitting}
                 >
                   Back
                 </button>

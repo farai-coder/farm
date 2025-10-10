@@ -38,7 +38,7 @@ export const ForgotPassword: React.FC = () => {
                         <div className="w-8 h-8 bg-green-500 rounded mr-2 flex items-center justify-center">
                             <div className="w-4 h-4 bg-white rounded-full"></div>
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-800">farm</h1>
+                        <h1 className="text-3xl font-bold text-gray-800">Drayce Farm</h1>
                     </div>
                 </div>
 
