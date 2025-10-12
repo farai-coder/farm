@@ -53,16 +53,19 @@ import { MyCropsImages } from './pages/Crops/MyCrops/Images/Images';
 import { MyCropsYieldComparison } from './pages/Crops/MyCrops/YieldComparison/YieldComparison';
 import { MyCropsTasks } from './pages/Crops/MyCrops/Tasks/Tasks';
 import { MyCropsNotes } from './pages/Crops/MyCrops/Notes/Notes';
-import { GrowLocationsPage } from './pages/Crops/GrowLocations/GrowLocations/GrowLocations';
+import { GrowLocationsPage } from './pages/Crops/GrowLocations/GrowLocations/GrowLocationsPage';
 import { GrowLocationDetails } from './pages/Crops/GrowLocations/GrowLocationDetails/GrowLocationDetails';
 import { GrowLocationCropPlan } from './pages/Crops/GrowLocations/GrowLocationCropMap/GrowLocationCropMap';
 import { GrowLocationsImages } from './pages/Crops/GrowLocations/GrowLocationImages/GrowLocationImages';
 import { GrowLocationMap } from './pages/Crops/GrowLocations/GrowLocationMap/GrowLocationMap';
-import { GrazingPage } from './pages/Crops/GrowLocations/GrowLocations/Grazing/Grazing';
+import { GrazingPage } from './pages/Crops/GrowLocations/Grazing/Grazing';
 import { PlantingHistory } from './pages/Crops/GrowLocations/GrowLocationPlantingHistory/GrowLocationPlantingHistory';
 import { ResourcesEquipmentPage } from './pages/Resources/Equipment/Equipment';
 import { ForgotPassword } from './authentication/ForgotPassword';
 import { ResourcesInventory } from './pages/Resources/Inventory/ResourcesInventory';
+import { GrowLocationSensors } from './pages/Crops/GrowLocations/EnvironmentData/EnvironmentData';
+import { GrowLocationYieldComparison } from './pages/Crops/GrowLocations/GrowLocationYieldComparison/GrowLocationYieldComparison';
+
 
 // Crops Secondary Sidebar Component
 const CropsSecondarySidebar: React.FC<{
@@ -186,21 +189,23 @@ const GrowLocationsSecondarySidebar: React.FC<{
     const navigate = useNavigate();
     const location = useLocation();
 
-    const growLocationsMenuItems = [
-      { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
-      { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
-      { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
-      { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
-      { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
-      { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
-      { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
-      { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
-      { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
-      { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
-      { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
-      { id: 'accounting', label: 'Accounting', path: '/crops/grow-locations/accounting' },
-      { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
-    ];
+  const growLocationsMenuItems = [
+    { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
+    { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
+    { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
+    { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
+    { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/grow-locations/yield-comparison' },
+    { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
+    { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
+    { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
+    { id: 'sensors', label: 'Environmental Data', path: '/crops/grow-locations/sensors' },
+    { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
+    { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
+    { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
+    { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
+    { id: 'accounting', label: 'Accounting', path: '/crops/grow-locations/accounting' },
+    { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
+  ];
 
     React.useEffect(() => {
       const currentPath = location.pathname;
@@ -470,6 +475,8 @@ const ProtectedLayout: React.FC = () => {
             <Route path="/crops/my-crops/yield-comparison" element={<MyCropsYieldComparison />} />
             <Route path="/crops/my-crops/tasks" element={<MyCropsTasks />} />
             <Route path="/crops/my-crops/notes" element={<MyCropsNotes />} />
+            <Route path="/crops/grow-locations/sensors" element={<GrowLocationSensors />} />
+            <Route path="/crops/grow-locations/yield-comparison" element={<GrowLocationYieldComparison />} />
             <Route
               path="/crops/grow-locations"
               element={<GrowLocationsPage onLocationSelect={handleLocationSelect} />}
