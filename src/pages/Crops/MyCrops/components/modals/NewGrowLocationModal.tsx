@@ -1,5 +1,5 @@
-import React from 'react';
-import { X } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, ChevronDown, MapPin } from 'lucide-react';
 
 interface GrowLocationData {
     name: string;
@@ -16,6 +16,9 @@ interface GrowLocationData {
     lightProfile: string;
     grazingRestDays: number;
     description: string;
+    containerCount?: number;
+    tableCount?: number;
+    containerSize?: string;
 }
 
 interface NewGrowLocationModalProps {
@@ -25,12 +28,130 @@ interface NewGrowLocationModalProps {
     onGrowLocationDataChange: (data: GrowLocationData) => void;
 }
 
+const PlantingFormatCard: React.FC<{
+    title: string;
+    description: string;
+    icon:
+    | 'beds'
+    | 'cover'
+    | 'row'
+    | 'hydroponic'
+    | 'pots'
+    | 'tables'
+    | 'vertical'
+    | 'other';
+    isSelected: boolean;
+    onClick: () => void;
+}> = ({ title, description, icon, isSelected, onClick }) => {
+    const renderIcon = () => {
+        switch (icon) {
+            case 'beds':
+                return (
+                    <div className="w-6 h-6 bg-green-600 rounded mr-3 flex items-center justify-center">
+                        <div className="space-y-0.5">
+                            <div className="w-4 h-0.5 bg-white"></div>
+                            <div className="w-4 h-0.5 bg-white"></div>
+                            <div className="w-4 h-0.5 bg-white"></div>
+                        </div>
+                    </div>
+                );
+            case 'cover':
+                return (
+                    <div className="w-6 h-6 bg-lime-600 rounded mr-3 flex items-center justify-center">
+                        <div className="w-4 h-4 bg-lime-400 rounded-sm"></div>
+                    </div>
+                );
+            case 'row':
+                return (
+                    <div className="w-6 h-6 bg-yellow-600 rounded mr-3 flex items-center justify-center">
+                        <div className="space-y-1">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="w-4 h-0.5 bg-white"></div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            case 'hydroponic':
+                return (
+                    <div className="w-6 h-6 bg-blue-600 rounded mr-3 flex items-center justify-center">
+                        <div className="space-y-0.5">
+                            <div className="w-3 h-1 bg-white rounded"></div>
+                            <div className="flex space-x-1">
+                                <div className="w-1 h-1 bg-white rounded-full"></div>
+                                <div className="w-1 h-1 bg-white rounded-full"></div>
+                                <div className="w-1 h-1 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            case 'pots':
+                return (
+                    <div className="w-6 h-6 mr-3 flex items-center justify-center">
+                        <div className="relative flex space-x-0.5">
+                            <div className="w-2 h-2 bg-gray-700 rounded-b-sm border-t-2 border-gray-500"></div>
+                            <div className="w-2 h-2 bg-gray-700 rounded-b-sm border-t-2 border-gray-500"></div>
+                        </div>
+                    </div>
+                );
+            case 'tables':
+                return (
+                    <div className="w-6 h-6 bg-gray-700 rounded mr-3 flex items-center justify-center">
+                        <div className="space-y-0.5">
+                            <div className="w-4 h-1 bg-white rounded"></div>
+                            <div className="flex justify-between">
+                                <div className="w-0.5 h-2 bg-white rounded"></div>
+                                <div className="w-0.5 h-2 bg-white rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            case 'vertical':
+                return (
+                    <div className="w-6 h-6 bg-indigo-600 rounded mr-3 flex items-center justify-center">
+                        <div className="space-y-0.5">
+                            {[1, 2, 3].map((i) => (
+                                <div
+                                    key={i}
+                                    className="w-3 h-0.5 bg-white rounded-sm"
+                                ></div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            case 'other':
+                return (
+                    <div className="w-6 h-6 bg-purple-600 rounded mr-3 flex items-center justify-center">
+                        <div className="w-3 h-3 border-2 border-white rounded-sm"></div>
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <div
+            className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${isSelected
+                ? 'border-green-500 bg-green-50'
+                : 'border-gray-300 hover:border-gray-400'
+                }`}
+            onClick={onClick}
+        >
+            <div className="flex items-center mb-2">
+                {renderIcon()}
+                <span className="font-medium text-sm">{title}</span>
+            </div>
+            <p className="text-xs text-gray-600">{description}</p>
+        </div>
+    );
+};
+
 export const NewGrowLocationModal: React.FC<NewGrowLocationModalProps> = ({
     show,
     onClose,
     growLocationData,
     onGrowLocationDataChange
 }) => {
+    const [showLocationTypeDropdown, setShowLocationTypeDropdown] = useState(false);
+
     if (!show) return null;
 
     const handleInputChange = (field: keyof GrowLocationData, value: any) => {
@@ -40,23 +161,110 @@ export const NewGrowLocationModal: React.FC<NewGrowLocationModalProps> = ({
         });
     };
 
+    const handlePlantingFormatSelect = (format: string) => {
+        handleInputChange('plantingFormat', format);
+    };
+
+    const handleLocationTypeSelect = (type: string) => {
+        handleInputChange('locationType', type);
+        setShowLocationTypeDropdown(false);
+    };
+
+    const handleMapButtonClick = () => {
+        // This would typically navigate to the map tab or open a map modal
+        console.log('Navigate to map tab');
+        // You can add your navigation logic here
+        // For example: navigate('/map') or setActiveTab('map')
+    };
+
+    const locationTypes = [
+        'Greenhouse',
+        'Field',
+        'Indoor Facility',
+        'High Tunnel',
+        'Cold Frame',
+        'Container Yard',
+        'Vertical Farm',
+        'Aquaponics Facility'
+    ];
+
+    const plantingFormats = [
+        {
+            title: 'Planted in Beds',
+            description:
+                "Distinct number of beds for diverse crops. Often 100' length. Example: Carrots, Tomatoes, Spinach, etc.",
+            icon: 'beds' as const
+        },
+        {
+            title: 'Cover Crop',
+            description:
+                'Complete crop coverage or grazing location. Example: Alfalfa, Hay, Rye, Oats, Pasture, etc.',
+            icon: 'cover' as const
+        },
+        {
+            title: 'Row Crop',
+            description:
+                'One crop planted in rows wide enough for machinery. Example: Corn, Soybeans, Hemp, Potatoes, etc.',
+            icon: 'row' as const
+        },
+        {
+            title: 'Hydroponics',
+            description:
+                'Soilless growing with nutrient solutions. Example: NFT systems, DWC, Aeroponics, etc.',
+            icon: 'hydroponic' as const
+        },
+        {
+            title: 'Pots',
+            description:
+                'Individual container growing. Example: Nursery pots, fabric pots, containers of various sizes.',
+            icon: 'pots' as const
+        },
+        {
+            title: 'Tables or Benches',
+            description:
+                'Elevated growing surfaces. Example: Bench systems, tray tables, elevated beds.',
+            icon: 'tables' as const
+        },
+        {
+            title: 'Vertical Farming',
+            description:
+                'Multi-level indoor growing. Example: Vertical racks, tower gardens, wall systems.',
+            icon: 'vertical' as const
+        },
+        {
+            title: 'Other',
+            description:
+                'Any alternative growing method. Example: Shelves, aquaponics, trays, etc.',
+            icon: 'other' as const
+        }
+    ];
+
+    const showBedFields = growLocationData.plantingFormat === 'Planted in Beds';
+    const showContainerFields =
+        growLocationData.plantingFormat === 'Pots' ||
+        growLocationData.plantingFormat === 'Hydroponics';
+    const showTableFields =
+        growLocationData.plantingFormat === 'Tables or Benches';
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0">
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200">
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">New Grow Location</h2>
-                    <button
-                        onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600"
-                    >
-                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[95vh] overflow-y-auto">
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                        New Grow Location
+                    </h2>
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+                        <X className="w-5 h-5" />
                     </button>
                 </div>
 
-                <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+                <div className="p-6 space-y-5">
+                    {/* Main Info */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Name
+                            </label>
                             <input
                                 type="text"
                                 placeholder="Example: Northwest Field"
@@ -66,7 +274,9 @@ export const NewGrowLocationModal: React.FC<NewGrowLocationModalProps> = ({
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Electronic Id</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Electronic Id
+                            </label>
                             <input
                                 type="text"
                                 value={growLocationData.electronicId}
@@ -76,78 +286,165 @@ export const NewGrowLocationModal: React.FC<NewGrowLocationModalProps> = ({
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                        <div className="bg-blue-50 border-2 border-blue-500 rounded-lg p-3 sm:p-4 text-center">
-                            <div className="text-xl sm:text-2xl mb-2">🏠</div>
-                            <h3 className="font-medium text-blue-800 mb-2 text-sm sm:text-base">Planted in Beds</h3>
-                            <p className="text-xs text-blue-600">Distinct number of beds for diverse crops. Often 100' length. Example: Carrots, Tomatos, Spinach, etc. Plantings based on row length and count.</p>
+                    {/* Location Type */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="relative">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Location Type
+                            </label>
+                            <div className="flex space-x-2">
+                                <div className="flex-1 relative">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowLocationTypeDropdown(!showLocationTypeDropdown)
+                                        }
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500 text-left flex items-center justify-between"
+                                    >
+                                        <span
+                                            className={
+                                                growLocationData.locationType
+                                                    ? 'text-gray-900'
+                                                    : 'text-gray-500'
+                                            }
+                                        >
+                                            {growLocationData.locationType || 'Select location type'}
+                                        </span>
+                                        <ChevronDown className="w-4 h-4 text-gray-400" />
+                                    </button>
+
+                                    {showLocationTypeDropdown && (
+                                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                                            <div className="py-1">
+                                                {locationTypes.map((type) => (
+                                                    <button
+                                                        key={type}
+                                                        onClick={() => handleLocationTypeSelect(type)}
+                                                        className="w-full px-4 py-2 text-left hover:bg-gray-100"
+                                                    >
+                                                        {type}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <button
+                                    onClick={handleMapButtonClick}
+                                    className="px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md flex items-center justify-center transition-colors border border-blue-200 hover:border-blue-300"
+                                    title="Open Map"
+                                >
+                                    <MapPin className="w-4 h-4" />
+                                    <span className="ml-2 text-sm">Map</span>
+                                </button>
+                            </div>
                         </div>
-                        <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
-                            <div className="text-xl sm:text-2xl mb-2">⬛</div>
-                            <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Cover Crop</h3>
-                            <p className="text-xs text-gray-600">Complete crop coverage or grazing location. Example: Alfalfa, Hay, Rye, Oats, Pasture, etc. Planting coverage based on location area.</p>
-                        </div>
-                        <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
-                            <div className="text-xl sm:text-2xl mb-2">📏</div>
-                            <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Row Crop</h3>
-                            <p className="text-xs text-gray-600">One crop planted in rows wide enough to be cultivated by machinery. Example: Corn, Soy Beans, Hemp, Potatos, etc. Planting coverage based on location area.</p>
-                        </div>
-                        <div className="border-2 border-gray-200 rounded-lg p-3 sm:p-4 text-center">
-                            <div className="text-xl sm:text-2xl mb-2">#</div>
-                            <h3 className="font-medium text-gray-800 mb-2 text-sm sm:text-base">Other</h3>
-                            <p className="text-xs text-gray-600">Any alternative growing method. Example: Shelves, aquaponics, trays, etc. Plantings based on specified amount planted.</p>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Status
+                            </label>
+                            <select
+                                value={growLocationData.status}
+                                onChange={(e) => handleInputChange('status', e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                            >
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Under Construction">Under Construction</option>
+                                <option value="Seasonal">Seasonal</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Number Of Beds</label>
-                            <input
-                                type="number"
-                                value={growLocationData.numberOfBeds}
-                                onChange={(e) => handleInputChange('numberOfBeds', parseInt(e.target.value))}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Bed Length</label>
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="number"
-                                    value={growLocationData.bedLength}
-                                    onChange={(e) => handleInputChange('bedLength', parseInt(e.target.value))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                    {/* Planting Format Selection */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-3">
+                            Planting Format
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                            {plantingFormats.map((format) => (
+                                <PlantingFormatCard
+                                    key={format.title}
+                                    title={format.title}
+                                    description={format.description}
+                                    icon={format.icon}
+                                    isSelected={growLocationData.plantingFormat === format.title}
+                                    onClick={() => handlePlantingFormatSelect(format.title)}
                                 />
-                                <span className="text-sm text-gray-500">Meters</span>
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Bed Width</label>
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="number"
-                                    value={growLocationData.bedWidth}
-                                    onChange={(e) => handleInputChange('bedWidth', parseInt(e.target.value))}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                />
-                                <span className="text-sm text-gray-500">Meters</span>
-                            </div>
+                            ))}
                         </div>
                     </div>
+
+                    {/* Conditional Fields */}
+                    {showBedFields && (
+                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h3 className="text-base font-medium text-gray-800 mb-4">
+                                Bed Configuration
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Number Of Beds
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={growLocationData.numberOfBeds}
+                                        onChange={(e) =>
+                                            handleInputChange('numberOfBeds', parseInt(e.target.value) || 0)
+                                        }
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Bed Length (m)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="0.1"
+                                        step="0.1"
+                                        value={growLocationData.bedLength}
+                                        onChange={(e) =>
+                                            handleInputChange('bedLength', parseFloat(e.target.value) || 0)
+                                        }
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Bed Width (m)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        min="0.1"
+                                        step="0.1"
+                                        value={growLocationData.bedWidth}
+                                        onChange={(e) =>
+                                            handleInputChange('bedWidth', parseFloat(e.target.value) || 0)
+                                        }
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 sm:px-6 py-4 border-t border-gray-200 space-y-3 sm:space-y-0">
+                {/* Footer */}
+                <div className="flex justify-between items-center px-6 py-4 border-t border-gray-200">
                     <button
                         onClick={onClose}
-                        className="text-blue-600 hover:text-blue-800 px-3 sm:px-4 py-2 text-sm text-center"
+                        className="text-gray-600 hover:text-gray-800 text-sm"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onClose}
-                        className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
                     >
-                        Save
+                        Save Grow Location
                     </button>
                 </div>
             </div>

@@ -3,42 +3,42 @@ import { Planting, ChartData } from '../types/planting';
 
 export const usePlantings = () => {
     const [plantings, setPlantings] = useState<Planting[]>([
-        // {
-        //     id: 1,
-        //     location: 'Northwest Field A',
-        //     totalPlanted: '266.67 sqft',
-        //     plantedDate: 'Last Plant',
-        //     harvestStatus: '222 of 1,200 Harvested',
-        //     financialInfo: '$584.00 of $2,840.00 Planned',
-        //     expectedDate: 'Expected Sep. 17, 2022',
-        //     plantingDetails: '$364.00 of $1,840.00 Planned',
-        //     progressPercentage: 85,
-        //     expanded: false
-        // },
-        // {
-        //     id: 2,
-        //     location: 'Northwest Field B',
-        //     totalPlanted: '266.67 sqft',
-        //     plantedDate: 'Last Plant',
-        //     harvestStatus: '',
-        //     financialInfo: '',
-        //     expectedDate: 'Expected Sep. 17, 2022',
-        //     plantingDetails: '$800.00 Planned',
-        //     progressPercentage: 65,
-        //     expanded: false
-        // },
-        // {
-        //     id: 3,
-        //     location: 'Northwest Field C',
-        //     totalPlanted: '266.67 sqft',
-        //     plantedDate: 'Last Plant',
-        //     harvestStatus: '',
-        //     financialInfo: '',
-        //     expectedDate: 'Expected Sep. 20, 2022',
-        //     plantingDetails: '$ of 400 Harvested\n$800.00 Planned',
-        //     progressPercentage: 45,
-        //     expanded: false
-        // }
+        {
+            id: 1,
+            location: 'Northwest Field A',
+            totalPlanted: '266.67 sqft',
+            plantedDate: 'Last Plant',
+            harvestStatus: '222 of 1,200 Harvested',
+            financialInfo: '$584.00 of $2,840.00 Planned',
+            expectedDate: 'Expected Sep. 17, 2022',
+            plantingDetails: '$364.00 of $1,840.00 Planned',
+            progressPercentage: 85,
+            expanded: false
+        },
+        {
+            id: 2,
+            location: 'Northwest Field B',
+            totalPlanted: '266.67 sqft',
+            plantedDate: 'Last Plant',
+            harvestStatus: '',
+            financialInfo: '',
+            expectedDate: 'Expected Sep. 17, 2022',
+            plantingDetails: '$800.00 Planned',
+            progressPercentage: 65,
+            expanded: false
+        },
+        {
+            id: 3,
+            location: 'Northwest Field C',
+            totalPlanted: '266.67 sqft',
+            plantedDate: 'Last Plant',
+            harvestStatus: '',
+            financialInfo: '',
+            expectedDate: 'Expected Sep. 20, 2022',
+            plantingDetails: '$ of 400 Harvested\n$800.00 Planned',
+            progressPercentage: 45,
+            expanded: false
+        }
     ]);
 
     const expectedPoundsData: ChartData[] = [

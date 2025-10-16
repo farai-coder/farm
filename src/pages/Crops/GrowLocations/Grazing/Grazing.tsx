@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { ChevronLeft, MapPin, Eye, ArrowRight, Calendar, Users, BarChart3, FileText, Map, DollarSign, Image, File } from 'lucide-react';
+import { ChevronLeft, MapPin, Eye, ArrowRight, Calendar, Users, BarChart3, FileText, Map, DollarSign, Image, File, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const GrazingPage = () => {
     const [selectedTab, setSelectedTab] = useState('Details');
+    const navigate = useNavigate();
 
     const tabs = [
         'Details', 'Plantings', 'Crop Plan', 'Planting History', 'Grazing',
@@ -48,9 +50,18 @@ export const GrazingPage = () => {
 
                         {/* Header */}
                         <div className="flex items-center justify-between mb-8">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900 mb-2">tyyt</h1>
-                                <p className="text-gray-600">yt</p>
+                            <div className="flex flex-col gap-2">
+                                <button
+                                    onClick={() => navigate('/crops/grow-locations')}
+                                    className="flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors self-start"
+                                >
+                                    <ArrowLeft size={16} className="mr-2" />
+                                    Back to Grow Locations
+                                </button>
+                                <div>
+                                    <h1 className="text-3xl font-bold text-gray-900 mb-2">tyyt</h1>
+                                    <p className="text-gray-600">yt</p>
+                                </div>
                             </div>
 
                             <div className="flex items-center space-x-4">

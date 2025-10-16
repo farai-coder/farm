@@ -1,6 +1,7 @@
 export interface CropFormData {
     cropType: string;
     variety: string;
+    category: string;
     botanicalName: string;
     internalId: string;
     startBeforeLastFrost: string;

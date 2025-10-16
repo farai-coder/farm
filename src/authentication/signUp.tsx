@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
@@ -34,6 +34,19 @@ interface PreferencesData {
   lastFrostDay: string;
 }
 
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+
+// Extend window to include initMap
+declare global {
+  interface Window {
+    initMap: () => void;
+    google: any;
+  }
+}
+
 export const SignUp: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,6 +55,14 @@ export const SignUp: React.FC = () => {
   const [apiError, setApiError] = useState<string>('');
   const [apiSuccess, setApiSuccess] = useState<string>('');
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [mapCoordinates, setMapCoordinates] = useState<Coordinates | null>(null);
+  const [isGeocoding, setIsGeocoding] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
+
+  // Map state
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+
   const navigate = useNavigate();
 
   const [userForm, setUserForm] = useState<UserFormData>({
@@ -74,6 +95,136 @@ export const SignUp: React.FC = () => {
     lastFrostMonth: 'August',
     lastFrostDay: '15'
   });
+
+  // Load Google Maps API on component mount
+  useEffect(() => {
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAtNURh8Jda8VTuThQwJuuhKM0I7dPpsl4`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        setMapLoaded(true);
+        // Initialize map with default location
+        initializeMap({ lat: -17.8292, lng: 31.0522 }); // Default to Harare, Zimbabwe
+      };
+      document.head.appendChild(script);
+    } else {
+      setMapLoaded(true);
+      initializeMap({ lat: -17.8292, lng: 31.0522 });
+    }
+  }, []);
+
+  // Function to geocode address using Google Maps
+  const geocodeAddress = (address: string, city: string, country: string): Promise<Coordinates | null> => {
+    return new Promise((resolve) => {
+      if (!window.google) {
+        resolve(null);
+        return;
+      }
+
+      const geocoder = new google.maps.Geocoder();
+      const fullAddress = `${address}, ${city}, ${country}`;
+
+      geocoder.geocode({ address: fullAddress }, (results: any, status: any) => {
+        if (status === 'OK' && results[0]) {
+          const location = results[0].geometry.location;
+          const coordinates = {
+            lat: location.lat(),
+            lng: location.lng()
+          };
+
+          // Store coordinates in localStorage immediately when geocoded
+          localStorage.setItem('farmCoordinates', JSON.stringify({
+            latitude: coordinates.lat,
+            longitude: coordinates.lng,
+            address: address,
+            city: city,
+            country: country,
+            farmName: farmForm.farmName
+          }));
+
+          console.log('Coordinates stored in localStorage:', coordinates);
+          resolve(coordinates);
+        } else {
+          console.warn('Geocoding failed:', status);
+          resolve(null);
+        }
+      });
+    });
+  };
+
+  // Initialize Google Maps with SATELLITE view only
+  const initializeMap = (center: Coordinates) => {
+    if (mapRef.current && window.google) {
+      const map = new google.maps.Map(mapRef.current, {
+        center: center,
+        zoom: 18,
+        mapTypeId: google.maps.MapTypeId.SATELLITE, // Only satellite view
+        zoomControl: false,
+        mapTypeControl: false, // Hide map type controls
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
+      });
+
+      // Add marker for farm location
+      new google.maps.Marker({
+        position: center,
+        map,
+        title: farmForm.farmName || 'Farm Location',
+      });
+
+      setMapInstance(map);
+    }
+  };
+
+  // Update map when address changes
+  useEffect(() => {
+    const updateMapLocation = async () => {
+      if (farmForm.address && farmForm.city && farmForm.country && mapLoaded) {
+        setIsGeocoding(true);
+        try {
+          const coordinates = await geocodeAddress(farmForm.address, farmForm.city, farmForm.country);
+          if (coordinates) {
+            setMapCoordinates(coordinates);
+            // Update the farm form with coordinates
+            setFarmForm(prev => ({
+              ...prev,
+              latitude: coordinates.lat.toString(),
+              longitude: coordinates.lng.toString()
+            }));
+
+            // Update map center if map instance exists
+            if (mapInstance) {
+              mapInstance.setCenter(coordinates);
+              // Add or update marker
+              new google.maps.Marker({
+                position: coordinates,
+                map: mapInstance,
+                title: farmForm.farmName || 'Farm Location',
+              });
+            } else {
+              // Initialize map with new coordinates
+              initializeMap(coordinates);
+            }
+          }
+        } catch (error) {
+          console.error('Geocoding error:', error);
+        } finally {
+          setIsGeocoding(false);
+        }
+      }
+    };
+
+    // Add a delay to prevent too many API calls while typing
+    const timeoutId = setTimeout(() => {
+      updateMapLocation();
+    }, 800);
+
+    return () => clearTimeout(timeoutId);
+  }, [farmForm.address, farmForm.city, farmForm.country, mapLoaded]);
 
   const handleLogin = () => {
     navigate('/login');
@@ -157,6 +308,30 @@ export const SignUp: React.FC = () => {
     setUploadProgress(0);
 
     try {
+      // Use the already geocoded coordinates or geocode again if needed
+      let latitude = parseFloat(farmForm.latitude) || 0;
+      let longitude = parseFloat(farmForm.longitude) || 0;
+
+      if ((!latitude || !longitude) && farmForm.address && farmForm.city && farmForm.country) {
+        const coordinates = await geocodeAddress(farmForm.address, farmForm.city, farmForm.country);
+        if (coordinates) {
+          latitude = coordinates.lat;
+          longitude = coordinates.lng;
+        }
+      }
+
+      // Store coordinates in localStorage (in case they weren't stored during geocoding)
+      localStorage.setItem('farmCoordinates', JSON.stringify({
+        latitude,
+        longitude,
+        address: farmForm.address,
+        city: farmForm.city,
+        country: farmForm.country,
+        farmName: farmForm.farmName
+      }));
+
+      console.log('Final coordinates stored in localStorage:', { latitude, longitude });
+
       const requestData = {
         user: {
           email: userForm.email,
@@ -169,14 +344,14 @@ export const SignUp: React.FC = () => {
         },
         farm: {
           farmName: farmForm.farmName,
-          farmType: farmForm.farmType, // Already in correct format (MIXED, CROPS, LIVESTOCK)
+          farmType: farmForm.farmType,
           country: farmForm.country.toLowerCase(),
           address: farmForm.address,
           city: farmForm.city,
           state: farmForm.state || 'N/A',
           postalCode: farmForm.postalCode || 'N/A',
-          latitude: parseFloat(farmForm.latitude) || 0,
-          longitude: parseFloat(farmForm.longitude) || 0
+          latitude: latitude,
+          longitude: longitude
         },
         prefs: {
           measurementSystem: preferencesForm.measurementSystem,
@@ -215,18 +390,15 @@ export const SignUp: React.FC = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        // Handle both 'message' and 'detail' fields from backend
         const errorMessage = result.detail || result.message || `Registration failed with status: ${response.status}`;
         throw new Error(errorMessage);
       }
 
       console.log('Registration successful:', result);
 
-      // Use both 'message' and 'detail' fields from backend for success
       const successMessage = result.detail || result.message || 'Registration completed successfully.';
       setApiSuccess(successMessage);
 
-      // Navigate to dashboard after a short delay to show success message
       setTimeout(() => {
         handleNavigation('/login');
       }, 2000);
@@ -522,20 +694,30 @@ export const SignUp: React.FC = () => {
 
         <div className="mt-6 p-4 bg-gray-50 rounded-lg">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Tagged Location</span>
-            <i className="fas fa-info-circle text-gray-400"></i>
+            <span className="text-sm font-medium text-gray-700">Farm Location Map</span>
+            {isGeocoding && (
+              <div className="flex items-center text-xs text-gray-500">
+                <i className="fas fa-spinner fa-spin mr-1"></i>
+                Locating...
+              </div>
+            )}
           </div>
-          <div className="bg-gray-200 h-32 rounded-lg flex items-center justify-center">
-            <p className="text-gray-500 text-sm">Map preview would appear here</p>
+
+          <div className="h-64 rounded-lg overflow-hidden">
+            <div
+              ref={mapRef}
+              className="w-full h-full"
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4 mt-2 text-xs text-gray-600">
+
+          <div className="grid grid-cols-2 gap-4 mt-4 text-xs text-gray-600">
             <div>
               <span className="font-medium">Latitude</span>
-              <p>-17.8396095</p>
+              <p>{mapCoordinates ? mapCoordinates.lat.toFixed(6) : '-17.829200'}</p>
             </div>
             <div>
               <span className="font-medium">Longitude</span>
-              <p>31.2183039</p>
+              <p>{mapCoordinates ? mapCoordinates.lng.toFixed(6) : '31.052200'}</p>
             </div>
           </div>
         </div>

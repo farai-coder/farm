@@ -111,49 +111,51 @@ export const LocationsTable: React.FC<LocationsTableProps> = ({ locations, onRow
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className="text-sm text-gray-900">{location.plantingFormat}</span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <div className="relative inline-block text-left">
-                                            <button
-                                                ref={actionsButtonRef}
-                                                onClick={(e) => handleActionsClick(e, location)}
-                                                className="text-gray-400 hover:text-gray-600 p-1 rounded-md hover:bg-gray-100 transition-colors duration-200"
-                                            >
-                                                <i className="fas fa-ellipsis-v"></i>
-                                            </button>
-
-                                            {/* Dropdown Menu */}
-                                            {isDropdownOpen && selectedLocation?.id === location.id && (
-                                                <div
-                                                    ref={dropdownRef}
-                                                    className="absolute right-0 mt-1 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200"
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div className="flex justify-start">
+                                            <div className="relative">
+                                                <button
+                                                    ref={actionsButtonRef}
+                                                    onClick={(e) => handleActionsClick(e, location)}
+                                                    className="text-gray-400 hover:text-gray-600 p-1 rounded-md hover:bg-gray-100 transition-colors duration-200"
                                                 >
-                                                    <div className="py-1">
-                                                        <button
-                                                            onClick={handleEdit}
-                                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150 flex items-center space-x-3"
-                                                        >
-                                                            <i className="fas fa-edit text-gray-500 w-4"></i>
-                                                            <span>Edit</span>
-                                                        </button>
+                                                    <i className="fas fa-ellipsis-v"></i>
+                                                </button>
 
-                                                        <button
-                                                            onClick={handleViewDetails}
-                                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150 flex items-center space-x-3"
-                                                        >
-                                                            <i className="fas fa-eye text-gray-500 w-4"></i>
-                                                            <span>View Details</span>
-                                                        </button>
+                                                {/* Dropdown Menu */}
+                                                {isDropdownOpen && selectedLocation?.id === location.id && (
+                                                    <div
+                                                        ref={dropdownRef}
+                                                        className="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg z-50 border border-gray-200"
+                                                    >
+                                                        <div className="py-1">
+                                                            <button
+                                                                onClick={handleEdit}
+                                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150 flex items-center space-x-3"
+                                                            >
+                                                                <i className="fas fa-edit text-gray-500 w-4"></i>
+                                                                <span>Edit</span>
+                                                            </button>
 
-                                                        <button
-                                                            onClick={handleDelete}
-                                                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3"
-                                                        >
-                                                            <i className="fas fa-trash text-red-500 w-4"></i>
-                                                            <span>Delete</span>
-                                                        </button>
+                                                            <button
+                                                                onClick={handleViewDetails}
+                                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150 flex items-center space-x-3"
+                                                            >
+                                                                <i className="fas fa-eye text-gray-500 w-4"></i>
+                                                                <span>View Details</span>
+                                                            </button>
+
+                                                            <button
+                                                                onClick={handleDelete}
+                                                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150 flex items-center space-x-3"
+                                                            >
+                                                                <i className="fas fa-trash text-red-500 w-4"></i>
+                                                                <span>Delete</span>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            )}
+                                                )}
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

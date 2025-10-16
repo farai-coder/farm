@@ -77,6 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'crops', icon: 'fa-seedling', label: 'Crops', hasSub: true, path: '/crops' },
     { id: 'resources', icon: 'fa-tractor', label: 'Resources', hasSub: true, path: '/resources' },
     { id: 'accounting', icon: 'fa-calculator', label: 'Accounting', hasSub: true, path: '/accounting' },
+    { id: 'climate', icon: 'fa-cloud-sun', label: 'Climate', hasSub: true, path: '/climate' },
     { id: 'contacts', icon: 'fa-address-book', label: 'Contacts', path: '/contacts' },
     { id: 'farm-map', icon: 'fa-map', label: 'Farm Map', path: '/farm-map' },
   ];
@@ -434,7 +435,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Desktop Sidebar - Unchanged */}
+      {/* Desktop Sidebar */}
       <div className="hidden md:flex bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40 w-64 flex-col h-screen shadow-sm mt-16">
         <nav className="flex-1 overflow-y-auto py-4">
           {menuItems.map((item) => (

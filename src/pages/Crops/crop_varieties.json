@@ -1,0 +1,200 @@
+{
+  "tomatoes": [
+    {"name": "Roma", "variety": "Roma VF", "icon": "🍅"},
+    {"name": "San Marzano", "variety": "San Marzano", "icon": "🍅"},
+    {"name": "Cherry", "variety": "Sweet 100", "icon": "🍒"},
+    {"name": "Grape", "variety": "Grape", "icon": "🍇"},
+    {"name": "Beefsteak", "variety": "Beefsteak", "icon": "🥩"},
+    {"name": "Brandywine", "variety": "Brandywine (Pink)", "icon": "🍅"},
+    {"name": "Better Boy", "variety": "Better Boy", "icon": "🍅"},
+    {"name": "Big Beef", "variety": "Big Beef", "icon": "🍅"},
+    {"name": "Celebrity", "variety": "Celebrity", "icon": "🍅"},
+    {"name": "Sun Gold", "variety": "Sun Gold", "icon": "🍊"},
+    {"name": "Yellow Pear", "variety": "Yellow Pear", "icon": "🍐"},
+    {"name": "Green Zebra", "variety": "Green Zebra", "icon": "🟢"},
+    {"name": "Black Krim", "variety": "Black Krim", "icon": "🖤"},
+    {"name": "Cherokee Purple", "variety": "Cherokee Purple", "icon": "🟣"},
+    {"name": "Indigo Rose", "variety": "Indigo Rose", "icon": "🔵"},
+    {"name": "Tigerella", "variety": "Tigerella", "icon": "🟠"},
+    {"name": "Ailsa Craig", "variety": "Ailsa Craig", "icon": "🍅"},
+    {"name": "Early Girl", "variety": "Early Girl", "icon": "🍅"},
+    {"name": "Costoluto Genovese", "variety": "Costoluto Genovese", "icon": "🍅"},
+    {"name": "Kellogg's Breakfast", "variety": "Kellogg's Breakfast", "icon": "🌞"},
+    {"name": "Golden Roma", "variety": "Golden Roma", "icon": "🍋"},
+    {"name": "Isis Candy", "variety": "Isis Candy", "icon": "🍬"},
+    {"name": "Sun Sugar", "variety": "Sun Sugar", "icon": "🍭"},
+    {"name": "Paul Robeson", "variety": "Paul Robeson", "icon": "🟤"},
+    {"name": "Mortgage Lifter", "variety": "Mortgage Lifter", "icon": "🏠"},
+    {"name": "Purple Cherokee", "variety": "Purple Cherokee", "icon": "🟪"},
+    {"name": "Principe Borghese", "variety": "Principe Borghese", "icon": "🍅"},
+    {"name": "San Marzano Nano", "variety": "San Marzano Nano", "icon": "🍅"},
+    {"name": "Romello", "variety": "Romello", "icon": "🍅"},
+    {"name": "Amish Paste", "variety": "Amish Paste", "icon": "🍅"}
+  ],
+
+  "cereals": [
+    {"name": "Maize", "variety": "Flint Corn", "icon": "🌽"},
+    {"name": "Maize", "variety": "Dent Corn", "icon": "🌽"},
+    {"name": "Maize", "variety": "Sweet Corn", "icon": "🌽"},
+    {"name": "Maize", "variety": "Popcorn", "icon": "🍿"},
+    {"name": "Rice", "variety": "Basmati", "icon": "🍚"},
+    {"name": "Rice", "variety": "Jasmine", "icon": "🍚"},
+    {"name": "Rice", "variety": "Long Grain", "icon": "🍚"},
+    {"name": "Rice", "variety": "Short Grain", "icon": "🍚"},
+    {"name": "Wheat", "variety": "Hard Red Winter", "icon": "🌾"},
+    {"name": "Wheat", "variety": "Hard Red Spring", "icon": "🌾"},
+    {"name": "Wheat", "variety": "Soft White", "icon": "🌾"},
+    {"name": "Barley", "variety": "Hulled Barley", "icon": "🌾"},
+    {"name": "Oats", "variety": "Rolled Oats", "icon": "🥣"},
+    {"name": "Sorghum", "variety": "Grain Sorghum", "icon": "🌾"},
+    {"name": "Millet", "variety": "Pearl Millet", "icon": "🌾"},
+    {"name": "Rye", "variety": "Secale cereale", "icon": "🍞"},
+    {"name": "Triticale", "variety": "Wheat-Rye Hybrid", "icon": "🌾"}
+  ],
+
+  "legumes": [
+    {"name": "Soybean", "variety": "Glycine max (various)", "icon": "🫘"},
+    {"name": "Groundnut (Peanut)", "variety": "Virginia", "icon": "🥜"},
+    {"name": "Groundnut (Peanut)", "variety": "Spanish", "icon": "🥜"},
+    {"name": "Cowpea", "variety": "Black-eyed Pea", "icon": "🫘"},
+    {"name": "Common Bean", "variety": "Red Kidney", "icon": "🫘"},
+    {"name": "Common Bean", "variety": "Pinto", "icon": "🫘"},
+    {"name": "Common Bean", "variety": "Navy", "icon": "🫘"},
+    {"name": "Lentil", "variety": "Red", "icon": "🟠"},
+    {"name": "Lentil", "variety": "Green", "icon": "🟢"},
+    {"name": "Chickpea", "variety": "Kabuli", "icon": "🧆"},
+    {"name": "Chickpea", "variety": "Desi", "icon": "🧆"},
+    {"name": "Pigeon Pea", "variety": "Cajun/Local cultivars", "icon": "🌱"},
+    {"name": "Faba Bean", "variety": "Broad Bean", "icon": "🫘"},
+    {"name": "Mung Bean", "variety": "Vigna radiata", "icon": "🫘"}
+  ],
+
+  "root_and_tubers": [
+    {"name": "Cassava", "variety": "Sweet Cassava", "icon": "🍠"},
+    {"name": "Cassava", "variety": "Bitter Cassava", "icon": "🍠"},
+    {"name": "Potato", "variety": "Russet", "icon": "🥔"},
+    {"name": "Potato", "variety": "Kennebec", "icon": "🥔"},
+    {"name": "Potato", "variety": "Charlotte", "icon": "🥔"},
+    {"name": "Sweet Potato", "variety": "Orange Flesh", "icon": "🍠"},
+    {"name": "Sweet Potato", "variety": "Purple", "icon": "🍠"},
+    {"name": "Yam", "variety": "White Yam", "icon": "🍠"},
+    {"name": "Yam", "variety": "Yellow Yam", "icon": "🍠"},
+    {"name": "Taro", "variety": "Cocoyam", "icon": "🌱"},
+    {"name": "Beetroot", "variety": "Red Ace", "icon": "🔴"},
+    {"name": "Turnip", "variety": "Purple Top White Globe", "icon": "🟣"}
+  ],
+
+  "vegetables": [
+    {"name": "Onion", "variety": "Red Onion", "icon": "🧅"},
+    {"name": "Onion", "variety": "White Onion", "icon": "🧅"},
+    {"name": "Onion", "variety": "Yellow/Brown", "icon": "🧅"},
+    {"name": "Garlic", "variety": "Softneck", "icon": "🧄"},
+    {"name": "Garlic", "variety": "Hardneck", "icon": "🧄"},
+    {"name": "Carrot", "variety": "Nantes", "icon": "🥕"},
+    {"name": "Carrot", "variety": "Imperator", "icon": "🥕"},
+    {"name": "Cabbage", "variety": "Green", "icon": "🥬"},
+    {"name": "Cabbage", "variety": "Red", "icon": "🥬"},
+    {"name": "Lettuce", "variety": "Iceberg", "icon": "🥗"},
+    {"name": "Lettuce", "variety": "Romaine", "icon": "🥗"},
+    {"name": "Spinach", "variety": "Savoy", "icon": "🌿"},
+    {"name": "Spinach", "variety": "Flat Leaf", "icon": "🌿"},
+    {"name": "Okra", "variety": "Clemson Spineless", "icon": "🌿"},
+    {"name": "Pepper", "variety": "Bell Pepper (California Wonder)", "icon": "🫑"},
+    {"name": "Pepper", "variety": "Jalapeño", "icon": "🌶️"},
+    {"name": "Pepper", "variety": "Habanero", "icon": "🌶️"},
+    {"name": "Eggplant", "variety": "Black Beauty", "icon": "🍆"},
+    {"name": "Cucumber", "variety": "Slicing (Marketmore)", "icon": "🥒"},
+    {"name": "Cucumber", "variety": "Pickling (Boston Pickling)", "icon": "🥒"},
+    {"name": "Zucchini", "variety": "Black Beauty", "icon": "🥒"},
+    {"name": "Pea", "variety": "Garden Pea", "icon": "🟢"},
+    {"name": "Pea", "variety": "Snow Pea", "icon": "❄️"},
+    {"name": "Broccoli", "variety": "Calabrese", "icon": "🥦"},
+    {"name": "Cauliflower", "variety": "White Cloud", "icon": "🥦"}
+  ],
+
+  "fruits": [
+    {"name": "Mango", "variety": "Tommy Atkins", "icon": "🥭"},
+    {"name": "Mango", "variety": "Kent", "icon": "🥭"},
+    {"name": "Banana", "variety": "Cavendish", "icon": "🍌"},
+    {"name": "Banana", "variety": "Plantain", "icon": "🍌"},
+    {"name": "Orange", "variety": "Valencia", "icon": "🍊"},
+    {"name": "Orange", "variety": "Navel", "icon": "🍊"},
+    {"name": "Apple", "variety": "Granny Smith", "icon": "🍏"},
+    {"name": "Apple", "variety": "Red Delicious", "icon": "🍎"},
+    {"name": "Pineapple", "variety": "Smooth Cayenne", "icon": "🍍"},
+    {"name": "Papaya", "variety": "Solo", "icon": "🥭"},
+    {"name": "Watermelon", "variety": "Crimson Sweet", "icon": "🍉"},
+    {"name": "Pomegranate", "variety": "Wonderful", "icon": "🔴"},
+    {"name": "Grapes", "variety": "Concord", "icon": "🍇"},
+    {"name": "Grapes", "variety": "Thompson Seedless", "icon": "🍇"},
+    {"name": "Strawberry", "variety": "Albion", "icon": "🍓"},
+    {"name": "Blueberry", "variety": "Duke", "icon": "🫐"},
+    {"name": "Avocado", "variety": "Hass", "icon": "🥑"},
+    {"name": "Lemon", "variety": "Eureka", "icon": "🍋"}
+  ],
+
+  "nuts": [
+    {"name": "Almond", "variety": "Nonpareil", "icon": "🌰"},
+    {"name": "Walnut", "variety": "Chandler", "icon": "🌰"},
+    {"name": "Pecan", "variety": "Stuart", "icon": "🌰"},
+    {"name": "Cashew", "variety": "Anacardium occidentale", "icon": "🥜"},
+    {"name": "Hazelnut", "variety": "Corylus avellana", "icon": "🌰"}
+  ],
+
+  "oil_crops": [
+    {"name": "Sunflower", "variety": "Hybrid Oil", "icon": "🌻"},
+    {"name": "Soybean (oil)", "variety": "Oil-type", "icon": "🫘"},
+    {"name": "Groundnut (oil)", "variety": "Virginia/Oil-type", "icon": "🥜"},
+    {"name": "Sesame", "variety": "White Sesame", "icon": "⚪"},
+    {"name": "Rapeseed (Canola)", "variety": "Canola", "icon": "🌼"},
+    {"name": "Oil Palm", "variety": "Tenera", "icon": "🌴"},
+    {"name": "Cottonseed", "variety": "Cottonseed", "icon": "🧵"},
+    {"name": "Olive", "variety": "Arbequina", "icon": "🫒"}
+  ],
+
+  "fiber_crops": [
+    {"name": "Cotton", "variety": "Upland", "icon": "🧵"},
+    {"name": "Cotton", "variety": "Egyptian (long staple)", "icon": "🧶"},
+    {"name": "Jute", "variety": "White Jute (Corchorus capsularis)", "icon": "🌿"},
+    {"name": "Kenaf", "variety": "Hibiscus cannabinus", "icon": "🌱"},
+    {"name": "Flax", "variety": "Fiber Flax (Linum usitatissimum)", "icon": "🪡"},
+    {"name": "Hemp", "variety": "Cannabis sativa", "icon": "💚"}
+  ],
+
+  "beverage_and_stimulant_crops": [
+    {"name": "Tea", "variety": "Assamica", "icon": "🍵"},
+    {"name": "Coffee", "variety": "Arabica", "icon": "☕"},
+    {"name": "Cocoa", "variety": "Forastero", "icon": "🍫"},
+    {"name": "Yerba Mate", "variety": "Ilex paraguariensis", "icon": "🧉"}
+  ],
+
+  "spices_and_herbs": [
+    {"name": "Pepper (spice)", "variety": "Black Pepper", "icon": "🧂"},
+    {"name": "Ginger", "variety": "Common Ginger", "icon": "🫚"},
+    {"name": "Turmeric", "variety": "Curcuma longa", "icon": "🟠"},
+    {"name": "Basil", "variety": "Sweet Basil", "icon": "🌿"},
+    {"name": "Rosemary", "variety": "Tuscan Blue", "icon": "🌿"},
+    {"name": "Coriander", "variety": "Cilantro", "icon": "🌿"},
+    {"name": "Chili Pepper", "variety": "Cayenne", "icon": "🌶️"},
+    {"name": "Cinnamon", "variety": "Cinnamomum verum", "icon": "🪵"}
+  ],
+
+  "fodder_and_forage_crops": [
+    {"name": "Alfalfa", "variety": "Medicago sativa", "icon": "🌱"},
+    {"name": "Clover", "variety": "Red Clover", "icon": "🍀"},
+    {"name": "Silage Maize", "variety": "Forage Corn", "icon": "🌽"},
+    {"name": "Sorghum", "variety": "Forage Sorghum", "icon": "🌾"},
+    {"name": "Grass Hay", "variety": "Timothy", "icon": "🌿"}
+  ],
+
+  "industrial_and_miscellaneous_crops": [
+    {"name": "Sugarcane", "variety": "Commercial hybrids", "icon": "🍭"},
+    {"name": "Sugar Beet", "variety": "Beta vulgaris", "icon": "🟣"},
+    {"name": "Tobacco", "variety": "Virginia", "icon": "🚬"},
+    {"name": "Hops", "variety": "Cascade", "icon": "🍺"},
+    {"name": "Natural Rubber", "variety": "Hevea brasiliensis", "icon": "ยาง"},
+    {"name": "Cotton Seed", "variety": "Hybrid", "icon": "🧵"},
+    {"name": "Bamboo (cultivated)", "variety": "Phyllostachys spp.", "icon": "🎍"},
+    {"name": "Essential Oils (Lavender)", "variety": "Lavandula angustifolia", "icon": "🌸"}
+  ]
+}

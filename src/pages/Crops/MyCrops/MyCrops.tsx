@@ -15,6 +15,7 @@ interface MyCropsPageProps {
 
 export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) => {
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState<'all' | 'planted'>('all');
 
     const {
         cropTypes,
@@ -55,19 +56,29 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
 
     const [selectedCropId, setSelectedCropId] = useState<number | null>(null);
 
+    // Fetch crop types based on active tab
+    useEffect(() => {
+        if (activeTab === 'all') {
+            // Call API for all crop types
+            fetchCropTypes('all');
+        } else if (activeTab === 'planted') {
+            // Call API for currently planted crops
+            fetchCropTypes('planted');
+        }
+    }, [activeTab]);
+
     // Notify parent about crop types state
     useEffect(() => {
         onCropTypesChange(cropTypes.length > 0, selectedCropId !== null);
     }, [cropTypes, selectedCropId, onCropTypesChange]);
 
-    // Fetch crop types on component mount
-    useEffect(() => {
-        fetchCropTypes();
-    }, []);
-
     const handleNewCropType = () => {
         setShowNewCropModal(true);
         setModalStep(1);
+    };
+
+    const handleAddPlanting = () => {
+        setShowNewPlantingModal(true);
     };
 
     const handleCancelNewCrop = () => {
@@ -124,12 +135,19 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
         setSearchTerm(e.target.value);
     };
 
+    const handleTabChange = (tab: 'all' | 'planted') => {
+        setActiveTab(tab);
+    };
+
     // If no crop types exist, show the empty state
     if (cropTypes.length === 0) {
         return (
             <div className="bg-gray-50 min-h-screen">
                 <div className="p-4 sm:p-6">
-                    <EmptyState onNewCropType={handleNewCropType} />
+                    <EmptyState
+                        onNewCropType={handleNewCropType}
+                        onAddPlanting={handleAddPlanting}
+                    />
                 </div>
 
                 <NewCropTypeModal
@@ -141,6 +159,27 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                     cropData={cropData}
                     onInputChange={handleInputChange}
                     onSave={handleSaveCrop}
+                />
+
+                <NewPlantingModal
+                    show={showNewPlantingModal}
+                    onClose={() => {
+                        setShowNewPlantingModal(false);
+                        setNewPlantingStep(1);
+                    }}
+                    step={newPlantingStep}
+                    onNextStep={() => setNewPlantingStep(prev => prev + 1)}
+                    plantingData={plantingData}
+                    onPlantingDataChange={setPlantingData}
+                    onNewCropType={handleNewCropType}
+                    onNewGrowLocation={() => setShowNewGrowLocationModal(true)}
+                />
+
+                <NewGrowLocationModal
+                    show={showNewGrowLocationModal}
+                    onClose={() => setShowNewGrowLocationModal(false)}
+                    growLocationData={growLocationData}
+                    onGrowLocationDataChange={setGrowLocationData}
                 />
             </div>
         );
@@ -154,8 +193,10 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                     searchTerm={searchTerm}
                     onSearchChange={handleSearchChange}
                     onNewCropType={handleNewCropType}
-                    onAddPlanting={() => setShowNewPlantingModal(true)}
+                    onAddPlanting={handleAddPlanting}
                     showTabs={true}
+                    activeTab={activeTab}
+                    onTabChange={handleTabChange}
                 />
 
                 <CropsTable
@@ -166,7 +207,7 @@ export const MyCropsPage: React.FC<MyCropsPageProps> = ({ onCropTypesChange }) =
                         setSelectedCropId(cropId);
                         navigate('/crops/my-crops/details');
                     }}
-                    onNewPlanting={() => setShowNewPlantingModal(true)}
+                    onNewPlanting={handleAddPlanting}
                 />
             </div>
 

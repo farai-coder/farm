@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Property Boundary",
+        "icon": "map-outline"
+    },
+    {
+        "name": "Field",
+        "icon": "grid-outline"
+    },
+    {
+        "name": "Bed",
+        "icon": "layers-outline"
+    },
+    {
+        "name": "Building",
+        "icon": "home-outline"
+    },
+    {
+        "name": "Animal Enclosure",
+        "icon": "paw-outline"
+    },
+    {
+        "name": "Grazing Enclosure",
+        "icon": "tree-outline"
+    },
+    {
+        "name": "Irrigation",
+        "icon": "water-outline"
+    },
+    {
+        "name": "Buffer Zone",
+        "icon": "shield-outline"
+    }
+]

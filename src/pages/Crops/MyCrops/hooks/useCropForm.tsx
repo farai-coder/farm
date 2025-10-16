@@ -3,9 +3,9 @@ import { CropFormData } from '../types/crop';
 
 export const useCropForm = () => {
     const [formData, setFormData] = useState<CropFormData>({
-        cropType: '767',
-        variety: '767',
-        botanicalName: 'Zea mays, Capsicum annuum, Bell, etc',
+        category: 'tomatoes',
+        variety: 'Cherry',
+        botanicalName: 'Solanum lycopersicum',
         internalId: 'tyt',
         startBeforeLastFrost: '0',
         daysToEmerge: '0',

@@ -33,7 +33,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
             <div className="flex flex-col items-center justify-center py-4 sm:py-8 px-4 sm:px-6">
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-12 flex flex-col items-center w-full max-w-8xl">
                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center mb-4 sm:mb-6">
-                        <i className="fas fa-map-marker-alt text-xl sm:text-2xl text-gray-400"></i>
+                        <i className="fas fa-map-marker-alt text-xl sm:text-2xl text-green-600"></i>
                     </div>
                     <h3 className="text-lg sm:text-xl font-medium text-gray-800 mb-2 text-center">No Grow Locations</h3>
                     <p className="text-gray-600 mb-6 text-center max-w-md text-sm sm:text-base">

@@ -9,8 +9,8 @@ import Verification from './authentication/Verification';
 import { AuthProvider } from './authentication/AuthProvider';
 import ProtectedRoute from './authentication/RouteProtector';
 import { useAuth } from './authentication/AuthProvider';
-import { CropPlan } from './pages/Crops/CropPlan/CropPlan';
-import { YieldComparison } from './pages/Crops/CropPlan/YieldComparison/YieldComparison';
+import { CropPlan } from './pages/Crops/CropPlan/components/CropPlan';
+import { YieldComparison } from './pages/Crops/YieldComparison/YieldComparison';
 import { LocationMap } from './pages/Crops/LocationMap/LocationMap';
 import { GrowLocationTasks } from './pages/Crops/GrowLocations/Tasks/Tasks';
 import { GrowLocationCalendar } from "./pages/Crops/GrowLocations/Calendar/Calendar";
@@ -66,7 +66,6 @@ import { ResourcesInventory } from './pages/Resources/Inventory/ResourcesInvento
 import { GrowLocationSensors } from './pages/Crops/GrowLocations/EnvironmentData/EnvironmentData';
 import { GrowLocationYieldComparison } from './pages/Crops/GrowLocations/GrowLocationYieldComparison/GrowLocationYieldComparison';
 
-
 // Crops Secondary Sidebar Component
 const CropsSecondarySidebar: React.FC<{
   activeSubmenu: string;
@@ -90,10 +89,9 @@ const CropsSecondarySidebar: React.FC<{
       { id: 'harvests', label: 'Harvests', path: '/crops/my-crops/harvests' },
       { id: 'tasks', icon: 'fa-tasks', label: 'Tasks', path: '/crops/my-crops/tasks' },
       { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/my-crops/yield-comparison' },
-      { id: 'notes', label: 'Notes', path: '/crops/my-crops/notes' },
-      { id: 'accounting', label: 'Accounting', path: '/crops/my-crops/accounting' },
       { id: 'photos', label: 'Photos', path: '/crops/my-crops/photos' },
     ];
+
 
     React.useEffect(() => {
       const currentPath = location.pathname;
@@ -108,6 +106,8 @@ const CropsSecondarySidebar: React.FC<{
       setActiveSubmenu(item.id);
       setIsOpen(false); // Close mobile drawer on navigation
     };
+
+
 
     return (
       <>
@@ -189,23 +189,22 @@ const GrowLocationsSecondarySidebar: React.FC<{
     const navigate = useNavigate();
     const location = useLocation();
 
-  const growLocationsMenuItems = [
-    { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
-    { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
-    { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
-    { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
-    { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/grow-locations/yield-comparison' },
-    { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
-    { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
-    { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
-    { id: 'sensors', label: 'Environmental Data', path: '/crops/grow-locations/sensors' },
-    { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
-    { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
-    { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
-    { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
-    { id: 'accounting', label: 'Accounting', path: '/crops/grow-locations/accounting' },
-    { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
-  ];
+    const growLocationsMenuItems = [
+      { id: 'details', label: 'Details', path: '/crops/grow-locations/details' },
+      { id: 'plantings', label: 'Plantings', path: '/crops/grow-locations/plantings' },
+      { id: 'crop-plan', label: 'Crop Plan', path: '/crops/grow-locations/crop-plan' },
+      { id: 'planting-history', label: 'Planting History', path: '/crops/grow-locations/planting-history' },
+      { id: 'yield-comparison', label: 'Yield Comparison', path: '/crops/grow-locations/yield-comparison' },
+      { id: 'grazing', label: 'Grazing', path: '/crops/grow-locations/grazing' },
+      { id: 'treatments', label: 'Treatments', path: '/crops/grow-locations/treatments' },
+      { id: 'nutrients', label: 'Nutrients', path: '/crops/grow-locations/nutrients' },
+      { id: 'sensors', label: 'Environmental Data', path: '/crops/grow-locations/sensors' },
+      { id: 'calendar', label: 'Calendar', path: '/crops/grow-locations/calendar' },
+      { id: 'tasks', label: 'Tasks', path: '/crops/grow-locations/tasks' },
+      { id: 'notes', label: 'Notes', path: '/crops/grow-locations/notes' },
+      { id: 'map', label: 'Map', path: '/crops/grow-locations/map' },
+      { id: 'images', label: 'Images', path: '/crops/grow-locations/images' },
+    ];
 
     React.useEffect(() => {
       const currentPath = location.pathname;
@@ -312,9 +311,13 @@ const ProtectedLayout: React.FC = () => {
     const isInMyCropsSection = location.pathname.startsWith('/crops/my-crops');
     const isInGrowLocationsSection = location.pathname.startsWith('/crops/grow-locations');
 
+    // Check if we're on a specific sub-route, not just the main route
+    const isOnGrowLocationsSubroute = location.pathname !== '/crops/grow-locations' &&
+      location.pathname.startsWith('/crops/grow-locations');
+
     setShowCropsSubmenu(isInMyCropsSection && hasCropTypes && hasCropSelected);
-    // Show grow locations submenu when a location is selected AND we're in grow-locations section
-    setShowGrowLocationsSubmenu(isInGrowLocationsSection && selectedGrowLocation);
+    // Only show submenu when on sub-routes AND a location is selected
+    setShowGrowLocationsSubmenu(isOnGrowLocationsSubroute && selectedGrowLocation);
 
     // Reset states when not in their respective sections
     if (!isInMyCropsSection && !isInGrowLocationsSection) {
@@ -442,7 +445,7 @@ const ProtectedLayout: React.FC = () => {
             {/* <Route path="/crops/my-crops/harvests" element={<MyCropsHarvests />} /> */}
             <Route path="/crops/grow-locations/notes" element={<GrowLocationNotes />} />
             <Route path="/crops/grow-locations/accounting" element={<GrowLocationAccounting />} />
-            <Route path="/crops/my-crops/photos" element={<GrowLocationImages />} />
+            {/* <Route path="/crops/my-crops/photos" element={<GrowLocationImages />} /> */}
             <Route path="/crops/my-crops/current-plantings" element={<MyCurrentPlantings />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/" element={<Dashboard />} />

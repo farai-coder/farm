@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { FileEdit, Trash, X } from 'lucide-react';
+import { ArrowLeft, FileEdit, Trash, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const GrowLocationNutrients = () => {
+    const navigate = useNavigate();
     const [selectedView, setSelectedView] = useState('all');
 
     const [showNutrientsModal, setShowNutrientsModal] = useState(false);
@@ -301,6 +303,10 @@ export const GrowLocationNutrients = () => {
         });
     };
 
+    const handlePrint = () => {
+        window.print();
+    };
+
     const renderChart = (title: string, dataKeys: string[], color: string) => (
         <div className="bg-white p-4 rounded-lg border border-gray-200">
             <div className="flex items-center justify-between mb-4">
@@ -337,18 +343,59 @@ export const GrowLocationNutrients = () => {
         </div>
     );
 
+    const EmptyTreatmentState = () => (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="flex flex-col items-center justify-center py-16 px-4 sm:px-6">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 sm:p-12 flex flex-col items-center w-full max-w-8xl">
+                    <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mb-6">
+                        <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-medium text-gray-800 mb-2 text-center">No treatment data yet?</h3>
+                    <p className="text-gray-600 mb-6 text-center max-w-md">
+                        Record your first nutrient application or soil sample to start tracking your field's health.
+                    </p>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={() => setShowNutrientsModal(true)}
+                            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                        >
+                            Add Nutrients
+                        </button>
+                        <button
+                            onClick={() => setShowSampleModal(true)}
+                            className="border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-md font-medium transition-colors"
+                        >
+                            Record Sample
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
     return (
         <div className="p-4 sm:p-6">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-                <div>
-                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                    <p className="text-sm text-gray-600 mt-1">
-                        2.5 Acre
-                        <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
-                            Active
-                        </span>
-                    </p>
+                <div className="flex flex-col gap-2">
+                    <button
+                        onClick={() => navigate('/crops/grow-locations')}
+                        className="flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors self-start"
+                    >
+                        <ArrowLeft size={16} className="mr-2" />
+                        Back to Grow Locations
+                    </button>
+                    <div>
+                        <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
+                        <p className="text-sm text-gray-600 mt-1">
+                            2.5 Acre
+                            <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
+                                Active
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                     <button
@@ -364,8 +411,13 @@ export const GrowLocationNutrients = () => {
                         Record Sample
                     </button>
                     <div className="flex gap-1">
-                        <button className="text-gray-500 hover:text-gray-700 p-2">
-                            <i className="fas fa-print"></i>
+                        <button
+                            onClick={handlePrint}
+                            className="text-gray-500 hover:text-gray-700 p-2"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                            </svg>
                         </button>
                         <button className="text-gray-500 hover:text-gray-700 p-2">
                             <i className="fas fa-th"></i>
@@ -501,6 +553,15 @@ export const GrowLocationNutrients = () => {
                     </table>
                 </div>
             </div>
+
+            {/* Empty Treatment State - Uncomment to show when no data exists */}
+            {nutrientRecords.length === 0 || nutrientData.length === 0 ? (
+                <EmptyTreatmentState />
+            ) : (
+                // Your existing content when both have records
+                <div>
+                </div>
+            )}
 
             {/* New Nutrients Modal */}
             {showNutrientsModal && (

@@ -21,14 +21,14 @@ interface GrowLocation {
 
 // Mock data - replace with actual data fetching
 const mockGrowLocations: GrowLocation[] = [
-    // {
-    //     id: '1',
-    //     name: 'tyyt',
-    //     type: 'Greenhouse',
-    //     plantingFormat: 'Planted in Beds',
-    //     status: 'Active',
-    //     acreage: 2.5
-    // },
+    {
+        id: '1',
+        name: 'tyyt',
+        type: 'Greenhouse',
+        plantingFormat: 'Planted in Beds',
+        status: 'Active',
+        acreage: 2.5
+    },
     // Add more mock locations as needed
 ];
 

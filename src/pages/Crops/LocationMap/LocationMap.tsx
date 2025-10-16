@@ -1,274 +1,500 @@
-import React, { useState } from 'react';
-import { ZoomIn, ZoomOut, Maximize2, Settings } from 'lucide-react';
+// LocationMap.tsx
+import React, { useState, useEffect, useRef } from 'react';
+import { MapArea, AREA_TYPES } from './type';
+import {
+    calculatePolygonArea,
+    calculatePolygonCenter,
+    getPolygonCoordinates,
+    saveMapsToStorage,
+    formatArea
+} from './mapUtils';
+import { HeaderControls } from './HeaderControls';
+import { DrawingControls } from './DrawingControls';
+import { Legend } from './Legend';
+import { MapContainer } from './MapContainer';
+import { MapModal } from './MapModal';
 
 export const LocationMap = () => {
     const [zoomLevel, setZoomLevel] = useState(100);
+    const [isDrawingMode, setIsDrawingMode] = useState(false);
+    const [selectedAreaType, setSelectedAreaType] = useState('field');
+    const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [drawnMaps, setDrawnMaps] = useState<MapArea[]>([]);
+    const [showMapModal, setShowMapModal] = useState(false);
+    const [editingMap, setEditingMap] = useState<MapArea | null>(null);
+    const [mapName, setMapName] = useState('');
+    const [isNewMap, setIsNewMap] = useState(false);
 
-    // Legend items matching the image
-    const legendItems = [
-        { color: '#8b5cf6', label: 'Property Boundary' },
-        { color: '#10b981', label: 'Field' },
-        { color: '#ef4444', label: 'Bed' },
-        { color: '#dc2626', label: 'Building' },
-        { color: '#f59e0b', label: 'Animal Enclosure' },
-        { color: '#ec4899', label: 'Grazing Enclosure' },
-        { color: '#3b82f6', label: 'Irrigation' },
-        { color: '#84cc16', label: 'Buffer Zone' }
-    ];
+    const mapRef = useRef<HTMLDivElement>(null);
+    const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
+    const [drawingManager, setDrawingManager] = useState<google.maps.drawing.DrawingManager | null>(null);
 
-    // Mock field zones data
-    const fieldZones = [
-        { id: 'northwest-a', name: 'Northwest Field A', color: '#10b981', x: 25, y: 15, width: 20, height: 15 },
-        { id: 'northwest-b', name: 'Northwest Field B', color: '#10b981', x: 50, y: 15, width: 18, height: 15 },
-        { id: 'southwest-a', name: 'Southwest Field A', color: '#10b981', x: 25, y: 45, width: 20, height: 12 },
-        { id: 'southwest-c', name: 'Southwest Field C', color: '#10b981', x: 50, y: 45, width: 18, height: 12 },
-        { id: 'central', name: 'Central Field', color: '#10b981', x: 35, y: 30, width: 25, height: 10 }
-    ];
+    // Add this ref to track the current selectedAreaType
+    const selectedAreaTypeRef = useRef(selectedAreaType);
 
-    const beds = [
-        { id: 'bed-1', x: 28, y: 18, width: 3, height: 8 },
-        { id: 'bed-2', x: 32, y: 18, width: 3, height: 8 },
-        { id: 'bed-3', x: 36, y: 18, width: 3, height: 8 },
-        { id: 'bed-4', x: 40, y: 18, width: 3, height: 8 },
-        { id: 'bed-5', x: 53, y: 18, width: 3, height: 8 },
-        { id: 'bed-6', x: 57, y: 18, width: 3, height: 8 },
-        { id: 'bed-7', x: 61, y: 18, width: 3, height: 8 }
-    ];
+    // Update the ref whenever selectedAreaType changes
+    useEffect(() => {
+        selectedAreaTypeRef.current = selectedAreaType;
+    }, [selectedAreaType]);
+
+    // Close settings when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (isSettingsOpen) {
+                setIsSettingsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSettingsOpen]);
+
+    // Handle edit map
+    const handleEditMap = (mapId: string) => {
+        console.log('🔵 Edit map called:', mapId);
+        const mapData = drawnMaps.find(m => m.id === mapId);
+        if (mapData) {
+            console.log('✅ Found map in drawnMaps:', mapData);
+            setEditingMap(mapData);
+            setMapName(mapData.name);
+            setIsNewMap(false);
+            setShowMapModal(true);
+        } else {
+            console.log('❌ Map not found with ID:', mapId);
+            console.log('Available maps:', drawnMaps.map(m => m.id));
+        }
+    };
+
+    // Initialize map when component mounts
+    useEffect(() => {
+        const initializeMap = () => {
+            if (mapRef.current && !mapInstance && window.google) {
+                const map = new google.maps.Map(mapRef.current, {
+                    center: { lat: -17.8292, lng: 31.0522 },
+                    zoom: 15,
+                    mapTypeId: google.maps.MapTypeId.SATELLITE,
+                    disableDefaultUI: true,
+                    zoomControl: false,
+                    mapTypeControl: false,
+                    scaleControl: true,
+                    streetViewControl: false,
+                    rotateControl: false,
+                    fullscreenControl: false,
+                });
+
+                setMapInstance(map);
+                initializeDrawingManager(map);
+                loadSavedMaps(map);
+            }
+        };
+
+        const initializeDrawingManager = (map: google.maps.Map) => {
+            if (!window.google) return;
+
+            const selectedType = AREA_TYPES.find(t => t.id === selectedAreaTypeRef.current);
+            const manager = new google.maps.drawing.DrawingManager({
+                drawingMode: null,
+                drawingControl: false,
+                polygonOptions: {
+                    fillColor: selectedType?.lightColor || '#10b98180',
+                    fillOpacity: 0.5,
+                    strokeWeight: 3,
+                    strokeColor: selectedType?.color || '#10b981',
+                    editable: false,
+                    draggable: false,
+                    clickable: true,
+                },
+            });
+
+            manager.setMap(map);
+            setDrawingManager(manager);
+
+            google.maps.event.addListener(manager, 'polygoncomplete', (polygon: google.maps.Polygon) => {
+                handlePolygonComplete(polygon);
+            });
+
+            return manager;
+        };
+
+        const handlePolygonComplete = (polygon: google.maps.Polygon) => {
+            const area = calculatePolygonArea(polygon);
+            const coordinates = getPolygonCoordinates(polygon);
+
+            const path = polygon.getPath();
+            const pathArray: google.maps.LatLng[] = [];
+            for (let i = 0; i < path.getLength(); i++) {
+                pathArray.push(path.getAt(i));
+            }
+            const center = calculatePolygonCenter(pathArray);
+
+            const currentSelectedAreaType = selectedAreaTypeRef.current;
+            const selectedType = AREA_TYPES.find(t => t.id === currentSelectedAreaType);
+
+            const mapData: MapArea = {
+                polygon: polygon,
+                type: currentSelectedAreaType,
+                area: area,
+                color: selectedType?.color || '#10b981',
+                lightColor: selectedType?.lightColor || '#10b98180',
+                id: `map-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                coordinates: coordinates,
+                center: center,
+                name: '',
+            };
+
+            addPolygonListeners(polygon, mapData.id);
+
+            const marker = createMapMarker(mapData, mapInstance!);
+            mapData.marker = marker;
+
+            setEditingMap(mapData);
+            setMapName('');
+            setIsNewMap(true);
+            setShowMapModal(true);
+        };
+
+        const createMapMarker = (mapData: MapArea, map: google.maps.Map) => {
+            const markerIcon = {
+                url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" 
+                  fill="${mapData.color}" stroke="#ffffff" stroke-width="2"/>
+            <circle cx="12" cy="9" r="3" fill="#ffffff"/>
+          </svg>
+        `)}`,
+                scaledSize: new google.maps.Size(24, 24),
+                anchor: new google.maps.Point(12, 24),
+            };
+
+            const marker = new google.maps.Marker({
+                position: mapData.center,
+                map: map,
+                title: mapData.name || 'Unnamed Map',
+                icon: markerIcon,
+            });
+
+            marker.addListener('click', () => {
+                console.log('📍 Marker clicked:', mapData.id);
+                handleEditMap(mapData.id);
+            });
+
+            return marker;
+        };
+
+        const addPolygonListeners = (polygon: google.maps.Polygon, mapId: string) => {
+            console.log('🎯 Adding click listener to polygon:', mapId);
+            polygon.addListener('click', (event: google.maps.PolyMouseEvent) => {
+                console.log('🟢 POLYGON CLICKED! ID:', mapId);
+                if (window.handleEditMap) {
+                    window.handleEditMap(mapId);
+                }
+            });
+        };
+
+        const loadSavedMaps = (map: google.maps.Map) => {
+            try {
+                const saved = localStorage.getItem('farmMaps');
+                if (saved) {
+                    const mapsData = JSON.parse(saved);
+                    const loadedMaps = mapsData.map((data: any) => {
+                        const selectedType = AREA_TYPES.find(t => t.id === data.type);
+
+                        const polygon = new google.maps.Polygon({
+                            paths: data.coordinates,
+                            fillColor: data.lightColor || selectedType?.lightColor || '#10b98180',
+                            fillOpacity: 0.5,
+                            strokeWeight: 3,
+                            strokeColor: data.color || selectedType?.color || '#10b981',
+                            editable: false,
+                            draggable: false,
+                            map: map,
+                            clickable: true,
+                        });
+
+                        console.log('🔄 Creating polygon with ID:', data.id);
+                        addPolygonListeners(polygon, data.id);
+
+                        const marker = createMapMarker({
+                            ...data,
+                            polygon: polygon
+                        }, map);
+
+                        return {
+                            polygon: polygon,
+                            marker: marker,
+                            type: data.type,
+                            area: data.area,
+                            color: data.color,
+                            lightColor: data.lightColor,
+                            id: data.id,
+                            coordinates: data.coordinates,
+                            center: data.center,
+                            name: data.name,
+                        };
+                    });
+
+                    console.log('📁 Loaded maps:', loadedMaps.length);
+                    setDrawnMaps(loadedMaps);
+                }
+            } catch (error) {
+                console.error('Error loading saved maps:', error);
+            }
+        };
+
+        if (window.google && window.google.maps) {
+            initializeMap();
+        } else {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAtNURh8Jda8VTuThQwJuuhKM0I7dPpsl4&libraries=drawing,geometry&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+
+            window.initMap = initializeMap;
+        }
+
+        return () => {
+            if (drawingManager) {
+                drawingManager.setMap(null);
+            }
+        };
+    }, []);
+
+    // Expose handleEditMap to window for Google Maps callbacks
+    useEffect(() => {
+        window.handleEditMap = handleEditMap;
+
+        return () => {
+            delete window.handleEditMap;
+        };
+    }, [drawnMaps]);
+
+    // Save maps to localStorage whenever drawnMaps changes
+    useEffect(() => {
+        if (drawnMaps.length > 0) {
+            saveMapsToStorage(drawnMaps);
+        }
+    }, [drawnMaps]);
+
+    // Save map details from modal
+    const handleSaveMapDetails = () => {
+        if (editingMap && mapName.trim()) {
+            const updatedMapData = {
+                ...editingMap,
+                name: mapName.trim(),
+                color: editingMap.color,
+                lightColor: editingMap.lightColor,
+            };
+
+            if (isNewMap) {
+                setDrawnMaps(prev => [...prev, updatedMapData]);
+            } else {
+                setDrawnMaps(prev => prev.map(m =>
+                    m.id === editingMap.id ? updatedMapData : m
+                ));
+            }
+
+            if (updatedMapData.marker) {
+                updatedMapData.marker.setTitle(mapName.trim());
+            }
+
+            setShowMapModal(false);
+            setEditingMap(null);
+            setIsDrawingMode(false);
+            setIsNewMap(false);
+        }
+    };
+
+    // Delete individual map
+    const deleteMap = (mapId: string) => {
+        const mapToDelete = drawnMaps.find(m => m.id === mapId);
+        if (mapToDelete) {
+            if (mapToDelete.marker) {
+                mapToDelete.marker.setMap(null);
+            }
+            if (mapToDelete.polygon) {
+                mapToDelete.polygon.setMap(null);
+            }
+
+            const updated = drawnMaps.filter(m => m.id !== mapId);
+            setDrawnMaps(updated);
+            saveMapsToStorage(updated);
+
+            setShowMapModal(false);
+            setEditingMap(null);
+        }
+    };
+
+    // Handle modal cancel
+    const handleCancel = () => {
+        if (isNewMap && editingMap) {
+            if (editingMap.marker) {
+                editingMap.marker.setMap(null);
+            }
+            if (editingMap.polygon) {
+                editingMap.polygon.setMap(null);
+            }
+        }
+        setShowMapModal(false);
+        setEditingMap(null);
+        setIsNewMap(false);
+    };
+
+    // Handle drawing mode changes
+    useEffect(() => {
+        if (drawingManager && window.google) {
+            if (isDrawingMode) {
+                drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+            } else {
+                drawingManager.setDrawingMode(null);
+            }
+        }
+    }, [isDrawingMode, drawingManager]);
+
+    // Update polygon styles when area type changes
+    useEffect(() => {
+        if (drawingManager && window.google) {
+            const selectedType = AREA_TYPES.find(t => t.id === selectedAreaType);
+
+            drawingManager.setOptions({
+                polygonOptions: {
+                    fillColor: selectedType?.lightColor || '#10b98180',
+                    fillOpacity: 0.5,
+                    strokeWeight: 3,
+                    strokeColor: selectedType?.color || '#10b981',
+                    editable: false,
+                    draggable: false,
+                    clickable: true,
+                },
+            });
+        }
+    }, [selectedAreaType, drawingManager]);
+
+    const handleAddPlace = () => {
+        setIsDrawingMode(!isDrawingMode);
+    };
+
+    const handleTypeChange = (type: string) => {
+        setSelectedAreaType(type);
+        setIsTypeDropdownOpen(false);
+    };
+
+    const handleFullscreen = () => {
+        if (mapRef.current) {
+            if (!document.fullscreenElement) {
+                mapRef.current.requestFullscreen?.();
+            } else {
+                document.exitFullscreen?.();
+            }
+        }
+    };
+
+    const handlePrint = () => {
+        window.print();
+    };
+
+    const handleSaveData = () => {
+        const exportData = {
+            maps: drawnMaps.map(map => ({
+                name: map.name,
+                type: map.type,
+                area: map.area,
+                color: map.color,
+                coordinates: map.coordinates,
+                center: map.center,
+                areaFormatted: formatArea(map.area),
+            })),
+            totalArea: formatArea(totalArea),
+            exportDate: new Date().toISOString()
+        };
+
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `farm-maps-data-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
 
     const handleZoomIn = () => {
         setZoomLevel(prev => Math.min(prev + 25, 200));
+        if (mapInstance) {
+            mapInstance.setZoom(mapInstance.getZoom() + 1);
+        }
     };
 
     const handleZoomOut = () => {
         setZoomLevel(prev => Math.max(prev - 25, 50));
+        if (mapInstance) {
+            mapInstance.setZoom(mapInstance.getZoom() - 1);
+        }
     };
+
+    const handleClearAll = () => {
+        if (confirm('Clear all maps?')) {
+            drawnMaps.forEach(m => {
+                if (m.marker) m.marker.setMap(null);
+                if (m.polygon) m.polygon.setMap(null);
+            });
+            setDrawnMaps([]);
+            localStorage.removeItem('farmMaps');
+            setIsSettingsOpen(false);
+        }
+    };
+
+    // Calculate total area of all drawn maps
+    const totalArea = drawnMaps.reduce((sum, map) => sum + map.area, 0);
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <div>
-                        <h1 className="text-2xl font-semibold text-gray-800">Location Map</h1>
-                    </div>
+                <HeaderControls
+                    zoomLevel={zoomLevel}
+                    totalArea={totalArea}
+                    isSettingsOpen={isSettingsOpen}
+                    setIsSettingsOpen={setIsSettingsOpen}
+                    onZoomIn={handleZoomIn}
+                    onZoomOut={handleZoomOut}
+                    onFullscreen={handleFullscreen}
+                    onPrint={handlePrint}
+                    onSaveData={handleSaveData}
+                    onClearAll={handleClearAll}
+                />
 
-                    {/* Map Controls */}
-                    <div className="flex items-center space-x-2">
-                        <button
-                            onClick={handleZoomOut}
-                            className="p-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
-                            title="Zoom Out"
-                        >
-                            <ZoomOut size={16} />
-                        </button>
-                        <span className="text-sm text-gray-600 px-2">{zoomLevel}%</span>
-                        <button
-                            onClick={handleZoomIn}
-                            className="p-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
-                            title="Zoom In"
-                        >
-                            <ZoomIn size={16} />
-                        </button>
-                        <button className="p-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors">
-                            <Maximize2 size={16} />
-                        </button>
-                        <button className="p-2 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 transition-colors">
-                            <Settings size={16} />
-                        </button>
-                    </div>
-                </div>
+                <DrawingControls
+                    isDrawingMode={isDrawingMode}
+                    selectedAreaType={selectedAreaType}
+                    isTypeDropdownOpen={isTypeDropdownOpen}
+                    setIsTypeDropdownOpen={setIsTypeDropdownOpen}
+                    onAddPlace={handleAddPlace}
+                    onTypeChange={handleTypeChange}
+                />
 
-                {/* Legend */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-4">
-                    <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
-                        {legendItems.map((item, index) => (
-                            <div key={index} className="flex items-center space-x-2">
-                                <div
-                                    className="w-4 h-4 rounded border border-gray-300"
-                                    style={{ backgroundColor: item.color }}
-                                ></div>
-                                <span className="text-xs text-gray-600">{item.label}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                <Legend />
 
-                {/* Map Container */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="relative">
-                        {/* Satellite/Aerial View Background */}
-                        <div
-                            className="relative bg-gradient-to-br from-green-100 via-green-50 to-amber-50 overflow-hidden"
-                            style={{
-                                height: '600px',
-                                backgroundImage: `
-                  radial-gradient(circle at 20% 80%, rgba(120, 53, 15, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.05) 0%, transparent 50%)
-                `
-                            }}
-                        >
-                            {/* Property Boundary */}
-                            <div
-                                className="absolute border-4 border-purple-500 rounded-lg"
-                                style={{
-                                    left: '10%',
-                                    top: '5%',
-                                    width: '80%',
-                                    height: '85%'
-                                }}
-                            ></div>
+                <MapContainer
+                    mapRef={mapRef}
+                    onZoomIn={handleZoomIn}
+                    onZoomOut={handleZoomOut}
+                />
 
-                            {/* Fields */}
-                            {fieldZones.map((field) => (
-                                <div
-                                    key={field.id}
-                                    className="absolute border-2 rounded cursor-pointer hover:opacity-80 transition-opacity"
-                                    style={{
-                                        left: `${field.x}%`,
-                                        top: `${field.y}%`,
-                                        width: `${field.width}%`,
-                                        height: `${field.height}%`,
-                                        borderColor: field.color,
-                                        backgroundColor: `${field.color}20`
-                                    }}
-                                    title={field.name}
-                                >
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-xs font-medium text-gray-700 bg-white bg-opacity-75 px-2 py-1 rounded">
-                                            {field.name}
-                                        </span>
-                                    </div>
-                                </div>
-                            ))}
-
-                            {/* Crop Beds */}
-                            {beds.map((bed) => (
-                                <div
-                                    key={bed.id}
-                                    className="absolute border border-red-500 bg-red-100 bg-opacity-50 cursor-pointer hover:bg-opacity-70 transition-all"
-                                    style={{
-                                        left: `${bed.x}%`,
-                                        top: `${bed.y}%`,
-                                        width: `${bed.width}%`,
-                                        height: `${bed.height}%`
-                                    }}
-                                ></div>
-                            ))}
-
-                            {/* Buildings */}
-                            <div
-                                className="absolute bg-red-600 border border-red-700 cursor-pointer hover:opacity-80"
-                                style={{
-                                    left: '75%',
-                                    top: '70%',
-                                    width: '8%',
-                                    height: '6%'
-                                }}
-                                title="Delivery/Community Barn"
-                            >
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-xs text-white font-medium">Barn</span>
-                                </div>
-                            </div>
-
-                            <div
-                                className="absolute bg-red-600 border border-red-700 cursor-pointer hover:opacity-80"
-                                style={{
-                                    left: '70%',
-                                    top: '78%',
-                                    width: '6%',
-                                    height: '4%'
-                                }}
-                                title="Storage Building"
-                            ></div>
-
-                            {/* Irrigation Lines */}
-                            <div
-                                className="absolute bg-blue-500"
-                                style={{
-                                    left: '20%',
-                                    top: '35%',
-                                    width: '60%',
-                                    height: '2px'
-                                }}
-                            ></div>
-                            <div
-                                className="absolute bg-blue-500"
-                                style={{
-                                    left: '48%',
-                                    top: '15%',
-                                    width: '2px',
-                                    height: '50%'
-                                }}
-                            ></div>
-
-                            {/* Animal Enclosures */}
-                            <div
-                                className="absolute border-2 border-yellow-500 bg-yellow-100 bg-opacity-30"
-                                style={{
-                                    left: '75%',
-                                    top: '15%',
-                                    width: '15%',
-                                    height: '12%'
-                                }}
-                                title="Chicken Coop Area"
-                            ></div>
-
-                            {/* Buffer Zones */}
-                            <div
-                                className="absolute border border-lime-400 bg-lime-100 bg-opacity-20"
-                                style={{
-                                    left: '12%',
-                                    top: '7%',
-                                    width: '76%',
-                                    height: '3%'
-                                }}
-                                title="North Buffer Zone"
-                            ></div>
-
-                            {/* Zoom Overlay */}
-                            <div
-                                className="absolute inset-0 transition-transform duration-300"
-                                style={{
-                                    transform: `scale(${zoomLevel / 100})`,
-                                    transformOrigin: 'center center'
-                                }}
-                            ></div>
-
-                            {/* Zoom Controls (bottom right) */}
-                            <div className="absolute bottom-4 right-4 bg-white rounded-lg shadow-lg border border-gray-200">
-                                <button
-                                    onClick={handleZoomIn}
-                                    className="block p-2 hover:bg-gray-50 border-b border-gray-200"
-                                >
-                                    <ZoomIn size={18} />
-                                </button>
-                                <button
-                                    onClick={handleZoomOut}
-                                    className="block p-2 hover:bg-gray-50"
-                                >
-                                    <ZoomOut size={18} />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Map Information */}
-                <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                        <div>
-                            <span className="font-medium">Total Area:</span> 25.7 acres
-                        </div>
-                        <div>
-                            <span className="font-medium">Fields:</span> 5 active fields
-                        </div>
-                        <div>
-                            <span className="font-medium">Last Updated:</span> September 21, 2025
-                        </div>
-                    </div>
-                </div>
+                <MapModal
+                    showMapModal={showMapModal}
+                    editingMap={editingMap}
+                    isNewMap={isNewMap}
+                    mapName={mapName}
+                    setMapName={setMapName}
+                    onSave={handleSaveMapDetails}
+                    onCancel={handleCancel}
+                    onDelete={deleteMap}
+                />
             </div>
         </div>
     );

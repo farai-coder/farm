@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import * as Icons from 'lucide-react';
 import { GrowLocation, GrowLocationsPageProps } from '../GrowLocations/types/growLocation';
 import { NewLocationModal } from './NewLocationModal';
 import { EmptyState } from './EmptyState';
@@ -8,6 +9,17 @@ import { ExportModal } from './ExportModal';
 import { ImportModal } from './ImportModal';
 import { exportToJSON, exportToCSV, downloadPDF, printLocations } from '../GrowLocations/utils/growLocationExport';
 import { importFromJSON, importFromCSV } from '../GrowLocations/utils/growLocationImport';
+
+const fieldTypes = [
+    { name: "Property Boundary", icon: "Map" },
+    { name: "Field", icon: "Grid" },
+    { name: "Bed", icon: "Layers" },
+    { name: "Building", icon: "Home" },
+    { name: "Animal Enclosure", icon: "Paw" },
+    { name: "Grazing Enclosure", icon: "Tree" },
+    { name: "Irrigation", icon: "Droplet" },
+    { name: "Buffer Zone", icon: "Shield" }
+];
 
 const mockGrowLocations: GrowLocation[] = [];
 
@@ -149,24 +161,6 @@ export const GrowLocationsPage: React.FC<GrowLocationsPageProps> = ({
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-                            <div className="relative flex-1">
-                                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                                <input
-                                    type="text"
-                                    placeholder="Search Locations"
-                                    className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                />
-                            </div>
-                            <button className="sm:ml-4 flex items-center justify-center space-x-2 text-gray-600 hover:text-gray-800 px-3 py-2 border border-gray-300 rounded-md w-full sm:w-auto">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-                                </svg>
-                                <span className="text-sm">Filter</span>
-                            </button>
-                        </div>
                     </div>
 
                     <div className="p-6">

@@ -219,6 +219,10 @@ export const GrowLocationSensors = () => {
         });
     };
 
+    const handlePrint = () => {
+        window.print();
+    };
+
     const renderChart = (title: string, dataKeys: string[], colors: string[]) => (
         <div className="bg-white p-4 rounded-lg border border-gray-200">
             <div className="flex items-center justify-between mb-4">
@@ -296,14 +300,38 @@ export const GrowLocationSensors = () => {
                     </button>
                     <div className="flex gap-1">
                         <button className="text-gray-500 hover:text-gray-700 p-2">
-                            <i className="fas fa-print"></i>
-                        </button>
-                        <button className="text-gray-500 hover:text-gray-700 p-2">
                             <i className="fas fa-th"></i>
+                        </button>
+                        <button
+                            onClick={handlePrint}
+                            className="text-gray-500 hover:text-gray-700 p-2"
+                        >
+                            <i className="fas fa-print"></i>
                         </button>
                     </div>
                 </div>
             </div>
+
+            {/* Empty Environment Data State */}
+            {/* <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="flex flex-col items-center justify-center py-16 px-4 sm:px-6">
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 sm:p-12 flex flex-col items-center w-full max-w-8xl">
+                        <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mb-6">
+                            <div className="w-8 h-8 bg-green-600 rounded"></div>
+                        </div>
+                        <h3 className="text-xl font-medium text-gray-800 mb-2 text-center">No environment data found</h3>
+                        <p className="text-gray-600 mb-6 text-center max-w-md">
+                            Add your first sensor to start monitoring environmental conditions in your field.
+                        </p>
+                        <button
+                            onClick={() => setShowSensorModal(true)}
+                            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                        >
+                            Add Sensor
+                        </button>
+                    </div>
+                </div>
+            </div> */}
 
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">

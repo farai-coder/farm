@@ -1,9 +1,73 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { ChevronDown } from 'lucide-react';
+import { CropTypeSelect } from './CropType';
+import { Upload, Download, Printer, FileDown, MoreVertical } from 'lucide-react';
+
+interface EmptyStateProps {
+    onNewCropType: () => void;
+    onAddPlanting: () => void;
+}
+
+const EmptyState: React.FC<EmptyStateProps> = ({ onNewCropType, onAddPlanting }) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const menuItems = [
+        { icon: Upload, label: 'Import', action: 'import' },
+        { icon: Download, label: 'Export', action: 'export' },
+        { icon: Printer, label: 'Print', action: 'print' },
+        { icon: FileDown, label: 'Download', action: 'download' }
+    ];
+
+    const handleMenuAction = (action: string) => {
+        console.log(`Menu action: ${action}`);
+        setIsMenuOpen(false);
+    };
+
+    return (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            {/* Header */}
+            <div className="p-6 border-b border-gray-200">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                    <h1 className="text-2xl font-semibold text-gray-800 mb-4 sm:mb-0">Plant Variety Yield Comparison</h1>
+                    <div className="flex items-center space-x-3">   
+                    </div>
+                    
+                </div>
+
+                {/* Type Selector */}
+                <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-600">Type:</span>
+                    <div className="relative">
+                        <CropTypeSelect
+                            selectedType={'Tomatoes'}
+                            onTypeChange={() => { }}
+                            required={true}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Empty State Content */}
+            <div className="flex flex-col items-center justify-center py-16 px-6">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center w-full max-w-8xl">
+                    <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mb-6">
+                        <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                        </svg>
+                    </div>
+                    <h3 className="text-xl font-medium text-gray-800 mb-2 text-center">No yield data found</h3>
+                    <p className="text-gray-600 mb-6 text-center max-w-md">
+                        No yield data available to display. Add crop types and planting data to see yield comparisons.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export const YieldComparison = () => {
     const [selectedType, setSelectedType] = useState('Tomatoes');
+    const [hasData, setHasData] = useState(false); // Set to false to test empty state
 
     // Sample yield data for the chart
     const yieldData = [
@@ -42,27 +106,49 @@ export const YieldComparison = () => {
 
     const weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
 
+    // Handler functions for empty state buttons
+    const handleNewCropType = () => {
+        console.log('Add new crop type clicked');
+        // Add your logic here
+    };
+
+    const handleAddPlanting = () => {
+        console.log('Add planting clicked');
+        // Add your logic here
+    };
+
+    // If no data, show empty state
+    // If both yieldData and varietyData are empty, show empty state
+    if (yieldData.length === 0 && varietyData.length === 0) {
+        return (
+            <div className="min-h-screen bg-gray-50 p-6">
+                <div className="max-w-7xl mx-auto">
+                    <EmptyState
+                        onNewCropType={handleNewCropType}
+                        onAddPlanting={handleAddPlanting}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
-                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison1</h1>
+                    <h1 className="text-2xl font-semibold text-gray-800 mb-4">Plant Variety Yield Comparison</h1>
 
                     {/* Type Selector */}
                     <div className="flex items-center space-x-2">
                         <span className="text-sm text-gray-600">Type:</span>
                         <div className="relative">
-                            <select
-                                value={selectedType}
-                                onChange={(e) => setSelectedType(e.target.value)}
-                                className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                            >
-                                <option value="Tomatoes">Tomatoes</option>
-                                <option value="Peppers">Peppers</option>
-                                <option value="Lettuce">Lettuce</option>
-                            </select>
-                            <ChevronDown size={16} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                            <CropTypeSelect
+                                selectedType={selectedType}
+                                onTypeChange={setSelectedType}
+                                required={true}
+                            />
                         </div>
                     </div>
                 </div>

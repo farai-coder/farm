@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { FileEdit, Trash, X } from 'lucide-react';
+import { ArrowLeft, FileEdit, Trash, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const GrowLocationTreatments = () => {
+    const navigate = useNavigate();
     const [selectedTreatments, setSelectedTreatments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
@@ -23,78 +25,79 @@ export const GrowLocationTreatments = () => {
         keywords: ''
     });
 
+    // Empty treatment records data
     // Sample treatment records data
     const treatmentRecords = [
-        {
-            id: 1,
-            date: 'Sep. 14, 2021',
-            type: 'Mold',
-            typeColor: 'bg-blue-100 text-blue-800',
-            detailsProduct: 'Break The Mold',
-            amount: '25 oz',
-            retreatDate: '',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 2,
-            date: 'Sep. 07, 2021',
-            type: 'Pesticide',
-            typeColor: 'bg-orange-100 text-orange-800',
-            detailsProduct: 'Insect Incinerator',
-            amount: '14g',
-            retreatDate: '',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 3,
-            date: 'Sep. 02, 2021',
-            type: 'Mildew',
-            typeColor: 'bg-purple-100 text-purple-800',
-            detailsProduct: 'Mildew Mitigator',
-            amount: '5g',
-            retreatDate: '',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 4,
-            date: 'Aug. 23, 2021',
-            type: 'Fungus',
-            typeColor: 'bg-yellow-100 text-yellow-800',
-            detailsProduct: 'Fungus Fighter 3500 Max Xtreme',
-            amount: '19g',
-            retreatDate: 'Aug. 18, 2021',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 5,
-            date: 'Aug. 04, 2021',
-            type: 'Herbicide',
-            typeColor: 'bg-green-100 text-green-800',
-            detailsProduct: 'Weed Cutter',
-            amount: '3kt',
-            retreatDate: 'Aug. 18, 2021',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 6,
-            date: 'Jul. 14, 2021',
-            type: 'Mites',
-            typeColor: 'bg-red-100 text-red-800',
-            detailsProduct: 'Neem Oil',
-            amount: '1L',
-            retreatDate: '',
-            enteredBy: 'Chris'
-        },
-        {
-            id: 7,
-            date: 'Jul. 05, 2021',
-            type: 'Insect',
-            typeColor: 'bg-indigo-100 text-indigo-800',
-            detailsProduct: 'Bug-B-Gone',
-            amount: '2bt',
-            retreatDate: 'Jul. 19, 2021',
-            enteredBy: 'Chris'
-        }
+        // {
+        //     id: 1,
+        //     date: 'Sep. 14, 2021',
+        //     type: 'Mold',
+        //     typeColor: 'bg-blue-100 text-blue-800',
+        //     detailsProduct: 'Break The Mold',
+        //     amount: '25 oz',
+        //     retreatDate: '',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 2,
+        //     date: 'Sep. 07, 2021',
+        //     type: 'Pesticide',
+        //     typeColor: 'bg-orange-100 text-orange-800',
+        //     detailsProduct: 'Insect Incinerator',
+        //     amount: '14g',
+        //     retreatDate: '',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 3,
+        //     date: 'Sep. 02, 2021',
+        //     type: 'Mildew',
+        //     typeColor: 'bg-purple-100 text-purple-800',
+        //     detailsProduct: 'Mildew Mitigator',
+        //     amount: '5g',
+        //     retreatDate: '',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 4,
+        //     date: 'Aug. 23, 2021',
+        //     type: 'Fungus',
+        //     typeColor: 'bg-yellow-100 text-yellow-800',
+        //     detailsProduct: 'Fungus Fighter 3500 Max Xtreme',
+        //     amount: '19g',
+        //     retreatDate: 'Aug. 18, 2021',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 5,
+        //     date: 'Aug. 04, 2021',
+        //     type: 'Herbicide',
+        //     typeColor: 'bg-green-100 text-green-800',
+        //     detailsProduct: 'Weed Cutter',
+        //     amount: '3kt',
+        //     retreatDate: 'Aug. 18, 2021',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 6,
+        //     date: 'Jul. 14, 2021',
+        //     type: 'Mites',
+        //     typeColor: 'bg-red-100 text-red-800',
+        //     detailsProduct: 'Neem Oil',
+        //     amount: '1L',
+        //     retreatDate: '',
+        //     enteredBy: 'Chris'
+        // },
+        // {
+        //     id: 7,
+        //     date: 'Jul. 05, 2021',
+        //     type: 'Insect',
+        //     typeColor: 'bg-indigo-100 text-indigo-800',
+        //     detailsProduct: 'Bug-B-Gone',
+        //     amount: '2bt',
+        //     retreatDate: 'Jul. 19, 2021',
+        //     enteredBy: 'Chris'
+        // }
     ];
 
     const handleSelectAll = (e) => {
@@ -152,6 +155,10 @@ export const GrowLocationTreatments = () => {
         });
     };
 
+    const handlePrint = () => {
+        window.print();
+    };
+
     const isAllSelected = selectedTreatments.length === treatmentRecords.length;
     const isPartiallySelected = selectedTreatments.length > 0 && selectedTreatments.length < treatmentRecords.length;
 
@@ -159,14 +166,23 @@ export const GrowLocationTreatments = () => {
         <div className="p-4 sm:p-6">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-                <div>
-                    <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
-                    <p className="text-sm text-gray-600 mt-1">
-                        2.5 Acre
-                        <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
-                            Active
-                        </span>
-                    </p>
+                <div className="flex flex-col gap-2">
+                    <button
+                        onClick={() => navigate('/crops/grow-locations')}
+                        className="flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors self-start"
+                    >
+                        <ArrowLeft size={16} className="mr-2" />
+                        Back to Grow Locations
+                    </button>
+                    <div>
+                        <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">Northwest Field A (CSA Shares)</h1>
+                        <p className="text-sm text-gray-600 mt-1">
+                            2.5 Acre
+                            <span className="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded text-xs ml-2">
+                                Active
+                            </span>
+                        </p>
+                    </div>
                 </div>
                 <div className="flex items-center space-x-2">
                     <button
@@ -177,105 +193,133 @@ export const GrowLocationTreatments = () => {
                     </button>
                     <div className="flex space-x-1">
                         <button className="text-gray-500 hover:text-gray-700 p-2">
-                            <i className="fas fa-print"></i>
-                        </button>
-                        <button className="text-gray-500 hover:text-gray-700 p-2">
                             <i className="fas fa-th"></i>
+                        </button>
+                        <button
+                            onClick={handlePrint}
+                            className="text-gray-500 hover:text-gray-700 p-2"
+                        >
+                            <i className="fas fa-print"></i>
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Data Table */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-4 sm:px-6 py-3 text-left">
-                                    <input
-                                        type="checkbox"
-                                        checked={isAllSelected}
-                                        ref={input => {
-                                            if (input) input.indeterminate = isPartiallySelected;
-                                        }}
-                                        onChange={handleSelectAll}
-                                        className="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                                    />
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Date
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Type
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Details/Product
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Retreat Date
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Entered By
-                                </th>
-                                <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {treatmentRecords.map((record) => (
-                                <tr key={record.id} className="hover:bg-gray-50">
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+            {/* Empty State */}
+            {treatmentRecords.length === 0 ? (
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div className="flex flex-col items-center justify-center py-16 px-4 sm:px-6">
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 sm:p-12 flex flex-col items-center w-full max-w-8xl">
+                            <div className="w-16 h-16 bg-green-50 rounded-lg flex items-center justify-center mb-6">
+                                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-medium text-gray-800 mb-2 text-center">No treatments yet?</h3>
+                            <p className="text-gray-600 mb-6 text-center max-w-md">
+                                Create your first treatment record to get started with tracking plant care activities.
+                            </p>
+                            <button
+                                onClick={() => setShowModal(true)}
+                                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                            >
+                                Add your first treatment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                /* Data Table */
+                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-4 sm:px-6 py-3 text-left">
                                         <input
                                             type="checkbox"
-                                            checked={selectedTreatments.includes(record.id)}
-                                            onChange={() => handleSelectTreatment(record.id)}
+                                            checked={isAllSelected}
+                                            ref={input => {
+                                                if (input) input.indeterminate = isPartiallySelected;
+                                            }}
+                                            onChange={handleSelectAll}
                                             className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                                         />
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {record.date}
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${record.typeColor}`}>
-                                            {record.type} ▼
-                                        </span>
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        <span className="flex items-center">
-                                            <span className="truncate max-w-[120px] sm:max-w-none">
-                                                {record.detailsProduct}
-                                            </span>
-                                            ▼
-                                            <span className="ml-1 font-medium">{record.amount}</span>
-                                        </span>
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {record.retreatDate}
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {record.enteredBy}
-                                    </td>
-                                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div className="flex items-center space-x-2">
-                                            <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                                                <FileEdit size={16} />
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-800 transition-colors">
-                                                <Trash size={16} />
-                                            </button>
-                                        </div>
-                                    </td>
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Type
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Details/Product
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Retreat Date
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Entered By
+                                    </th>
+                                    <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {treatmentRecords.map((record) => (
+                                    <tr key={record.id} className="hover:bg-gray-50">
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTreatments.includes(record.id)}
+                                                onChange={() => handleSelectTreatment(record.id)}
+                                                className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                                            />
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {record.date}
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
+                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${record.typeColor}`}>
+                                                {record.type} ▼
+                                            </span>
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <span className="flex items-center">
+                                                <span className="truncate max-w-[120px] sm:max-w-none">
+                                                    {record.detailsProduct}
+                                                </span>
+                                                ▼
+                                                <span className="ml-1 font-medium">{record.amount}</span>
+                                            </span>
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {record.retreatDate}
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {record.enteredBy}
+                                        </td>
+                                        <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <div className="flex items-center space-x-2">
+                                                <button className="text-blue-600 hover:text-blue-800 transition-colors">
+                                                    <FileEdit size={16} />
+                                                </button>
+                                                <button className="text-red-600 hover:text-red-800 transition-colors">
+                                                    <Trash size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
+                        <p className="text-sm text-gray-700">Displaying all {treatmentRecords.length} treatments</p>
+                    </div>
                 </div>
-                <div className="px-4 sm:px-6 py-3 bg-gray-50 border-t border-gray-200">
-                    <p className="text-sm text-gray-700">Displaying all 7 treatments</p>
-                </div>
-            </div>
+            )}
 
             {/* Modal */}
             {showModal && (
