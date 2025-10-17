@@ -399,19 +399,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                 {item.id === 'climate' && climateOpen && (
                   <div className="bg-gray-50">
-                    {climateSubItems.map((subItem) => (
-                      <Link
-                        key={subItem.id}
-                        to={subItem.path}
-                        onClick={() => {
-                          setActiveMenu('climate');
-                          setIsSidebarOpen(false);
-                        }}
-                        className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
-                      >
-                        {subItem.label}
-                      </Link>
-                    ))}
+                    {climateSubItems.map((subItem) => {
+                      const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                      return (
+                        <Link
+                          key={subItem.id}
+                          to={subItem.path}
+                          onClick={() => {
+                            setActiveMenu('climate');
+                            setIsSidebarOpen(false);
+                          }}
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
+                            ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
+                            : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                        >
+                          <span className="text-xs">{subItem.label}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -579,16 +585,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
               {item.id === 'climate' && climateOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
-                  {climateSubItems.map((subItem) => (
-                    <Link
-                      key={subItem.id}
-                      to={subItem.path}
-                      onClick={() => setActiveMenu('climate')}
-                      className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
-                    >
-                      {subItem.label}
-                    </Link>
-                  ))}
+                  {climateSubItems.map((subItem) => {
+                    const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                    return (
+                      <Link
+                        key={subItem.id}
+                        to={subItem.path}
+                        onClick={() => setActiveMenu('climate')}
+                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${isActiveSubItem
+                          ? 'bg-green-50 text-green-700 font-medium'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                          }`}
+                      >
+                        {subItem.label}
+                      </Link>
+                    );
+                  })}
                 </div>
               )}
             </div>

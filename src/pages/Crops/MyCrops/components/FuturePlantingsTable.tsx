@@ -29,105 +29,78 @@ export const FuturePlantingsTable: React.FC<FuturePlantingsTableProps> = ({
     expandedItems,
     onToggleExpanded
 }) => {
+    // Flatten all plantings into a single array
+    const allPlantings = futurePlantings.flatMap(item =>
+        item.plantings.map(planting => ({
+            ...planting,
+            variety: item.variety,
+            id: item.id
+        }))
+    );
+
     return (
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            {futurePlantings.map((item) => (
-                <div key={item.id} className="border-b border-gray-200 last:border-b-0">
-                    {/* Main row */}
-                    <div className="px-4 md:px-6 py-3 md:py-4 flex flex-col sm:flex-row sm:items-center justify-between hover:bg-gray-50 space-y-3 sm:space-y-0">
-                        <div className="flex items-center space-x-3 md:space-x-4">
-                            <button
-                                onClick={() => onToggleExpanded(item.id)}
-                                className="text-gray-400 hover:text-gray-600"
-                            >
-                                <svg
-                                    className={`w-4 h-4 transform transition-transform ${expandedItems[item.id] ? 'rotate-90' : 'rotate-0'
-                                        }`}
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                </svg>
-                            </button>
-
-                            <div className="font-medium text-gray-900 flex items-center text-sm md:text-base">
-                                {item.variety}
-                                <span className="ml-2 bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full text-xs font-medium">
-                                    {item.plantingCount} Planned
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-8 text-sm w-full sm:w-auto">
-                            <div>
-                                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">START PLANTING</div>
-                                <div className="text-gray-900 font-medium text-sm md:text-base">{item.startPlantingDate}</div>
-                            </div>
-
-                            <div>
-                                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">EXPECTED HARVEST</div>
-                                <div className="text-gray-900 font-medium text-sm md:text-base">{item.expectedHarvestDate}</div>
-                            </div>
-
-                            <div>
-                                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">TOTAL PLANNED</div>
-                                <div className="text-gray-900 font-medium text-sm md:text-base">{item.totalPlanned}</div>
-                            </div>
-                        </div>
-
-                        <button className="text-gray-400 hover:text-gray-600 self-end sm:self-auto">
-                            <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                            </svg>
-                        </button>
-                    </div>
-
-                    {/* Expanded content - Detailed plantings table */}
-                    {expandedItems[item.id] && (
-                        <div className="px-4 md:px-6 py-3 md:py-4 bg-gray-50 border-t border-gray-200">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full">
-                                    <thead>
-                                        <tr className="border-b border-gray-300">
-                                            <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">Location</th>
-                                            <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">Amount</th>
-                                            <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">Start Date</th>
-                                            <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">Expected Harvest</th>
-                                            <th className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {item.plantings.map((planting, index) => (
-                                            <tr key={index} className="border-b border-gray-200 last:border-b-0">
-                                                <td className="py-3 text-sm text-gray-900 font-medium">{planting.location}</td>
-                                                <td className="py-3 text-sm text-gray-700">{planting.amount}</td>
-                                                <td className="py-3 text-sm text-gray-700">{planting.startDate}</td>
-                                                <td className="py-3 text-sm text-gray-700">{planting.expectedHarvest}</td>
-                                                <td className="py-3 text-sm">
-                                                    <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
-                                                        <button className="text-blue-600 hover:text-blue-800 text-xs">Edit</button>
-                                                        <button className="text-green-600 hover:text-green-800 text-xs">Start Planting</button>
-                                                        <button className="text-red-600 hover:text-red-800 text-xs">Cancel</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
-                                <div className="text-sm text-gray-600">
-                                    Total: {item.plantingCount} planned plantings for {item.variety}
+        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden mt-4">
+            <table className="min-w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                        <th className="px-4 py-3 text-left w-12">
+                            <input type="checkbox" className="rounded border-gray-300" />
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Location
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Start
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Harvest
+                        </th>
+                        <th className="px-4 py-3 text-left w-12"></th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {allPlantings.map((planting, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                            <td className="px-4 py-4">
+                                <input type="checkbox" className="rounded border-gray-300" />
+                            </td>
+                            <td className="px-4 py-4">
+                                <div className="text-sm text-gray-900">{planting.variety}</div>
+                                <div className="text-xs text-gray-500">Bed 01</div>
+                            </td>
+                            <td className="px-4 py-4 text-sm text-blue-600">{planting.location}</td>
+                            <td className="px-4 py-4">
+                                <div className="text-sm text-gray-900">{planting.amount}</div>
+                                <div className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-800 text-white">
+                                    • 140 Plants
                                 </div>
-                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm w-full sm:w-auto">
-                                    Add Location
+                            </td>
+                            <td className="px-4 py-4">
+                                <div className="text-sm text-gray-900">{planting.startDate}</div>
+                                <div className="text-xs text-gray-500">Start in Trays, Transplant...</div>
+                                <div className="text-xs text-gray-500">🌱 Seed Started</div>
+                            </td>
+                            <td className="px-4 py-4">
+                                <div className="text-sm text-gray-900">{planting.expectedHarvest}</div>
+                                <div className="text-xs text-gray-500">0 Harvested</div>
+                            </td>
+                            <td className="px-4 py-4">
+                                <button className="text-gray-400 hover:text-gray-600">
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                    </svg>
                                 </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            ))}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

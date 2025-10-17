@@ -1,6 +1,7 @@
 import React from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, MoreVertical } from 'lucide-react';
 import cropVarieties from '../../crop_varieties.json';
+import { useNavigate } from 'react-router-dom';
 
 interface Crop {
     id: number;
@@ -54,6 +55,8 @@ export const CropsTable: React.FC<CropsTableProps> = ({
         e.stopPropagation();
         onToggleDropdown(activeDropdown === cropId ? null : cropId);
     };
+
+    const navigate = useNavigate();
 
     // Function to find crop icon using imported JSON
     const getCropIcon = (cropType: string, cropVariety: string) => {
@@ -191,16 +194,18 @@ export const CropsTable: React.FC<CropsTableProps> = ({
                                                 onClick={(e) => toggleDropdown(crop.id, e)}
                                                 className="text-gray-400 hover:text-gray-600 p-1"
                                             >
-                                                <MoreHorizontal size={16} />
+                                                <MoreVertical size={16} />
                                             </button>
                                             {activeDropdown === crop.id && (
                                                 <div className="absolute right-0 top-8 w-48 bg-white rounded-md shadow-lg border border-gray-200 z-50" onClick={handleDropdownClick}>
                                                     <div className="py-1">
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
+                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                                                            onClick={() => navigate('/crops/my-crops/details')}>
                                                             <span>✏️</span>
                                                             <span>Edit Crop Type</span>
                                                         </button>
-                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
+                                                        <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                                                        onClick={() => navigate('/crops/my-crops/details')}>
                                                             <span>🌱</span>
                                                             <span>Planting Details</span>
                                                         </button>
@@ -208,6 +213,7 @@ export const CropsTable: React.FC<CropsTableProps> = ({
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 onNewPlanting();
+                                                                activeDropdown && onToggleDropdown(null);
                                                             }}
                                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
                                                         >

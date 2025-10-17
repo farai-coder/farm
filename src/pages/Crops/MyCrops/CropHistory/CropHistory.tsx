@@ -1,13 +1,32 @@
 import React, { useState } from 'react';
 import { CropHistoryHeader } from '../components/CropHistoryHeader';
-import { PlantingsChart } from '../components/PlantingsChart';
+import { HistoryPlantingChart } from '../components/HistoryPlantingChart';
 import { PlantingHistoryTable } from '../components/PlantingHistoryTable';
 import { EmptyPlantingHistory } from '../components/EmptyPlantingHistory';
 import { EditCropModal } from '../components/modals/EditCropModal';
 import { NewPlantingModal } from '../components/modals/NewPlantingModal';
-import { HarvestModal } from '../components/modals/HarvestModal';
+import { HarvestModal } from '../../MyCrops/Harvest/components/HarvestModal';
 import { useCropHistory } from '../hooks/useCropHistory';
 import { useCropHistoryModals } from '../hooks/useCropHistoryModals';
+
+// Add these interfaces to match the FuturePlantingsTable structure
+interface PlantingDetail {
+    location: string;
+    amount: string;
+    startDate: string;
+    expectedHarvest: string;
+}
+
+interface PlantingHistoryItem {
+    id: number;
+    variety: string;
+    plantingCount: number;
+    firstPlanted: string;
+    lastHarvested: string;
+    totalHarvested: string;
+    expanded: boolean;
+    plantings: PlantingDetail[];
+}
 
 export const CropHistoryPage = () => {
     const {
@@ -33,6 +52,19 @@ export const CropHistoryPage = () => {
         formData,
         setFormData
     } = useCropHistoryModals();
+
+    // Transform the planting history data to match the new structure
+    const transformedPlantingHistory: PlantingHistoryItem[] = plantingHistory.map(item => ({
+        ...item,
+        plantings: [
+            {
+                location: "Bed 01", // You might want to get this from your actual data
+                amount: `${item.plantingCount} plantings`,
+                startDate: item.firstPlanted,
+                expectedHarvest: item.lastHarvested
+            }
+        ]
+    }));
 
     const handleHarvestInputChange = (field: keyof typeof harvestForm, value: string) => {
         setHarvestForm(prev => ({
@@ -89,12 +121,12 @@ export const CropHistoryPage = () => {
                 <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Planting History</h2>
 
                 {/* Plantings by Location Chart */}
-                <PlantingsChart chartData={chartData} />
+                <HistoryPlantingChart chartData={chartData} />
 
                 {/* Planting History Table */}
-                {plantingHistory.length > 0 ? (
+                {transformedPlantingHistory.length > 0 ? (
                     <PlantingHistoryTable
-                        plantingHistory={plantingHistory}
+                        plantingHistory={transformedPlantingHistory}
                         expandedItems={expandedItems}
                         onToggleExpanded={toggleExpanded}
                     />

@@ -23,6 +23,7 @@ interface NewPlantingModalProps {
     onClose: () => void;
     step: number;
     onNextStep: () => void;
+    onPreviousStep: () => void;
     plantingData: PlantingData;
     onPlantingDataChange: (data: PlantingData) => void;
     onNewCropType: () => void;
@@ -34,6 +35,7 @@ export const NewPlantingModal: React.FC<NewPlantingModalProps> = ({
     onClose,
     step,
     onNextStep,
+    onPreviousStep,
     plantingData,
     onPlantingDataChange,
     onNewCropType,
@@ -287,69 +289,259 @@ export const NewPlantingModal: React.FC<NewPlantingModalProps> = ({
                     )}
 
                     {step === 2 && (
-                        <div className="space-y-4 sm:space-y-6">
-                            <div className="flex items-center space-x-3 mb-4">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                                    <span className="text-lg">{selectedCropIcon}</span>
-                                </div>
-                                <div>
-                                    <h3 className="text-base sm:text-lg font-semibold">{plantingData.cropType}</h3>
-                                    <p className="text-xs sm:text-sm text-gray-600">{plantingData.growLocation}</p>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
-                                    <select
-                                        value={plantingData.startMethod}
-                                        onChange={(e) => handleInputChange('startMethod', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                    >
-                                        <option value="Direct Sow">Direct Sow</option>
-                                        <option value="Transplant">Transplant</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Growth Stage</label>
-                                    <select
-                                        value={plantingData.growthStage}
-                                        onChange={(e) => handleInputChange('growthStage', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                    >
-                                        <option value="Seed Started">Seed Started</option>
-                                        <option value="Germinated">Germinated</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="bg-blue-50 border border-blue-200 rounded-md p-3 sm:p-4">
-                                <div className="flex items-center space-x-2">
-                                    <Info className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                                    <span className="text-xs sm:text-sm text-blue-800">
-                                        Planting Info: 3 sqm (Approx.) - Planted in 1 rows (3937 per row)
-                                    </span>
-                                </div>
-                            </div>
-
+                        <div className="space-y-6">
+                            {/* Type & Variety Section */}
                             <div>
-                                <h3 className="text-base sm:text-lg font-medium text-gray-800 mb-4">Harvest Plan</h3>
+                                <h3 className="text-sm font-medium text-gray-500 mb-3">Type & Variety</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Planned First Harvest</label>
-                                        <input
-                                            type="date"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
-                                        />
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Number Of Plantings</label>
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                value={plantingData.numberOfPlantings}
+                                                onChange={(e) => handleInputChange('numberOfPlantings', parseInt(e.target.value) || 1)}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                            <Info className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        </div>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">Expected Harvest Amount</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Days Between Plantings</label>
+                                        <div className="relative">
+                                            <input
+                                                type="number"
+                                                defaultValue={7}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                            <Info className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* First Planting Details */}
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-500 mb-3">First Planting Details</h3>
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Start Method</label>
+                                            <select
+                                                value={plantingData.startMethod}
+                                                onChange={(e) => handleInputChange('startMethod', e.target.value)}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            >
+                                                <option value="Start in Trays, Transplant in Ground">Start in Trays, Transplant in Ground</option>
+                                                <option value="Direct Sow">Direct Sow</option>
+                                                <option value="Transplant">Transplant</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Growth Stage
+                                                <a href="#" className="ml-2 text-xs text-blue-600 hover:text-blue-800">View All Growth Stages</a>
+                                            </label>
+                                            <select
+                                                value={plantingData.growthStage}
+                                                onChange={(e) => handleInputChange('growthStage', e.target.value)}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            >
+                                                <option value="Seed Started">Seed Started</option>
+                                                <option value="Germinated">Germinated</option>
+                                                <option value="Transplanted">Transplanted</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Seed Started</label>
+                                            <input
+                                                type="date"
+                                                defaultValue="2024-04-18"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Planting Date</label>
+                                            <input
+                                                type="date"
+                                                value={plantingData.plantingDate}
+                                                onChange={(e) => handleInputChange('plantingDate', e.target.value)}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Plant Spacing</label>
+                                            <div className="flex space-x-2">
+                                                <input
+                                                    type="number"
+                                                    value={plantingData.plantSpacing}
+                                                    onChange={(e) => handleInputChange('plantSpacing', parseFloat(e.target.value))}
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                />
+                                                <select className="px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                                    <option value="in">in</option>
+                                                    <option value="cm">cm</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Row Spacing</label>
+                                            <div className="flex space-x-2">
+                                                <input
+                                                    type="number"
+                                                    value={plantingData.rowSpacing}
+                                                    onChange={(e) => handleInputChange('rowSpacing', parseFloat(e.target.value))}
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                />
+                                                <select className="px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                                    <option value="in">in</option>
+                                                    <option value="cm">cm</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Planted Row Length</label>
+                                            <div className="flex space-x-2">
+                                                <input
+                                                    type="number"
+                                                    value={plantingData.plantedRowLength}
+                                                    onChange={(e) => handleInputChange('plantedRowLength', parseFloat(e.target.value))}
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                                />
+                                                <select className="px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                                    <option value="Feet">Feet</option>
+                                                    <option value="Meters">Meters</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Rows</label>
+                                            <input
+                                                type="number"
+                                                value={plantingData.rows}
+                                                onChange={(e) => handleInputChange('rows', parseInt(e.target.value))}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Currently Planted
+                                            <Info className="inline-block ml-1 w-4 h-4 text-gray-400" />
+                                        </label>
                                         <input
                                             type="number"
                                             value={plantingData.currentlyPlanted}
                                             onChange={(e) => handleInputChange('currentlyPlanted', parseInt(e.target.value))}
                                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
                                         />
+                                    </div>
+
+                                    <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+                                        <div className="flex items-start space-x-2">
+                                            <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                                            <div className="text-xs text-blue-800">
+                                                <div className="font-medium">Planting Info:</div>
+                                                <div>213 sqft (Approx.) - Planted in 2 rows (60 per row)</div>
+                                                <div>16.0 inches between plant, 16.0 inches between row.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Harvest Plan */}
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-500 mb-3">Harvest Plan</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Planned First Harvest</label>
+                                        <input
+                                            type="date"
+                                            defaultValue="2024-08-24"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Expected Harvest Amount</label>
+                                        <div className="flex space-x-2">
+                                            <input
+                                                type="number"
+                                                defaultValue={320}
+                                                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                            <select className="px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                                <option value="Pounds">Pounds</option>
+                                                <option value="Kg">Kg</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Seed Details */}
+                            <div>
+                                <h3 className="text-sm font-medium text-gray-500 mb-3">Seed Details</h3>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Seed Company</label>
+                                        <input
+                                            type="text"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Seed Type</label>
+                                        <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                                            <option value="">Select seed type</option>
+                                            <option value="Hybrid">Hybrid</option>
+                                            <option value="Organic">Organic</option>
+                                            <option value="Heirloom">Heirloom</option>
+                                        </select>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Lot Number</label>
+                                            <input
+                                                type="text"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Origin</label>
+                                            <input
+                                                type="text"
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Seeds Per Hole/Cell</label>
+                                            <input
+                                                type="number"
+                                                defaultValue={1}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Tray Size (Cells Per Tray)</label>
+                                            <input
+                                                type="number"
+                                                defaultValue={0}
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -367,21 +559,29 @@ export const NewPlantingModal: React.FC<NewPlantingModalProps> = ({
                     </button>
 
                     <div className="flex items-center space-x-2 sm:space-x-3">
-                        {step < 2 ? (
+                        {step === 1 ? (
                             <button
                                 onClick={onNextStep}
                                 className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
                             >
                                 Next
                             </button>
-                        ) : (
-                            <button
-                                onClick={onClose}
-                                className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
-                            >
-                                Create Planting(s)
-                            </button>
-                        )}
+                        ) : step === 2 ? (
+                            <>
+                                <button
+                                    onClick={onPreviousStep}
+                                    className="text-gray-600 hover:text-gray-800 px-3 sm:px-4 py-2 text-sm text-center border border-gray-300 rounded-md hover:bg-gray-50"
+                                >
+                                    Back
+                                </button>
+                                <button
+                                    onClick={onClose}
+                                    className="bg-green-600 hover:bg-green-700 text-white px-3 sm:px-4 py-2 rounded-md text-sm font-medium flex-1 sm:flex-none text-center"
+                                >
+                                    Create Planting(s)
+                                </button>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </div>

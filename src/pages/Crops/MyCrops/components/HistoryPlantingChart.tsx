@@ -13,9 +13,10 @@ interface PlantingsChartProps {
     chartData: ChartData;
 }
 
-export const PlantingsChart: React.FC<PlantingsChartProps> = ({ chartData }) => {
+export const HistoryPlantingChart: React.FC<PlantingsChartProps> = ({ chartData }) => {
     const [selectedLocation, setSelectedLocation] = useState<string>('all');
     const [yieldUnit, setYieldUnit] = useState<string>('lbs');
+    const [selectedYear, setSelectedYear] = useState<string>('2025');
 
     // Future plantings data
     const futurePlantingsData = [
@@ -41,6 +42,13 @@ export const PlantingsChart: React.FC<PlantingsChartProps> = ({ chartData }) => 
         { value: 'lbs', label: 'Pounds (lbs)' },
         { value: 'kg', label: 'Kilograms (kg)' },
         { value: 'tons', label: 'Tons' }
+    ];
+
+    // Years data
+    const years = [
+        { value: '2024', label: '2024' },
+        { value: '2025', label: '2025' },
+        { value: '2026', label: '2026' }
     ];
 
     // Green theme color scheme
@@ -124,7 +132,7 @@ export const PlantingsChart: React.FC<PlantingsChartProps> = ({ chartData }) => 
                 <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
                     <h3 className="text-lg font-semibold text-gray-800">Future Plantings Forecast</h3>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full lg:w-auto">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full lg:w-auto">
                         {/* Location Filter */}
                         <div className="space-y-2">
                             <label className="block text-xs font-medium text-gray-600 uppercase tracking-wide">
@@ -138,6 +146,24 @@ export const PlantingsChart: React.FC<PlantingsChartProps> = ({ chartData }) => 
                                 {locations.map(location => (
                                     <option key={location.value} value={location.value}>
                                         {location.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Year Filter */}
+                        <div className="space-y-2">
+                            <label className="block text-xs font-medium text-gray-600 uppercase tracking-wide">
+                                Year
+                            </label>
+                            <select
+                                value={selectedYear}
+                                onChange={(e) => setSelectedYear(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors text-sm bg-white"
+                            >
+                                {years.map(year => (
+                                    <option key={year.value} value={year.value}>
+                                        {year.label}
                                     </option>
                                 ))}
                             </select>
@@ -167,6 +193,9 @@ export const PlantingsChart: React.FC<PlantingsChartProps> = ({ chartData }) => 
                 <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-medium">
                         Location: {locations.find(l => l.value === selectedLocation)?.label}
+                    </div>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                        Year: {selectedYear}
                     </div>
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-medium">
                         Units: {getUnitSymbol(yieldUnit).toUpperCase()}

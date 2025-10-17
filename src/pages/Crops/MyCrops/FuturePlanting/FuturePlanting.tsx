@@ -5,6 +5,9 @@ import { FuturePlantingsTable } from '../components/FuturePlantingsTable';
 import { EmptyFuturePlantings } from '../components/EmptyFuturePlantings';
 import { NewPlantingModal } from '../components/modals/NewPlantingModal';
 import { HarvestModal } from '../components/modals/HarvestModal';
+import { BulkFuturePlanting } from '../../MyCrops/components/FutureBulkPlanting';
+import { CalculateFutureBulkPlanting } from '../../MyCrops/components/CalculateFutureBulkPlanting';
+import { CalculatePlantingModal } from '../../MyCrops/components/modals/CalculatePlantingModal';
 import { useFuturePlantings } from '../hooks/useFuturePlantings';
 import { useFuturePlantingsModals } from '../hooks/useFuturePlantingsModals';
 
@@ -28,6 +31,12 @@ export const FuturePlantingsPage = () => {
         harvestForm,
         setHarvestForm
     } = useFuturePlantingsModals();
+
+    // Add state for bulk planting and calculate planting
+    const [showBulkPlanting, setShowBulkPlanting] = useState(false);
+    const [showCalculatePlanting, setShowCalculatePlanting] = useState(false);
+    const [showCalculateModal, setShowCalculateModal] = useState(false);
+    const [calculationData, setCalculationData] = useState<any>(null);
 
     const handleHarvestInputChange = (field: keyof typeof harvestForm, value: string) => {
         setHarvestForm(prev => ({
@@ -60,11 +69,54 @@ export const FuturePlantingsPage = () => {
         setPlantingData(data);
     };
 
+    // Handle bulk plant action from the header dropdown
+    const handleBulkPlant = () => {
+        setShowBulkPlanting(true);
+    };
+
+    // Handle calculate planting action from the header dropdown
+    const handleCalculatePlanting = () => {
+        setShowCalculateModal(true);
+    };
+
+    // Handle calculation from modal - go straight to the page
+    const handleCalculateFromModal = (data: any) => {
+        setCalculationData(data);
+        setShowCalculateModal(false);
+        setShowCalculatePlanting(true);
+    };
+
+    // Handle going back from bulk planting view
+    const handleBackFromBulkPlanting = () => {
+        setShowBulkPlanting(false);
+    };
+
+    // Handle going back from calculate planting view
+    const handleBackFromCalculatePlanting = () => {
+        setShowCalculatePlanting(false);
+        setCalculationData(null);
+    };
+
+    // If bulk planting is shown, render the BulkFuturePlanting component
+    if (showBulkPlanting) {
+        return <BulkFuturePlanting onBack={handleBackFromBulkPlanting} />;
+    }
+
+    // If calculate planting is shown, render the CalculateFutureBulkPlanting component
+    if (showCalculatePlanting) {
+        return <CalculateFutureBulkPlanting
+            onBack={handleBackFromCalculatePlanting}
+            calculationData={calculationData}
+        />;
+    }
+
     return (
         <div className="bg-white min-h-screen">
             <FuturePlantingsHeader
                 onAddPlanting={() => setShowNewPlantingModal(true)}
                 onHarvest={() => setShowHarvestModal(true)}
+                onBulkPlant={handleBulkPlant}
+                onCalculatePlanting={handleCalculatePlanting}
             />
 
             {/* Content */}
@@ -110,6 +162,13 @@ export const FuturePlantingsPage = () => {
                     onAddPlanting={() => setShowNewPlantingModal(true)}
                 />
             )}
+
+            {/* Calculate Planting Modal */}
+            <CalculatePlantingModal
+                show={showCalculateModal}
+                onClose={() => setShowCalculateModal(false)}
+                onCalculate={handleCalculateFromModal}
+            />
         </div>
     );
 };
