@@ -1,11 +1,10 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useAuth } from '../authentication/AuthProvider';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../authentication/AuthProvider";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
-  role: string;
   activeMenu: string;
   setActiveMenu: (menu: string) => void;
 }
@@ -13,7 +12,6 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   isSidebarOpen,
   setIsSidebarOpen,
-  role,
   activeMenu,
   setActiveMenu,
 }) => {
@@ -24,49 +22,80 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [marketOpen, setMarketOpen] = useState(false);
   const [climateOpen, setClimateOpen] = useState(false);
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        event.target instanceof Element &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsDropdownOpen(false);
+      }
+      if (
+        accountDropdownRef.current &&
+        event.target instanceof Element &&
+        !accountDropdownRef.current.contains(event.target)
+      ) {
+        setAccountDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen || accountDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen, accountDropdownOpen]);
+
   // Sync activeMenu with current route
   useEffect(() => {
     const path = location.pathname;
-    console.log('Current path:', path);
-    console.log('Current activeMenu:', activeMenu);
+    console.log("Current path:", path);
+    console.log("Current activeMenu:", activeMenu);
 
-    if (path === '/dashboard' || path === '/') {
-      setActiveMenu('schedule');
-    } else if (path.startsWith('/schedule')) {
-      setActiveMenu('schedule');
-    } else if (path.startsWith('/tasks')) {
-      setActiveMenu('tasks');
-    } else if (path.startsWith('/crops')) {
-      console.log('Setting activeMenu to crops');
-      setActiveMenu('crops');
+    if (path === "/dashboard" || path === "/") {
+      setActiveMenu("schedule");
+    } else if (path.startsWith("/schedule")) {
+      setActiveMenu("schedule");
+    } else if (path.startsWith("/tasks")) {
+      setActiveMenu("tasks");
+    } else if (path.startsWith("/crops")) {
+      console.log("Setting activeMenu to crops");
+      setActiveMenu("crops");
       setCropsOpen(true);
-    } else if (path.startsWith('/livestock')) {
-      setActiveMenu('livestock');
+    } else if (path.startsWith("/livestock")) {
+      setActiveMenu("livestock");
       setLivestockOpen(true);
-    } else if (path.startsWith('/resources')) {
-      setActiveMenu('resources');
+    } else if (path.startsWith("/resources")) {
+      setActiveMenu("resources");
       setResourcesOpen(true);
-    } else if (path.startsWith('/accounting')) {
-      setActiveMenu('accounting');
+    } else if (path.startsWith("/accounting")) {
+      setActiveMenu("accounting");
       setAccountingOpen(true);
-    } else if (path.startsWith('/transactions')) {
-      setActiveMenu('accounting');
+    } else if (path.startsWith("/transactions")) {
+      setActiveMenu("accounting");
       setAccountingOpen(true);
-    } else if (path.startsWith('/market')) {
-      setActiveMenu('market');
+    } else if (path.startsWith("/market")) {
+      setActiveMenu("market");
       setMarketOpen(true);
-    } else if (path.startsWith('/contacts')) {
-      setActiveMenu('contacts');
-    } else if (path.startsWith('/farm-map')) {
-      setActiveMenu('farm-map');
-    } else if (path.startsWith('/reports')) {
-      setActiveMenu('reports');
-    } else if (path.startsWith('/climate')) {
-      setActiveMenu('climate');
+    } else if (path.startsWith("/contacts")) {
+      setActiveMenu("contacts");
+    } else if (path.startsWith("/farm-map")) {
+      setActiveMenu("farm-map");
+    } else if (path.startsWith("/reports")) {
+      setActiveMenu("reports");
+    } else if (path.startsWith("/climate")) {
+      setActiveMenu("climate");
       setClimateOpen(true);
     }
   }, [location.pathname, setActiveMenu, activeMenu]);
@@ -80,54 +109,211 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'climate', icon: 'fa-cloud-sun', label: 'Climate', hasSub: true, path: '/climate' },
     { id: 'contacts', icon: 'fa-address-book', label: 'Contacts', path: '/contacts' },
     { id: 'farm-map', icon: 'fa-map', label: 'Farm Map', path: '/farm-map' },
+
+    {
+      id: "schedule",
+      icon: "fa-calendar-alt",
+      label: "Schedule",
+      path: "/schedule",
+    },
+    { id: "tasks", icon: "fa-tasks", label: "Tasks", path: "/tasks" },
+    {
+      id: "crops",
+      icon: "fa-seedling",
+      label: "Crops",
+      hasSub: true,
+      path: "/crops",
+    },
+    {
+      id: "resources",
+      icon: "fa-tractor",
+      label: "Resources",
+      hasSub: true,
+      path: "/resources",
+    },
+    {
+      id: "accounting",
+      icon: "fa-calculator",
+      label: "Accounting",
+      hasSub: true,
+      path: "/accounting",
+    },
+    {
+      id: "contacts",
+      icon: "fa-address-book",
+      label: "Contacts",
+      path: "/contacts",
+    },
+    { id: "farm-map", icon: "fa-map", label: "Farm Map", path: "/farm-map" },
+>>>>>>> 5e194a9 (updates)
   ];
 
   const cropsSubItems = [
-    { id: 'my-crops', icon: 'fa-list', label: 'My Crops', path: '/crops/my-crops' },
-    { id: 'grow-locations', icon: 'fa-map-marker-alt', label: 'Grow Locations', path: '/crops/grow-locations' },
-    { id: 'crop-plan', icon: 'fa-calendar-check', label: 'Crop Plan', path: '/crops/crop-plan' },
-    { id: 'location-map', icon: 'fa-map', label: 'Location Map', path: '/crops/location-map' },
-    { id: 'yield-comparison', icon: 'fa-chart-line', label: 'Yield Comparison', path: '/crops/yield-comparison' },
+    {
+      id: "my-crops",
+      icon: "fa-list",
+      label: "My Crops",
+      path: "/crops/my-crops",
+    },
+    {
+      id: "grow-locations",
+      icon: "fa-map-marker-alt",
+      label: "Grow Locations",
+      path: "/crops/grow-locations",
+    },
+    {
+      id: "crop-plan",
+      icon: "fa-calendar-check",
+      label: "Crop Plan",
+      path: "/crops/crop-plan",
+    },
+    {
+      id: "location-map",
+      icon: "fa-map",
+      label: "Location Map",
+      path: "/crops/location-map",
+    },
+    {
+      id: "yield-comparison",
+      icon: "fa-chart-line",
+      label: "Yield Comparison",
+      path: "/crops/yield-comparison",
+    },
   ];
 
   const livestockSubItems = [
-    { id: 'animals', icon: 'fa-paw', label: 'Animals', path: '/livestock/animals' },
-    { id: 'groups', icon: 'fa-layer-group', label: 'Groups', path: '/livestock/groups' },
-    { id: 'breeding', icon: 'fa-heart', label: 'Breeding', path: '/livestock/breeding' },
-    { id: 'health', icon: 'fa-stethoscope', label: 'Health', path: '/livestock/health' },
+    {
+      id: "animals",
+      icon: "fa-paw",
+      label: "Animals",
+      path: "/livestock/animals",
+    },
+    {
+      id: "groups",
+      icon: "fa-layer-group",
+      label: "Groups",
+      path: "/livestock/groups",
+    },
+    {
+      id: "breeding",
+      icon: "fa-heart",
+      label: "Breeding",
+      path: "/livestock/breeding",
+    },
+    {
+      id: "health",
+      icon: "fa-stethoscope",
+      label: "Health",
+      path: "/livestock/health",
+    },
   ];
 
   const resourcesSubItems = [
-    { id: 'equipment', icon: 'fa-tractor', label: 'Equipment', path: '/resources/equipment' },
-    { id: 'warehouse', icon: 'fa-warehouse', label: 'Warehouse', path: '/resources/warehouse' },
-    { id: 'inventory', icon: 'fa-boxes', label: 'Inventory', path: '/resources/inventory' },
+    {
+      id: "equipment",
+      icon: "fa-tractor",
+      label: "Equipment",
+      path: "/resources/equipment",
+    },
+    {
+      id: "warehouse",
+      icon: "fa-warehouse",
+      label: "Warehouse",
+      path: "/resources/warehouse",
+    },
+    {
+      id: "inventory",
+      icon: "fa-boxes",
+      label: "Inventory",
+      path: "/resources/inventory",
+    },
   ];
 
   const accountingSubItems = [
-    { id: 'transactions', icon: 'fa-exchange-alt', label: 'Transactions', path: '/accounting/transactions' },
-    { id: 'pnl', icon: 'fa-chart-line', label: 'P&L Statement', path: '/accounting/pnl' },
-    { id: 'cashflow', icon: 'fa-coins', label: 'Cash Flow', path: '/accounting/cashflow' },
-    { id: 'balance-sheet', icon: 'fa-balance-scale', label: 'Balance Sheet', path: '/accounting/balance-sheet' },
-    { id: 'budgeting', icon: 'fa-wallet', label: 'Budgeting', path: '/accounting/budgeting' },
+    {
+      id: "transactions",
+      icon: "fa-exchange-alt",
+      label: "Transactions",
+      path: "/accounting/transactions",
+    },
+    {
+      id: "pnl",
+      icon: "fa-chart-line",
+      label: "P&L Statement",
+      path: "/accounting/pnl",
+    },
+    {
+      id: "cashflow",
+      icon: "fa-coins",
+      label: "Cash Flow",
+      path: "/accounting/cashflow",
+    },
+    {
+      id: "balance-sheet",
+      icon: "fa-balance-scale",
+      label: "Balance Sheet",
+      path: "/accounting/balance-sheet",
+    },
+    {
+      id: "budgeting",
+      icon: "fa-wallet",
+      label: "Budgeting",
+      path: "/accounting/budgeting",
+    },
   ];
 
   const marketSubItems = [
-    { id: 'dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard', path: '/market/dashboard' },
-    { id: 'products', icon: 'fa-box', label: 'Products', path: '/market/products' },
-    { id: 'orders', icon: 'fa-shopping-bag', label: 'Orders', path: '/market/orders' },
+    {
+      id: "dashboard",
+      icon: "fa-tachometer-alt",
+      label: "Dashboard",
+      path: "/market/dashboard",
+    },
+    {
+      id: "products",
+      icon: "fa-box",
+      label: "Products",
+      path: "/market/products",
+    },
+    {
+      id: "orders",
+      icon: "fa-shopping-bag",
+      label: "Orders",
+      path: "/market/orders",
+    },
   ];
 
   const climateSubItems = [
-    { id: 'weather-history', icon: 'fa-history', label: 'Weather History', path: '/climate/weather-history' },
-    { id: 'gauges', icon: 'fa-tachometer-alt', label: 'Gauges', path: '/climate/gauges' },
-    { id: 'weather-logs', icon: 'fa-clipboard-list', label: 'Weather Logs', path: '/climate/weather-logs' },
-    { id: 'weather-map', icon: 'fa-map-marked-alt', label: 'Weather Map', path: '/climate/weather-map' },
+    {
+      id: "weather-history",
+      icon: "fa-history",
+      label: "Weather History",
+      path: "/climate/weather-history",
+    },
+    {
+      id: "gauges",
+      icon: "fa-tachometer-alt",
+      label: "Gauges",
+      path: "/climate/gauges",
+    },
+    {
+      id: "weather-logs",
+      icon: "fa-clipboard-list",
+      label: "Weather Logs",
+      path: "/climate/weather-logs",
+    },
+    {
+      id: "weather-map",
+      icon: "fa-map-marked-alt",
+      label: "Weather Map",
+      path: "/climate/weather-map",
+    },
   ];
 
   const { logout } = useAuth();
 
   const handleLogout = () => {
-    console.log('Logout button clicked');
+    console.log("Logout button clicked");
     logout();
   };
 
@@ -149,7 +335,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center">
               <i className="fas fa-leaf text-white text-sm"></i>
             </div>
-            <span className="text-xl font-semibold text-gray-800 hidden sm:block">Drayce Farm</span>
+            <span className="text-xl font-semibold text-gray-800 hidden sm:block">
+              Drayce Farm
+            </span>
           </div>
         </div>
 
@@ -167,15 +355,170 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Quick Add Button - Hidden on mobile */}
-          <div className="relative hidden md:block">
-            <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2">
+          <div className="relative hidden md:block" ref={dropdownRef}>
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
+            >
               <span>Quick Add</span>
               <i className="fas fa-chevron-down text-xs"></i>
             </button>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-xl border border-gray-200 z-50 text-xs">
+                {/* General Section */}
+                <div className="py-0.5">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-500 uppercase">
+                    Select an Action
+                  </div>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-sticky-note w-4 mr-2 text-gray-600 text-xs"></i>
+                    Note
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-check-circle w-4 mr-2 text-gray-600 text-xs"></i>
+                    Task
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-exchange-alt w-4 mr-2 text-gray-600 text-xs"></i>
+                    Transaction
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-plus-square w-4 mr-2 text-gray-600 text-xs"></i>
+                    Add Inventory
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-minus-square w-4 mr-2 text-gray-600 text-xs"></i>
+                    Use Inventory
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-cloud w-4 mr-2 text-gray-600 text-xs"></i>
+                    Climate Log
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-camera w-4 mr-2 text-gray-600 text-xs"></i>
+                    Photo
+                  </a>
+                </div>
+
+                {/* Livestock Section */}
+                <div className="border-t border-gray-200 py-0.5">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-500">
+                    Livestock
+                  </div>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-horse w-4 mr-2 text-gray-600 text-xs"></i>
+                    Add Animals
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-syringe w-4 mr-2 text-gray-600 text-xs"></i>
+                    Treatment
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-cookie-bite w-4 mr-2 text-gray-600 text-xs"></i>
+                    Feeding
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-sign-in-alt w-4 mr-2 text-gray-600 text-xs"></i>
+                    Input
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-ruler w-4 mr-2 text-gray-600 text-xs"></i>
+                    Measurement
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-dna w-4 mr-2 text-gray-600 text-xs"></i>
+                    Breeding
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="far fa-circle w-4 mr-2 text-gray-600 text-xs"></i>
+                    Animal Yield
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-paper-plane w-4 mr-2 text-gray-600 text-xs"></i>
+                    Move Grazing
+                  </a>
+                </div>
+
+                {/* Plantings Section */}
+                <div className="border-t border-gray-200 py-0.5">
+                  <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-500">
+                    Plantings
+                  </div>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-seedling w-4 mr-2 text-gray-600 text-xs"></i>
+                    Add Planting
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-syringe w-4 mr-2 text-gray-600 text-xs"></i>
+                    Treatment
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center px-3 py-1.5 text-gray-700 hover:bg-gray-100"
+                  >
+                    <i className="fas fa-tractor w-4 mr-2 text-gray-600 text-xs"></i>
+                    Crop Harvest
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Account Dropdown - Hidden on mobile */}
-          <div className="relative hidden md:block">
+          <div className="relative hidden md:block" ref={accountDropdownRef}>
             <button
               onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
               className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors duration-200 px-2 py-1 rounded-md hover:bg-gray-50"
@@ -223,8 +566,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Mobile Full-Screen Drawer */}
-      <div className={`md:hidden fixed z-40 bg-white transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-y-0' : '-translate-y-full'
-        }`} style={{ top: '64px', left: 0, right: 0, bottom: 0 }}>
+      <div
+        className={`md:hidden fixed z-40 bg-white transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-y-0" : "-translate-y-full"
+        }`}
+        style={{ top: "64px", left: 0, right: 0, bottom: 0 }}
+      >
         <div className="bg-white h-full w-full flex flex-col overflow-hidden">
           {/* Mobile Drawer Header */}
           <div className="bg-white border-b border-gray-200 flex items-center justify-between px-4 py-4 flex-shrink-0">
@@ -246,17 +593,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <div
                   onClick={() => {
                     if (item.hasSub) {
-                      if (item.id === 'accounting') {
+                      if (item.id === "accounting") {
                         setAccountingOpen(!accountingOpen);
-                      } else if (item.id === 'crops') {
+                      } else if (item.id === "crops") {
                         setCropsOpen(!cropsOpen);
-                      } else if (item.id === 'livestock') {
+                      } else if (item.id === "livestock") {
                         setLivestockOpen(!livestockOpen);
-                      } else if (item.id === 'resources') {
+                      } else if (item.id === "resources") {
                         setResourcesOpen(!resourcesOpen);
-                      } else if (item.id === 'market') {
+                      } else if (item.id === "market") {
                         setMarketOpen(!marketOpen);
-                      } else if (item.id === 'climate') {
+                      } else if (item.id === "climate") {
                         setClimateOpen(!climateOpen);
                       }
                     } else {
@@ -265,46 +612,61 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       setIsSidebarOpen(false);
                     }
                   }}
-                  className={`flex items-center px-4 py-3 cursor-pointer transition-all duration-200 ${activeMenu === item.id
-                    ? 'bg-green-50 text-green-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                    }`}
+                  className={`flex items-center px-4 py-3 cursor-pointer transition-all duration-200 ${
+                    activeMenu === item.id
+                      ? "bg-green-50 text-green-700"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}
                 >
                   <div className="flex items-center justify-center w-5 h-5 mr-3 flex-shrink-0">
-                    <i className={`fas ${item.icon} text-base ${activeMenu === item.id ? 'text-green-600' : 'text-gray-500'
-                      }`}></i>
+                    <i
+                      className={`fas ${item.icon} text-base ${
+                        activeMenu === item.id
+                          ? "text-green-600"
+                          : "text-gray-500"
+                      }`}
+                    ></i>
                   </div>
-                  <span className="text-sm font-medium flex-1 min-w-0">{item.label}</span>
+                  <span className="text-sm font-medium flex-1 min-w-0">
+                    {item.label}
+                  </span>
                   {/* Show dropdown arrow for items with submenus */}
                   {item.hasSub && (
-                    <i className={`fas ml-2 text-xs transition-transform duration-200 flex-shrink-0 ${(item.id === 'accounting' && accountingOpen) ||
-                      (item.id === 'crops' && cropsOpen) ||
-                      (item.id === 'livestock' && livestockOpen) ||
-                      (item.id === 'resources' && resourcesOpen) ||
-                      (item.id === 'market' && marketOpen) ||
-                      (item.id === 'climate' && climateOpen)
-                      ? 'fa-chevron-up' : 'fa-chevron-down'
-                      } text-gray-400`}></i>
+                    <i
+                      className={`fas ml-2 text-xs transition-transform duration-200 flex-shrink-0 ${
+                        (item.id === "accounting" && accountingOpen) ||
+                        (item.id === "crops" && cropsOpen) ||
+                        (item.id === "livestock" && livestockOpen) ||
+                        (item.id === "resources" && resourcesOpen) ||
+                        (item.id === "market" && marketOpen) ||
+                        (item.id === "climate" && climateOpen)
+                          ? "fa-chevron-up"
+                          : "fa-chevron-down"
+                      } text-gray-400`}
+                    ></i>
                   )}
                 </div>
 
                 {/* Submenus */}
-                {item.id === 'crops' && cropsOpen && (
+                {item.id === "crops" && cropsOpen && (
                   <div className="bg-gray-50">
                     {cropsSubItems.map((subItem) => {
-                      const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                      const isActiveSubItem = location.pathname.startsWith(
+                        subItem.path
+                      );
                       return (
                         <Link
                           key={subItem.id}
                           to={subItem.path}
                           onClick={() => {
-                            setActiveMenu('crops');
+                            setActiveMenu("crops");
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
-                            ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
-                            : 'text-gray-600 hover:bg-gray-100'
-                            }`}
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${
+                            isActiveSubItem
+                              ? "bg-green-100 text-green-700 border-r-2 border-green-500"
+                              : "text-gray-600 hover:bg-gray-100"
+                          }`}
                         >
                           <span className="text-xs">{subItem.label}</span>
                         </Link>
@@ -313,14 +675,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                 )}
 
-                {item.id === 'livestock' && livestockOpen && (
+                {item.id === "livestock" && livestockOpen && (
                   <div className="bg-gray-50">
                     {livestockSubItems.map((subItem) => (
                       <Link
                         key={subItem.id}
                         to={subItem.path}
                         onClick={() => {
-                          setActiveMenu('livestock');
+                          setActiveMenu("livestock");
                           setIsSidebarOpen(false);
                         }}
                         className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
@@ -331,22 +693,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                 )}
 
-                {item.id === 'resources' && resourcesOpen && (
+                {item.id === "resources" && resourcesOpen && (
                   <div className="bg-gray-50">
                     {resourcesSubItems.map((subItem) => {
-                      const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                      const isActiveSubItem = location.pathname.startsWith(
+                        subItem.path
+                      );
                       return (
                         <Link
                           key={subItem.id}
                           to={subItem.path}
                           onClick={() => {
-                            setActiveMenu('resources');
+                            setActiveMenu("resources");
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
-                            ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
-                            : 'text-gray-600 hover:bg-gray-100'
-                            }`}
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${
+                            isActiveSubItem
+                              ? "bg-green-100 text-green-700 border-r-2 border-green-500"
+                              : "text-gray-600 hover:bg-gray-100"
+                          }`}
                         >
                           <span className="text-xs">{subItem.label}</span>
                         </Link>
@@ -355,14 +720,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                 )}
 
-                {item.id === 'market' && marketOpen && (
+                {item.id === "market" && marketOpen && (
                   <div className="bg-gray-50">
                     {marketSubItems.map((subItem) => (
                       <Link
                         key={subItem.id}
                         to={subItem.path}
                         onClick={() => {
-                          setActiveMenu('market');
+                          setActiveMenu("market");
                           setIsSidebarOpen(false);
                         }}
                         className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
@@ -373,22 +738,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                 )}
 
-                {item.id === 'accounting' && accountingOpen && (
+                {item.id === "accounting" && accountingOpen && (
                   <div className="bg-gray-50">
                     {accountingSubItems.map((subItem) => {
-                      const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                      const isActiveSubItem = location.pathname.startsWith(
+                        subItem.path
+                      );
                       return (
                         <Link
                           key={subItem.id}
                           to={subItem.path}
                           onClick={() => {
-                            setActiveMenu('accounting');
+                            setActiveMenu("accounting");
                             setIsSidebarOpen(false);
                           }}
-                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${isActiveSubItem
-                            ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
-                            : 'text-gray-600 hover:bg-gray-100'
-                            }`}
+                          className={`flex items-center pl-12 pr-4 py-2.5 cursor-pointer transition-all duration-200 ${
+                            isActiveSubItem
+                              ? "bg-green-100 text-green-700 border-r-2 border-green-500"
+                              : "text-gray-600 hover:bg-gray-100"
+                          }`}
                         >
                           <span className="text-xs">{subItem.label}</span>
                         </Link>
@@ -397,8 +765,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   </div>
                 )}
 
-                {item.id === 'climate' && climateOpen && (
+                {item.id === "climate" && climateOpen && (
                   <div className="bg-gray-50">
+<<<<<<< HEAD
                     {climateSubItems.map((subItem) => {
                       const isActiveSubItem = location.pathname.startsWith(subItem.path);
                       return (
@@ -418,6 +787,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         </Link>
                       );
                     })}
+=======
+                    {climateSubItems.map((subItem) => (
+                      <Link
+                        key={subItem.id}
+                        to={subItem.path}
+                        onClick={() => {
+                          setActiveMenu("climate");
+                          setIsSidebarOpen(false);
+                        }}
+                        className="flex items-center pl-12 pr-4 py-2.5 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors duration-200"
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+>>>>>>> 5e194a9 (updates)
                   </div>
                 )}
               </div>
@@ -449,17 +833,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div
                 onClick={() => {
                   if (item.hasSub) {
-                    if (item.id === 'accounting') {
+                    if (item.id === "accounting") {
                       setAccountingOpen(!accountingOpen);
-                    } else if (item.id === 'crops') {
+                    } else if (item.id === "crops") {
                       setCropsOpen(!cropsOpen);
-                    } else if (item.id === 'livestock') {
+                    } else if (item.id === "livestock") {
                       setLivestockOpen(!livestockOpen);
-                    } else if (item.id === 'resources') {
+                    } else if (item.id === "resources") {
                       setResourcesOpen(!resourcesOpen);
-                    } else if (item.id === 'market') {
+                    } else if (item.id === "market") {
                       setMarketOpen(!marketOpen);
-                    } else if (item.id === 'climate') {
+                    } else if (item.id === "climate") {
                       setClimateOpen(!climateOpen);
                     }
                   } else {
@@ -467,42 +851,57 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     setActiveMenu(item.id);
                   }
                 }}
-                className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${activeMenu === item.id
-                  ? 'bg-green-50 text-green-700 font-medium'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${
+                  activeMenu === item.id
+                    ? "bg-green-50 text-green-700 font-medium"
+                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                }`}
               >
                 <div className="flex items-center justify-center w-5 h-5 mr-3">
-                  <i className={`fas ${item.icon} text-sm ${activeMenu === item.id ? 'text-green-600' : 'text-gray-500 group-hover:text-gray-600'
-                    }`}></i>
+                  <i
+                    className={`fas ${item.icon} text-sm ${
+                      activeMenu === item.id
+                        ? "text-green-600"
+                        : "text-gray-500 group-hover:text-gray-600"
+                    }`}
+                  ></i>
                 </div>
-                <span className="text-sm font-medium truncate flex-1">{item.label}</span>
+                <span className="text-sm font-medium truncate flex-1">
+                  {item.label}
+                </span>
                 {item.hasSub && (
-                  <i className={`fas ml-2 text-xs transition-transform duration-200 ${(item.id === 'accounting' && accountingOpen) ||
-                    (item.id === 'crops' && cropsOpen) ||
-                    (item.id === 'livestock' && livestockOpen) ||
-                    (item.id === 'resources' && resourcesOpen) ||
-                    (item.id === 'market' && marketOpen) ||
-                    (item.id === 'climate' && climateOpen)
-                    ? 'fa-chevron-up' : 'fa-chevron-down'
-                    } text-gray-400`}></i>
+                  <i
+                    className={`fas ml-2 text-xs transition-transform duration-200 ${
+                      (item.id === "accounting" && accountingOpen) ||
+                      (item.id === "crops" && cropsOpen) ||
+                      (item.id === "livestock" && livestockOpen) ||
+                      (item.id === "resources" && resourcesOpen) ||
+                      (item.id === "market" && marketOpen) ||
+                      (item.id === "climate" && climateOpen)
+                        ? "fa-chevron-up"
+                        : "fa-chevron-down"
+                    } text-gray-400`}
+                  ></i>
                 )}
               </div>
 
               {/* Desktop Submenus */}
-              {item.id === 'crops' && cropsOpen && (
+              {item.id === "crops" && cropsOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
                   {cropsSubItems.map((subItem) => {
-                    const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                    const isActiveSubItem = location.pathname.startsWith(
+                      subItem.path
+                    );
                     return (
                       <Link
                         key={subItem.id}
                         to={subItem.path}
-                        onClick={() => setActiveMenu('crops')}
-                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${isActiveSubItem
-                          ? 'bg-green-50 text-green-700 font-medium'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                          }`}
+                        onClick={() => setActiveMenu("crops")}
+                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${
+                          isActiveSubItem
+                            ? "bg-green-50 text-green-700 font-medium"
+                            : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                       >
                         {subItem.label}
                       </Link>
@@ -511,13 +910,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               )}
 
-              {item.id === 'livestock' && livestockOpen && (
+              {item.id === "livestock" && livestockOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
                   {livestockSubItems.map((subItem) => (
                     <Link
                       key={subItem.id}
                       to={subItem.path}
-                      onClick={() => setActiveMenu('livestock')}
+                      onClick={() => setActiveMenu("livestock")}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
                       {subItem.label}
@@ -526,19 +925,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               )}
 
-              {item.id === 'resources' && resourcesOpen && (
+              {item.id === "resources" && resourcesOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
                   {resourcesSubItems.map((subItem) => {
-                    const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                    const isActiveSubItem = location.pathname.startsWith(
+                      subItem.path
+                    );
                     return (
                       <Link
                         key={subItem.id}
                         to={subItem.path}
-                        onClick={() => setActiveMenu('resources')}
-                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${isActiveSubItem
-                          ? 'bg-green-50 text-green-700 font-medium'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                          }`}
+                        onClick={() => setActiveMenu("resources")}
+                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${
+                          isActiveSubItem
+                            ? "bg-green-50 text-green-700 font-medium"
+                            : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                       >
                         {subItem.label}
                       </Link>
@@ -547,13 +949,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               )}
 
-              {item.id === 'market' && marketOpen && (
+              {item.id === "market" && marketOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
                   {marketSubItems.map((subItem) => (
                     <Link
                       key={subItem.id}
                       to={subItem.path}
-                      onClick={() => setActiveMenu('market')}
+                      onClick={() => setActiveMenu("market")}
                       className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
                     >
                       {subItem.label}
@@ -562,19 +964,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               )}
 
-              {item.id === 'accounting' && accountingOpen && (
+              {item.id === "accounting" && accountingOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
                   {accountingSubItems.map((subItem) => {
-                    const isActiveSubItem = location.pathname.startsWith(subItem.path);
+                    const isActiveSubItem = location.pathname.startsWith(
+                      subItem.path
+                    );
                     return (
                       <Link
                         key={subItem.id}
                         to={subItem.path}
-                        onClick={() => setActiveMenu('accounting')}
-                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${isActiveSubItem
-                          ? 'bg-green-50 text-green-700 font-medium'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                          }`}
+                        onClick={() => setActiveMenu("accounting")}
+                        className={`mx-3 flex items-center px-3 py-2.5 rounded-md cursor-pointer transition-all duration-200 group ${
+                          isActiveSubItem
+                            ? "bg-green-50 text-green-700 font-medium"
+                            : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        }`}
                       >
                         {subItem.label}
                       </Link>
@@ -583,8 +988,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               )}
 
-              {item.id === 'climate' && climateOpen && (
+              {item.id === "climate" && climateOpen && (
                 <div className="ml-8 mr-3 mt-1 space-y-1">
+<<<<<<< HEAD
                   {climateSubItems.map((subItem) => {
                     const isActiveSubItem = location.pathname.startsWith(subItem.path);
                     return (
@@ -601,6 +1007,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       </Link>
                     );
                   })}
+=======
+                  {climateSubItems.map((subItem) => (
+                    <Link
+                      key={subItem.id}
+                      to={subItem.path}
+                      onClick={() => setActiveMenu("climate")}
+                      className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                    >
+                      {subItem.label}
+                    </Link>
+                  ))}
+>>>>>>> 5e194a9 (updates)
                 </div>
               )}
             </div>
